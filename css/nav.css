@@ -1,22 +1,22 @@
-.navbar-brand {
+.navbar-brand, .offcanvas-title  {
     font-size: 28px;
 }
 
-.nav-link {
+nav .nav-link {
     font-weight: 500;
 }
 
-.nav-link:hover {
+nav .nav-link:hover {
     color: var(--secondary) !important; 
 }
 
 
-.active {
+nav .active {
     color: var(--primary) !important; 
     position: relative;
 }
 
-.active::before {
+nav .active::before {
     content: "" !important;
     position: absolute !important;
     width: 80% !important;
@@ -27,10 +27,32 @@
     transform: translateX(-50%);
 }
 
-.active:hover::before {
+nav .active:hover::before {
     background-color: var(--secondary) !important;
 }
 
+/* Offcanvas Specific */
+.offcanvas .nav-link {
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.offcanvas .nav-link.active:hover {
+    color: var(--neutral) !important;
+}
+
+.offcanvas .nav-link:not(.active):hover {
+    background-color: var(--primary-transparent);
+}
+
+.offcanvas .active {
+    background-color: var(--secondary) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 10px var(--secondary-transparent); /* Premium gold shadow */
+}
 
 /* OffCanvas */
 .bars-icon {

@@ -4,7 +4,8 @@
   --secondary: #C5A059;
   --tertiary: #281D0B;
   --neutral: #F9F8F6;
-  
+  --primary-transparent: rgba(26, 31, 44, 0.05);
+  --secondary-transparent: rgba(197, 160, 89, 0.3);
 }
 
 
