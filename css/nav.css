@@ -1,0 +1,35 @@
+.navbar-brand {
+    font-size: 28px;
+}
+
+.nav-link {
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--secondary) !important; 
+}
+
+
+.active {
+    color: var(--primary) !important; 
+    position: relative;
+}
+
+.active::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 80% !important;
+    height: 2px !important;
+    background-color: var(--primary) !important;
+    bottom: 0 !important;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.active:hover::before {
+    background-color: var(--secondary) !important;
+}
+
+
+

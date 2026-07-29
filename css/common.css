@@ -1,4 +1,14 @@
+/* colors */
+:root {
+  --primary : #1A1F2C;
+  --secondary: #C5A059;
+  --tertiary: #281D0B;
+  --neutral: #F9F8F6;
+  
+}
 
+
+/* fonts */
 .playfair {
   font-family: "Playfair", serif;
   font-optical-sizing: auto;
@@ -31,4 +41,50 @@
 
 .playfair-900 {
   font-weight: 900;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* btns */
+.main-btn, .sub-btn {
+  padding: 6px 16px;
+  border: 2px solid transparent;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  text-align: center;
+}
+
+.main-btn:hover, .sub-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 31, 44, 0.08);
+}
+
+.main-btn:active, .sub-btn:active {
+  transform: translateY(0);
+}
+
+.main-btn {
+  color: var(--neutral);
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.main-btn:hover {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--primary);
+}
+
+.sub-btn {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: transparent;
+}
+
+.sub-btn:hover {
+  background-color: var(--secondary);
+  color: var(--primary);
 }
