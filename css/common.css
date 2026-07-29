@@ -44,7 +44,7 @@
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 /* btns */
