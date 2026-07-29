@@ -29,65 +29,8 @@
 
 <body>
   <header>
-    <!-- Nav -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
-      <div class="container-fluid">
-        <a class="navbar-brand playfair playfair-900" href="#">BookRealm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#search">Genres</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#my-lists">My Lists</a>
-            </li>
-          </ul>
+    <div class="nav-container">
 
-          <div class="auth-buttons d-flex gap-2">
-            <a href="#" class="auth-btn main-btn">Login</a>
-            <a href="#" class="auth-btn sub-btn">Register</a>
-          </div>
-
-        </div>
-      </div>
-    </nav>
-
-    <!-- Mobile Nan -->
-    <div class="mobile-nav d-md-none">
-      <div class="container-fluid bg-body-tertiary d-flex justify-content-between shadow-sm p-3">
-        <a class="navbar-brand playfair playfair-900 " href="#">BookRealm</a>
-
-        <button class="bars-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"><i class="fa-solid fa-bars"></i></button>
-      </div>
-
-    </div>
-
-    <!-- OffCanvas -->
-    <div class="offcanvas offcanvas-start pt-2" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title playfair playfair-900" id="offcanvasRightLabel">BookRealm</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body d-flex flex-column justify-content-between">
-        <ul class="list-unstyled">
-          <li class="mb-3"><a href="#" class="nav-link text-decoration-none text-dark">Home</a></li>
-          <li class="mb-3"><a href="#search" class="nav-link text-decoration-none text-dark">Genres</a></li>
-          <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
-        </ul>
-
-        <div class="mt-4">
-          <a href="#" class="auth-btn main-btn d-block mb-3">Login</a>
-          <a href="#" class="auth-btn sub-btn d-block">Register</a>
-        </div>
-      </div>
     </div>
 
     <!-- Hero -->
@@ -116,46 +59,17 @@
     <div class="container">
       <div class="pt-3">
         <div class="view-all d-flex justify-content-end mb-2">
-          <a href="#" class="inter inter-600 text-dark">
+          <a href="/pages/geners.html" class="inter inter-600 text-dark">
             View All <i class="fa-solid fa-arrow-right ms-2"></i>
           </a>
         </div>
-        <div class="generes-cards row g-4">
-          <div class="col-3">
-            <div class="card shadow-sm">
-              <div class="card-body inter inter-800">
-                <span>fantasy</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                fantasy
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                fantasy
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                fantasy
-              </div>
-            </div>
-          </div>
-
+        <div class="home-generes-container">
+          
         </div>
       </div>
     </div>
   </section>
 
-  <section id="search"></section>
   <script type="module" src="index.js"></script>
 
 </body>

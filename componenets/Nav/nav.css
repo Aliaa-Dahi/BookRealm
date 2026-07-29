@@ -1,0 +1,74 @@
+nav {
+ position: fixed !important;
+ top: 0; 
+ left: 0;
+ right: 0;  
+ z-index: 120;
+
+}
+
+.navbar-brand, .offcanvas-title  {
+    font-size: 28px;
+}
+
+nav .nav-link {
+    font-weight: 500;
+}
+
+nav .nav-link:hover {
+    color: var(--secondary) !important; 
+}
+
+
+nav .active {
+    color: var(--primary) !important; 
+    position: relative;
+}
+
+nav .active::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 80% !important;
+    height: 2px !important;
+    background-color: var(--primary) !important;
+    bottom: 0 !important;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+nav .active:hover::before {
+    background-color: var(--secondary) !important;
+}
+
+/* Offcanvas Specific */
+.offcanvas .nav-link {
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: var(--general-transition);
+    display: block;
+}
+
+.offcanvas .nav-link.active:hover {
+    color: var(--neutral) !important;
+}
+
+.offcanvas .nav-link:not(.active):hover {
+    background-color: var(--primary-transparent);
+}
+
+.offcanvas .active {
+    background-color: var(--secondary) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 10px var(--secondary-transparent); /* Premium gold shadow */
+}
+
+/* OffCanvas */
+.bars-icon {
+    border:none;
+    color: var(--primary);
+    background-color: transparent !important;
+    font-size: 25px;
+}
+
+
