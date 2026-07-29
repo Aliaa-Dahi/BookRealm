@@ -14,17 +14,22 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
     rel="stylesheet">
+  <!-- Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
+    rel="stylesheet">
 
   <!-- CDNS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
-
-  <!-- Files -->
 
 
 </head>
 
 <body>
   <header>
+    <!-- Nav -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
       <div class="container-fluid">
         <a class="navbar-brand playfair playfair-900" href="#">BookRealm</a>
@@ -54,6 +59,7 @@
       </div>
     </nav>
 
+    <!-- Mobile Nan -->
     <div class="mobile-nav d-md-none">
       <div class="container-fluid bg-body-tertiary d-flex justify-content-between shadow-sm p-3">
         <a class="navbar-brand playfair playfair-900 " href="#">BookRealm</a>
@@ -64,6 +70,7 @@
 
     </div>
 
+    <!-- OffCanvas -->
     <div class="offcanvas offcanvas-start pt-2" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title playfair playfair-900" id="offcanvasRightLabel">BookRealm</h5>
@@ -82,6 +89,25 @@
         </div>
       </div>
     </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="overlay">
+        <div class="hero-content">
+          <h1 class="playfair playfair-900">BookRealm</h1>
+          <p class="lead inter inter-300">A sanctuary for curious minds. Discover over 4 million records from the world's greatest
+            archives,
+            meticulously curated for the modern reader.</p>
+          <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
+            <button class="main-btn relative">
+              Start Discovery
+              <i class="fa-solid fa-search"></i>
+            </button>
+            <button class="sub-btn">Browse Genres</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </header>
 
