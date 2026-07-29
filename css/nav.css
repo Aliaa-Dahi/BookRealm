@@ -32,4 +32,12 @@
 }
 
 
+/* OffCanvas */
+.bars-icon {
+    border:none;
+    color: var(--primary);
+    background-color: transparent !important;
+    font-size: 25px;
+}
+
 
