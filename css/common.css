@@ -1,5 +1,5 @@
-/* colors */
 :root {
+  /* colors */
   --primary : #1A1F2C;
   --secondary: #C5A059;
   --tertiary: #281D0B;
@@ -7,7 +7,13 @@
   --primary-transparent: rgba(26, 31, 44, 0.05);
   --secondary-transparent: rgba(197, 160, 89, 0.3);
   --neutral-transparent: rgba(234, 231, 231, 0.6);
+
+  /* others */
+  --uphover : translateY(-1px);
+  --general-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
 }
+
+
 
 
 /* fonts */
@@ -46,13 +52,13 @@ a {
   padding: 6px 16px;
   border: 2px solid transparent;
   font-weight: 500;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:var(--general-transition) ;
   display: inline-block;
   text-align: center;
 }
 
 .main-btn:hover, .sub-btn:hover {
-  transform: translateY(-1px);
+  transform: var(--uphover);
   box-shadow: 0 4px 12px rgba(26, 31, 44, 0.08);
 }
 

@@ -60,3 +60,42 @@
         width: 50%;
     }
 }
+
+
+/* generes */
+.generes-cards .card {
+    height: 100px;
+    background-color: var(--neutral);
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+    text-transform: capitalize;
+    cursor: pointer;
+   transition: var(--general-transition); 
+}
+
+.generes-cards .card:hover {
+ transform: var(--uphover);  
+ box-shadow: 2px 2px 10px var(--secondary) !important;
+}
+
+.generes-cards .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 1. Define the steps of the animation */
+@keyframes move-arrow {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(4px); /* Moves right */
+    }
+}
+
+/* 2. Apply the animation to the arrow when you hover the link */
+.view-all a:hover i {
+    animation: move-arrow 0.4s infinite alternate ease-in-out;
+}
+

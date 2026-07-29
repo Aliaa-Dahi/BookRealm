@@ -45,7 +45,7 @@ nav .active:hover::before {
     font-weight: 500;
     padding: 10px 15px;
     border-radius: 6px;
-    transition: all 0.3s ease;
+    transition: var(--general-transition);
     display: block;
 }
 
