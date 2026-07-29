@@ -15,16 +15,17 @@
     href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
     rel="stylesheet">
 
+  <!-- CDNS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
   <!-- Files -->
-  <link href="css/common.css" rel="stylesheet">
-  <link href="css/nav.css" rel="stylesheet">
 
 
 </head>
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
       <div class="container-fluid">
         <a class="navbar-brand playfair playfair-900" href="#">BookRealm</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -53,6 +54,34 @@
       </div>
     </nav>
 
+    <div class="mobile-nav d-md-none">
+      <div class="container-fluid bg-body-tertiary d-flex justify-content-between shadow-sm p-3">
+        <a class="navbar-brand playfair playfair-900 " href="#">BookRealm</a>
+
+        <button class="bars-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+          aria-controls="offcanvasRight"><i class="fa-solid fa-bars"></i></button>
+      </div>
+
+    </div>
+
+    <div class="offcanvas offcanvas-start pt-2" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title playfair playfair-900" id="offcanvasRightLabel">BookRealm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column justify-content-between">
+        <ul class="list-unstyled">
+          <li class="mb-3"><a href="#" class="nav-link text-decoration-none text-dark">Home</a></li>
+          <li class="mb-3"><a href="#search" class="nav-link text-decoration-none text-dark">Genres</a></li>
+          <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
+        </ul>
+
+        <div class="mt-4">
+          <a href="#" class="auth-btn main-btn d-block mb-3">Login</a>
+          <a href="#" class="auth-btn sub-btn d-block">Register</a>
+        </div>
+      </div>
+    </div>
 
   </header>
 

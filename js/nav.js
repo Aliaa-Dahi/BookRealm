@@ -1,4 +1,4 @@
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinks = document.querySelectorAll(' .offcanvas .nav-link');
 
 export function updateActiveLink() {
   const currentUrl = window.location.href;
