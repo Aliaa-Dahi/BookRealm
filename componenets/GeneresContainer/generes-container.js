@@ -1,15 +1,21 @@
 export function GeneresContainer(generes) {
-    let generesCards = '';
+    let genereContainerHTML = `<div class="generes-cards row g-4">`;
+    
     generes.forEach(genere => {
-        generesCards += `<div class="col-3">
-            <div class="card shadow-sm">
+        // Replace underscores with spaces for words like "science_fiction"
+        const displayName = genere.replace(/_/g, ' ');
+        
+        genereContainerHTML += `
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
               <div class="card-body inter inter-800">
-                <span>${genere}</span>
+                <span>${displayName}</span>
               </div>
             </div>
-          </div>`
+          </div>`;
     });
-    return `<div class="generes-cards row g-4">
-          ${generesCards}
-        </div>`;
+    
+    genereContainerHTML += `</div>`; // Close the container AFTER the loop!
+    return genereContainerHTML;
 }
+
