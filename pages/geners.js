@@ -1,27 +1,5 @@
 import { createGenresGrid } from "../componenets/GeneresContainer/generes-container.js";
 
-export const generes = [
-  "fantasy",
-  "romance",
-  "science_fiction",
-  "mystery",
-  "thriller",
-  "horror",
-  "historical_fiction",
-  "biography",
-  "history",
-  "psychology",
-  "self_help",
-  "business",
-  "programming",
-  "artificial_intelligence",
-  "technology",
-  "cooking",
-  "travel",
-  "children",
-  "comics",
-  "poetry"
-]; 
 
 async function getByGenere(genere){
     const response = await fetch(`https://openlibrary.org/subjects/${genere}.json`);
@@ -36,7 +14,7 @@ export function renderGeners(container) {
 
   const genresPage = container.querySelector(".generes-page");
   if (genresPage) {
-    genresPage.innerHTML = createGenresGrid(generes);
+    genresPage.innerHTML = createGenresGrid();
     
     genresPage.addEventListener('click', (e) => {
         const card = e.target.closest('.card');

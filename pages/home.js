@@ -40,17 +40,6 @@ export function renderHome(container) {
   // Initialize genres list in the home page
   const homeGenresWrapper = container.querySelector(".home-generes-container");
   if (homeGenresWrapper) {
-    homeGenresWrapper.innerHTML = createGenresGrid([
-      "fantasy",
-      "romance",
-      "thriller",
-      "mystery",
-      "science fiction",
-      "fantasy",
-      "romance",
-      "thriller",
-      "mystery",
-      "science fiction",
-    ]);
+    homeGenresWrapper.innerHTML = createGenresGrid(8  );
   }
 }
