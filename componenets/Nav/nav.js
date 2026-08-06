@@ -47,7 +47,7 @@ export default function getNav(){
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/pages/geners.html">Genres</a>
+              <a class="nav-link" href="/geners">Genres</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#my-lists">My Lists</a>
@@ -83,7 +83,7 @@ export default function getNav(){
       <div class="offcanvas-body d-flex flex-column justify-content-between">
         <ul class="list-unstyled">
           <li class="mb-3"><a href="/" class="nav-link text-decoration-none text-dark">Home</a></li>
-          <li class="mb-3"><a href="/pages/geners.html" class="nav-link text-decoration-none text-dark">Genres</a></li>
+          <li class="mb-3"><a href="/geners" class="nav-link text-decoration-none text-dark">Genres</a></li>
           <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
         </ul>
 

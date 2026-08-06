@@ -1,26 +1,38 @@
 // Libraries
-import 'bootstrap/dist/css/bootstrap.min.css'; 
-import 'bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
 
 // Custom Styles
-import './css/common.css';
-import './css/home.css'
+import "./css/common.css";
+import "./css/home.css";
 
 // Components
-import Nav, { updateActiveLink } from './componenets/Nav/nav.js';
-import { GeneresContainer } from './componenets/GeneresContainer/generes-container.js';
+import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
+import { initRouter } from "./js/router.js";
+import { renderHome } from "./pages/home.js";
+import { renderGeners } from "./pages/geners.js";
 
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
-    navContainer.innerHTML = Nav();
+  navContainer.innerHTML = Nav();
 }
 
-const homeGeneresContainer = document.querySelector(".home-generes-container");
-if (homeGeneresContainer) {
-    homeGeneresContainer.innerHTML = GeneresContainer(["fantasy", "romance", "thriller", "mystery", "science fiction", "fantasy", "romance", "thriller", "mystery", "science fiction"]);
+function showContent() {
+  const currentPath = window.location.pathname;
+  console.log("Current path:", currentPath);
+
+  const app = document.getElementById("app");
+  if (!app) return;
+
+  if (currentPath === "/geners") {
+    renderGeners(app);
+  } else {
+    renderHome(app);
+  }
+
+  // Update active state in nav links
+  updateActiveLink();
 }
 
-
-// Initialize the active state immediately after injecting the Nav HTML
-updateActiveLink();
-
+// Start router
+initRouter(showContent);

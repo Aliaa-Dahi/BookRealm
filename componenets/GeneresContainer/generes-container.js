@@ -1,4 +1,4 @@
-export function GeneresContainer(generes) {
+export function createGenresGrid(generes) {
     let genereContainerHTML = `<div class="generes-cards row g-4">`;
     
     generes.forEach(genere => {
