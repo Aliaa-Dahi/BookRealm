@@ -8,54 +8,31 @@ import "./css/home.css";
 
 // Components
 import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
-import { GeneresContainer } from "./componenets/GeneresContainer/generes-container.js";
+import { initRouter } from "./js/router.js";
+import { renderHome } from "./pages/home.js";
+import { renderGeners } from "./pages/geners.js";
 
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
   navContainer.innerHTML = Nav();
 }
 
+function showContent() {
+  const currentPath = window.location.pathname;
+  console.log("Current path:", currentPath);
 
-const homeGeneresContainer = document.querySelector(".home-generes-container");
-if (homeGeneresContainer) {
-  homeGeneresContainer.innerHTML = GeneresContainer([
-    "fantasy",
-    "romance",
-    "thriller",
-    "mystery",
-    "science fiction",
-    "fantasy",
-    "romance",
-    "thriller",
-    "mystery",
-    "science fiction",
-  ]);
+  const app = document.getElementById("app");
+  if (!app) return;
+
+  if (currentPath === "/geners") {
+    renderGeners(app);
+  } else {
+    renderHome(app);
+  }
+
+  // Update active state in nav links
+  updateActiveLink();
 }
 
-// Initialize the active state immediately after injecting the Nav HTML
-updateActiveLink();
-
-// function route(r) {
-//   // console.log(window.location.pathname)
-//   window.history.pushState({}, "", r)
-//   showContent()
-//   // window.location.pathname = r;
-// }
-
-// window.addEventListener('popstate', ()=>{
-//   showContent()
-// })
-
-// let card = document.getElementById("card");
-// // showContent()
-// card.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   route("pages");
-// });
-
-// function showContent() {
-//   console.log(window.location.pathname);
-//   // Change "pages" to "/pages"
-//   if (window.location.pathname == "/pages") card.classList.add("d-none");
-// }
-
+// Start router
+initRouter(showContent);
