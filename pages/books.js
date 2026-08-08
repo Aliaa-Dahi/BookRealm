@@ -128,7 +128,7 @@ export function renderBooks(container){
   container.innerHTML = `
       <div class="books-page container mt-5 pt-5">
           <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 border-bottom pb-3">
-              <h1 class="playfair playfair-800 text-primary mb-0">${displayName}</h1>
+              <h1 class="playfair playfair-800 section-title mb-0">${displayName}</h1>
               <span class="text-muted inter inter-500 total-count-badge"></span>
           </div>
           <div class="books-grid-wrapper"></div>
