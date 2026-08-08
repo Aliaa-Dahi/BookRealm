@@ -10,8 +10,8 @@ export default function createBooksGrid(booksArray = []){
     for(let i=0; i<booksArray.length; i++){
         const book = booksArray[i];
         // Use a high-quality placeholder image if cover_id is missing
-        const coverUrl = book.cover_id
-            ? `https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`
+        const coverUrl = book.cover_id || book.cover_i
+            ? `https://covers.openlibrary.org/b/id/${book.cover_id || book.cover_i}-M.jpg`
             : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=300&h=450';
 
         booksContainerHTML += `
