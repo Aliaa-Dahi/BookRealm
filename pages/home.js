@@ -1,4 +1,4 @@
-import { createGenresGrid } from "../componenets/GeneresContainer/generes-container.js";
+import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 
 export function renderHome(container) {
   container.innerHTML = `
@@ -37,9 +37,9 @@ export function renderHome(container) {
     </section>
   `;
 
-  // Initialize genres list in the home page
   const homeGenresWrapper = container.querySelector(".home-generes-container");
   if (homeGenresWrapper) {
-    homeGenresWrapper.innerHTML = createGenresGrid(8  );
+    homeGenresWrapper.innerHTML = createGenresGrid(8);
+    attachGenreClickListener(homeGenresWrapper);
   }
 }
