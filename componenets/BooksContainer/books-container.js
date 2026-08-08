@@ -10,12 +10,12 @@ export default function createBooksGrid(booksArray = []){
     for(let i=0; i<booksArray.length; i++){
         booksContainerHTML += `
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card shadow-sm h-100">
+                <div class="card book-card shadow-sm h-100">
                     <img
-                        src="https://covers.openlibrary.org/b/id/${booksArray[i].cover_i}-L.jpg"
+                        src="https://covers.openlibrary.org/b/id/${booksArray[i].cover_i}-M.jpg"
                         class="card-img-top"
                         alt="${booksArray[i].title}"
-  >
+                    >
                     <div class="card-body d-flex flex-column justify-content-between">
                         <h3 class="book-title playfair playfair-800">
                             ${booksArray[i].title}

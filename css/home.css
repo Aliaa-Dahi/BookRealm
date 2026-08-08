@@ -95,7 +95,8 @@
 }
 
 /* 2. Apply the animation to the arrow when you hover the link */
-.view-all a:hover i {
+.view-all a:hover i,
+a:hover .fa-arrow-right {
     animation: move-arrow 0.4s infinite alternate ease-in-out;
 }
 
