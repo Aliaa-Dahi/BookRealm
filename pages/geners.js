@@ -2,12 +2,17 @@ import { createGenresGrid, attachGenreClickListener } from "../componenets/Gener
 
 export function renderGeners(container) {
   container.innerHTML = `
-    <div class="generes-page container mt-5 pt-5"></div>
+    <div class="generes-page container mt-5 pt-5">
+      <div class="mb-4 border-bottom pb-3">
+        <h1 class="playfair playfair-800 section-title mb-0">Browse Genres</h1>
+      </div>
+      <div class="genres-grid-container"></div>
+    </div>
   `;
 
-  const genresPage = container.querySelector(".generes-page");
-  if (genresPage) {
-    genresPage.innerHTML = createGenresGrid();
-    attachGenreClickListener(genresPage);
+  const genresGridContainer = container.querySelector(".genres-grid-container");
+  if (genresGridContainer) {
+    genresGridContainer.innerHTML = createGenresGrid();
+    attachGenreClickListener(genresGridContainer);
   }
 }
