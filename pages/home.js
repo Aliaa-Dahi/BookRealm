@@ -88,7 +88,7 @@ export function renderHome(container) {
 }
 
 async function fetchTopRated(){
-  const response = await fetch('https://openlibrary.org/search.json?q=harry&sort=rating&limit=20');
+  const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8');
   const data = await response.json();
   
   return data.docs;

@@ -62,27 +62,7 @@
 }
 
 
-/* generes */
-.generes-cards .card {
-    height: 100px;
-    background-color: var(--neutral);
-    border: 1px solid var(--secondary);
-    color: var(--secondary);
-    text-transform: capitalize;
-    cursor: pointer;
-   transition: var(--general-transition); 
-}
 
-.generes-cards .card:hover {
- transform: var(--uphover);  
- box-shadow: 2px 2px 10px var(--secondary) !important;
-}
-
-.generes-cards .card-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 /* 1. Define the steps of the animation */
 @keyframes move-arrow {
