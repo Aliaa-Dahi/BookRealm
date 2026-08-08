@@ -57,7 +57,7 @@ export function renderHome(container) {
 
   const homeGenresWrapper = container.querySelector(".home-generes-container");
   if (homeGenresWrapper) {
-    homeGenresWrapper.innerHTML = createGenresGrid();
+    homeGenresWrapper.innerHTML = createGenresGrid(8);
     attachGenreClickListener(homeGenresWrapper);
   }
 

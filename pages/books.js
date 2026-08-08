@@ -1,5 +1,5 @@
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
-
+import Pagination from "../componenets/Pagination/pagination.js"
 /**
  * Strategy Pattern for fetching books from Open Library.
  * To add a new way to fetch books:
@@ -124,6 +124,8 @@ export function renderBooks(container){
   // Determine which strategy and parameter to use based on URL/Path
   const { strategy, param, displayName } = getFetchStrategy();
   const fetchFn = fetchStrategies[strategy];
+  
+  const paginationHTML = Pagination();
 
   container.innerHTML = `
       <div class="books-page container mt-5 pt-5">
@@ -132,6 +134,8 @@ export function renderBooks(container){
               <span class="text-muted inter inter-500 total-count-badge"></span>
           </div>
           <div class="books-grid-wrapper"></div>
+          ${paginationHTML}
+         
           <div class="load-more-container text-center mt-5 mb-5"></div>
       </div>
   `;
@@ -143,6 +147,14 @@ export function renderBooks(container){
   let allBooks = [];
   let offset = 0;
   const limit = 20;
+
+//   Pagination
+  let pagination = document.querySelector('#pag-nav')
+  pagination.addEventListener("click", (e)=>{
+    e.preventDefault();
+    const page = e.target.textContent;
+    console.log(page)
+  })
 
   async function loadMoreBooks() {
       // Show loading spinner
