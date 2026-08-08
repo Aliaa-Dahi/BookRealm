@@ -8,24 +8,30 @@ export default function createBooksGrid(booksArray = []){
     let booksContainerHTML = `<div class="row g-4">`;
     
     for(let i=0; i<booksArray.length; i++){
+        const book = booksArray[i];
+        // Use a high-quality placeholder image if cover_id is missing
+        const coverUrl = book.cover_id
+            ? `https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`
+            : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=300&h=450';
+
         booksContainerHTML += `
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card book-card shadow-sm h-100">
                     <img
-                        src="https://covers.openlibrary.org/b/id/${booksArray[i].cover_i}-M.jpg"
+                        src="${coverUrl}"
                         class="card-img-top"
-                        alt="${booksArray[i].title}"
+                        alt="${book.title}"
                     >
                     <div class="card-body d-flex flex-column justify-content-between">
                         <h3 class="book-title playfair playfair-800">
-                            ${booksArray[i].title}
+                            ${book.title}
                         </h3>
-                        <span class="book-author inter inter-600">${booksArray[i].author_name}</span>
+                        <span class="book-author inter inter-600">${book.author_name}</span>
                     </div>
                     <div class="card-footer">
                         <div class="edition-info d-flex justify-content-between">
-                            <span>${booksArray[i].first_publish_year}</span>
-                            <span>${booksArray[i].edition_count} Editions</span>
+                            <span>${book.first_publish_year}</span>
+                            <span>${book.edition_count} Editions</span>
                         </div>
                     </div>
                 </div>
@@ -35,16 +41,4 @@ export default function createBooksGrid(booksArray = []){
 
     booksContainerHTML += `</div>`;
     return booksContainerHTML;
-
-    return `
-        <div class="row g-4">
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <div class="card">
-                    <div class="card-body">
-                        Book
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
 }

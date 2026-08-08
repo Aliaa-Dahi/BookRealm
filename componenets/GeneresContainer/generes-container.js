@@ -1,4 +1,6 @@
 import "./generes-container.css";
+import { navigate } from "../../js/router.js";
+import { showContent } from "../../index.js";
 
 export const generes = [
   { slug: "fantasy",            label: "Fantasy",            icon: "fa-solid fa-hat-wizard",         desc: "Magic, mythical creatures, and epic adventures in imagined worlds." },
@@ -56,13 +58,8 @@ export function attachGenreClickListener(wrapper) {
     grid.addEventListener('click', (e) => {
         const card = e.target.closest('.genre-card');
         if (card) {
-            getByGenere(card.dataset.genere);
+            navigate(`/books/${card.dataset.genere}`, showContent);
         }
     });
 }
 
-export async function getByGenere(genere){
-    const response = await fetch(`https://openlibrary.org/subjects/${genere}.json`);
-    const data = await response.json()
-    console.log(data)
-}

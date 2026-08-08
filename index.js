@@ -20,16 +20,16 @@ if (navContainer) {
   navContainer.innerHTML = Nav();
 }
 
-function showContent() {
+export function showContent() {
   const currentPath = window.location.pathname;
   console.log("Current path:", currentPath);
 
   const app = document.getElementById("app");
   if (!app) return;
 
-  if (currentPath === "/geners") {
+  if (currentPath.startsWith("/geners")) {
     renderGeners(app);
-  } else if (currentPath === "/books") {
+  } else if (currentPath.startsWith("/books")) {
     renderBooks(app);
   } else {
     renderHome(app);
