@@ -13,6 +13,7 @@ import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
 import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
 import { renderGeners } from "./pages/geners.js";
+import { renderBooks } from "./pages/books.js";
 
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
@@ -28,6 +29,8 @@ function showContent() {
 
   if (currentPath === "/geners") {
     renderGeners(app);
+  } else if (currentPath === "/books") {
+    renderBooks(app);
   } else {
     renderHome(app);
   }

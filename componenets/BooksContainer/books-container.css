@@ -1,0 +1,15 @@
+.card-img-top {
+    height: 300px;
+    
+}
+
+.book-title {
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+.book-author {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+

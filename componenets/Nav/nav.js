@@ -47,7 +47,7 @@ export default function getNav(){
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/geners">Genres</a>
+              <a class="nav-link" href="/books">Books</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#my-lists">My Lists</a>
