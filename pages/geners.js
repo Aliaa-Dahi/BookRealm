@@ -1,11 +1,4 @@
-import { createGenresGrid } from "../componenets/GeneresContainer/generes-container.js";
-
-
-async function getByGenere(genere){
-    const response = await fetch(`https://openlibrary.org/subjects/${genere}.json`);
-    const data = await response.json()
-    console.log(data)
-}
+import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 
 export function renderGeners(container) {
   container.innerHTML = `
@@ -15,12 +8,6 @@ export function renderGeners(container) {
   const genresPage = container.querySelector(".generes-page");
   if (genresPage) {
     genresPage.innerHTML = createGenresGrid();
-    
-    genresPage.addEventListener('click', (e) => {
-        const card = e.target.closest('.card');
-        if (card) {
-            getByGenere(card.textContent.trim());
-        }
-    });
+    attachGenreClickListener(genresPage);
   }
 }

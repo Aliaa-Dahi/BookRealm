@@ -4,6 +4,7 @@
   --secondary: #C5A059;
   --tertiary: #281D0B;
   --neutral: #F9F8F6;
+  --gray : #A6ABBC;
   --primary-transparent: rgba(26, 31, 44, 0.05);
   --secondary-transparent: rgba(197, 160, 89, 0.3);
   --neutral-transparent: rgba(234, 231, 231, 0.6);
@@ -87,4 +88,22 @@ a {
 .sub-btn:hover {
   background-color: var(--secondary);
   color: var(--primary);
+}
+
+.section-title {
+  color: var(--primary);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--secondary);
+  border-radius: 2px;
 }
