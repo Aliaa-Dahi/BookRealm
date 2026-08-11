@@ -47,3 +47,25 @@
     padding-top: 8px;
     margin-top: 6px;
 }
+
+/* Rating Badge */
+.book-rating-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--secondary);
+    color: var(--primary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+}
+
+.book-rating-badge i {
+    font-size: 0.75rem;
+}
