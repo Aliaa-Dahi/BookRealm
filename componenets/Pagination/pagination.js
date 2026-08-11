@@ -42,3 +42,43 @@ export default function Pagination(totalPageNumber, currentPage = 1) {
     </div>
     `;
 }
+
+/**
+ * Attaches click event handling to a rendered pagination nav.
+ * Call this after inserting Pagination() HTML into the DOM.
+ *
+ * @param {HTMLElement} paginationHolder - The container element holding the pagination HTML.
+ * @param {object}   options
+ * @param {number}   options.currentPage  - The currently active page number.
+ * @param {number}   options.totalWorks   - Total number of items across all pages.
+ * @param {number}   options.limit        - Number of items per page.
+ * @param {function} options.onPageChange - Callback invoked with the target page number.
+ */
+export function attachPaginationEvents(paginationHolder, { currentPage, totalWorks, limit, onPageChange }) {
+    const nav = paginationHolder.querySelector('#pag-nav');
+    if (!nav) return;
+
+    nav.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const targetLink = e.target.closest('.page-link');
+        if (!targetLink) return;
+
+        const maxPage = Math.ceil(totalWorks / limit);
+        let targetPage = currentPage;
+
+        if (targetLink.getAttribute('aria-label') === 'Previous') {
+            if (currentPage <= 1) return;
+            targetPage = currentPage - 1;
+        } else if (targetLink.getAttribute('aria-label') === 'Next') {
+            if (currentPage >= maxPage) return;
+            targetPage = currentPage + 1;
+        } else {
+            const parsed = parseInt(targetLink.textContent.trim(), 10);
+            if (isNaN(parsed)) return;
+            targetPage = parsed;
+        }
+
+        onPageChange(targetPage);
+    });
+}
