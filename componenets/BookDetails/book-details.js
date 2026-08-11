@@ -9,6 +9,8 @@ import "./book-details.css";
  */
 export default function BookDetails(book) {
     if (!book) return '';
+    console.log(book);
+    
 
     const coverUrl = book.cover_id || book.cover_i
         ? `https://covers.openlibrary.org/b/id/${book.cover_id || book.cover_i}-L.jpg`
@@ -23,14 +25,18 @@ export default function BookDetails(book) {
         }).join('<span class="mx-2 text-muted fw-normal">&</span>')
         : '<span class="subject-link">General</span>';
     const rating = book.rating || 'No Rating';
-    const reviews = book.ratings_count ? `(${book.ratings_count} Reviews)` : '';
-    
     // Calculate stars
     const fullStars = Math.floor(book.rating || 0);
     const emptyStars = 5 - fullStars;
     let starsHtml = '';
     for(let i=0; i<fullStars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
     for(let i=0; i<emptyStars; i++) starsHtml += '<i class="fa-regular fa-star"></i>';
+
+    // Languages logic
+    const hasLanguages = book.languages && book.languages.length > 0;
+    const visibleLanguages = hasLanguages ? book.languages.slice(0, 3).map(l => l.toUpperCase()).join(', ') : '';
+    const remainingCount = hasLanguages ? book.languages.length - 3 : 0;
+    const hasMoreLanguages = remainingCount > 0;
 
     return `
         <div class="book-details-page container mt-4 pt-5">
@@ -55,12 +61,45 @@ export default function BookDetails(book) {
                     <div class="bd-meta-row inter">
                         <div class="d-flex align-items-center gap-2">
                             <div class="bd-stars">${starsHtml}</div>
-                            <span class="bd-rating-count fw-bold">${rating} <span class="fw-normal text-muted">${reviews}</span></span>
+                            <span class="bd-rating-count fw-bold">${rating}</span>
                         </div>
                         <div class="bd-meta-divider"></div>
                         <div class="bd-publish-date">
                             First Published: <strong>${book.first_publish_year}</strong>
                         </div>
+                    </div>
+
+                    <div class="bd-stats-grid inter mb-4">
+                        ${book.pages ? `
+                        <div class="bd-stat-item">
+                            <span class="bd-stat-label">Pages</span>
+                            <span class="bd-stat-value">${book.pages}</span>
+                        </div>
+                        ` : ''}
+                        ${hasLanguages ? `
+                        <div class="bd-stat-item">
+                            <span class="bd-stat-label">Languages</span>
+                            <div class="bd-languages">
+                                <span class="bd-stat-value">${visibleLanguages}</span>
+                                ${hasMoreLanguages ? `
+                                <button type="button" class="bd-more-languages" aria-expanded="false" aria-label="Show all languages">
+                                    +${remainingCount} more
+                                </button>
+                                <div class="bd-languages-popover">
+                                    <div class="bd-languages-list">
+                                        ${book.languages.map(l => `<span class="bd-language-item">${l.toUpperCase()}</span>`).join('')}
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${book.ratings_count ? `
+                        <div class="bd-stat-item">
+                            <span class="bd-stat-label">Ratings</span>
+                            <span class="bd-stat-value">${book.ratings_count.toLocaleString()}</span>
+                        </div>
+                        ` : ''}
                     </div>
 
                     <div class="bd-actions inter mt-4">
