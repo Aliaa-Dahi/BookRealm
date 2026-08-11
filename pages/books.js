@@ -1,5 +1,5 @@
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
-import Pagination from "../componenets/Pagination/pagination.js";
+import Pagination, { attachPaginationEvents } from "../componenets/Pagination/pagination.js";
 import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
 /**
  * Strategy Pattern for fetching books from Open Library.
@@ -144,58 +144,9 @@ export function renderBooks(container){
   const totalCountBadge = container.querySelector(".total-count-badge");
   totalCountBadge.innerHTML = BookCountBadge(0, 0, 0); // initial placeholder while loading
 
-  let allBooks = [];
-  let offset = 0;
   let currentPage = 1;
   const limit = 20;
   let totalWorks = 0;
-
-  function renderPagination(totalWorks, currentPage) {
-      let paginationHolder = container.querySelector(".pagination-holder");
-      if (!paginationHolder) return;
-
-      const totalPageNumber = Math.ceil(totalWorks / limit);
-      // Re-render the pagination HTML (updates window + active/disabled state)
-      paginationHolder.innerHTML = Pagination(totalPageNumber, currentPage);
-
-      let pagination = paginationHolder.querySelector('#pag-nav');
-      if (pagination) {
-          pagination.addEventListener("click", (e) => {
-              e.preventDefault();
-              
-              const targetLink = e.target.closest('.page-link');
-              if (!targetLink) return;
-
-              const pageText = targetLink.textContent.trim();
-              let targetPage = currentPage;
-
-              if (pageText === '«' || targetLink.getAttribute('aria-label') === 'Previous') {
-                  if (currentPage > 1) {
-                      targetPage = currentPage - 1;
-                  } else {
-                      return;
-                  }
-              } else if (pageText === '»' || targetLink.getAttribute('aria-label') === 'Next') {
-                  const maxPage = Math.ceil(totalWorks / limit);
-                  if (currentPage < maxPage) {
-                      targetPage = currentPage + 1;
-                  } else {
-                      return;
-                  }
-              } else {
-                  const parsed = parseInt(pageText, 10);
-                  if (!isNaN(parsed)) {
-                      targetPage = parsed;
-                  } else {
-                      return;
-                  }
-              }
-
-              currentPage = targetPage;
-              fetchByPage(currentPage);
-          });
-      }
-  }
 
   async function fetchByPage(pageNumber) {
       // Show loading spinner
@@ -224,7 +175,18 @@ export function renderBooks(container){
 
           // Re-render pagination every time: updates sliding window + active/disabled state
           if (totalWorks > 0) {
-              renderPagination(totalWorks, pageNumber);
+              const paginationHolder = container.querySelector(".pagination-holder");
+              const totalPageNumber = Math.ceil(totalWorks / limit);
+              paginationHolder.innerHTML = Pagination(totalPageNumber, pageNumber);
+              attachPaginationEvents(paginationHolder, {
+                  currentPage: pageNumber,
+                  totalWorks,
+                  limit,
+                  onPageChange: (targetPage) => {
+                      currentPage = targetPage;
+                      fetchByPage(currentPage);
+                  }
+              });
           }
       }
       catch (error) {
