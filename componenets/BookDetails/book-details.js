@@ -12,9 +12,8 @@ export default function BookDetails(book) {
     console.log(book);
     
 
-    const coverUrl = book.cover_id || book.cover_i
-        ? `https://covers.openlibrary.org/b/id/${book.cover_id || book.cover_i}-L.jpg`
-        : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=300&h=450';
+    // Using a static high-res image for the design instead of Open Library's low-res covers
+    const coverUrl = 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=800&h=1200';
 
     // Safe fallbacks for data
     const subjectHtml = (book.subjects && book.subjects.length > 0) 
@@ -34,7 +33,9 @@ export default function BookDetails(book) {
 
     // Languages logic
     const hasLanguages = book.languages && book.languages.length > 0;
-    const visibleLanguages = hasLanguages ? book.languages.slice(0, 3).map(l => l.toUpperCase()).join(', ') : '';
+    const visibleLanguages = hasLanguages 
+        ? book.languages.slice(0, 3).map(l => `<a href="/books/${l.toLowerCase()}" class="text-decoration-none text-dark">${l.toUpperCase()}</a>`).join(', ') 
+        : '';
     const remainingCount = hasLanguages ? book.languages.length - 3 : 0;
     const hasMoreLanguages = remainingCount > 0;
 
@@ -44,14 +45,14 @@ export default function BookDetails(book) {
 
             <div class="row gx-5 mt-4">
                 <!-- Left: Cover Image -->
-                <div class="col-md-5 col-lg-4 mb-4 mb-md-0">
+                <div class="col-md-5  mb-4 mb-md-0">
                     <div class="bd-cover-wrapper">
                         <img src="${coverUrl}" alt="${book.title} Cover" class="bd-cover-image">
                     </div>
                 </div>
 
                 <!-- Right: Book Info -->
-                <div class="col-md-7 col-lg-8">
+                <div class="col-md-6 ">
                     <span class="bd-overline inter">${subjectHtml}</span>
                     <h2 class="bd-title playfair playfair-800">${book.title}</h2>
                     <div class="bd-author playfair">
@@ -87,7 +88,7 @@ export default function BookDetails(book) {
                                 </button>
                                 <div class="bd-languages-popover">
                                     <div class="bd-languages-list">
-                                        ${book.languages.map(l => `<span class="bd-language-item">${l.toUpperCase()}</span>`).join('')}
+                                        ${book.languages.map(l => `<a href="/books/${l.toLowerCase()}" class="text-decoration-none bd-language-item">${l.toUpperCase()}</a>`).join('')}
                                     </div>
                                 </div>
                                 ` : ''}

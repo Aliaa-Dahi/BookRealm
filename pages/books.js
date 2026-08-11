@@ -79,6 +79,29 @@ const fetchStrategies = {
     };
   },
 
+  // Fetch by Language
+  language: async (param, limit, offset) => {
+    const page = Math.floor(offset / limit) + 1;
+    const response = await fetch(`https://openlibrary.org/search.json?q=language:${encodeURIComponent(param)}&limit=${limit}&page=${page}&fields=*,ratings_average`);
+    const data = await response.json();
+    
+    // Normalize data format to consistent structure
+    const works = (data.docs || []).map(doc => ({
+      key: doc.key,
+      title: doc.title,
+      cover_id: doc.cover_i || null,
+      author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+      first_publish_year: doc.first_publish_year || 'N/A',
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
+    }));
+
+    return {
+      works: works,
+      work_count: data.numFound || 0
+    };
+  },
+
   // Fetch details for a single book by title (takes first result)
   bookDetails: async (param) => {
     const fields = 'key,title,author_name,cover_i,first_publish_year,edition_count,ratings_average,ratings_count,subject,publisher,language,number_of_pages_median';
@@ -137,12 +160,9 @@ function getFetchStrategy() {
   }
 
   // 3. Book Details Strategy (e.g., /books/harry-potter-and-the-philosophers-stone)
-  //    Detected when pathParts[2] exists and is NOT a known genre keyword
-  //    We distinguish it by checking whether it came from a BookCard click (data stored in slug form)
   if (pathParts[2] && pathParts[2] !== 'author') {
     const slug = pathParts[2];
     // If the slug looks like a book title (contains hyphens typical of multi-word titles)
-    // and is not a single genre word — treat as book detail
     const isBookSlug = slug.includes('-');
     if (isBookSlug) {
       const titleFromSlug = slug.replace(/-/g, ' ');
@@ -153,7 +173,16 @@ function getFetchStrategy() {
       };
     }
 
-    // 4. Genre Strategy (e.g., /books/fantasy — single word slugs)
+    // 4. Language Strategy (e.g., /books/fre - exactly 3 letter ISO codes)
+    if (slug.length === 3 && /^[a-z]{3}$/.test(slug)) {
+      return {
+        strategy: 'language',
+        param: slug,
+        displayName: `${slug.toUpperCase()} Books`
+      };
+    }
+
+    // 5. Genre Strategy (e.g., /books/fantasy — single word slugs)
     const genre = slug;
     const formattedGenre = genre.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     return {

@@ -1,20 +1,26 @@
 .book-details-page {
-    padding-bottom: 4rem;
+    /* padding-bottom: 4rem; */
 }
 
 
 /* Cover Image */
 .bd-cover-wrapper {
     background-color: #f8f9fa;
-    padding: 2rem;
+    padding: 0;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    height: calc(100vh - 120px); /* Page height minus navbar and spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 .bd-cover-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fills the container seamlessly */
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
