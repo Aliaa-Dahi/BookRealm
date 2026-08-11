@@ -1,6 +1,7 @@
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
 import Pagination, { attachPaginationEvents } from "../componenets/Pagination/pagination.js";
 import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
+import SearchInput from "../componenets/SearchInput/search-input.js";
 /**
  * Strategy Pattern for fetching books from Open Library.
  * To add a new way to fetch books:
@@ -136,10 +137,12 @@ export function renderBooks(container){
   container.innerHTML = `
       <div class="books-page container mt-5 pt-5">
           <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 border-bottom pb-3">
-              <h1 class="playfair playfair-800 section-title mb-0">${displayName}</h1>
+              <h2 class="playfair playfair-800 section-title mb-0">${displayName}</h1>
               <span class="inter inter-500 total-count-badge count-badge"></span>
           </div>
+          ${SearchInput()}
           <div class="books-grid-wrapper"></div>
+
           <div class="pagination-holder"></div>
          
       </div>
@@ -148,6 +151,10 @@ export function renderBooks(container){
   const booksGridWrapper = container.querySelector(".books-grid-wrapper");
   const totalCountBadge = container.querySelector(".total-count-badge");
   totalCountBadge.innerHTML = BookCountBadge(0, 0, 0); // initial placeholder while loading
+
+  // Active strategy — can be overridden at runtime by the search input
+  let activeFetchFn = fetchFn;
+  let activeParam   = param;
 
   let currentPage = 1;
   const limit = 20;
@@ -165,8 +172,8 @@ export function renderBooks(container){
 
       try {
           const currentOffset = (pageNumber - 1) * limit;
-          // Call the selected strategy dynamically with calculated offset
-          const data = await fetchFn(param, limit, currentOffset); 
+          // Call the ACTIVE strategy (may be overridden by search input)
+          const data = await activeFetchFn(activeParam, limit, currentOffset);
           const works = data.works || [];
           totalWorks = data.work_count || 0;
 
@@ -211,5 +218,32 @@ export function renderBooks(container){
   // Initial load call
   if (booksGridWrapper && fetchFn) {
       fetchByPage(1);
+  }
+
+  // ── Search Input ───────────────────────────────────────────────────────────
+  // Attach a debounced listener to the SearchInput rendered above the grid.
+  // Typing triggers a live API search; clearing reverts to the original strategy.
+  const searchEl = container.querySelector('.search-element');
+  if (searchEl) {
+    searchEl.addEventListener('input', (e) => {
+      const query = e.target.value.trim();
+
+      if (query.length === 0) {
+        // Revert to the original URL-based strategy
+        activeFetchFn = fetchFn;
+        activeParam   = param;
+      } else if (query.length < 3) {
+        // Too short — avoid 422 from the API
+        return;
+      } else {
+        // Switch to search strategy with the typed query
+        activeFetchFn = fetchStrategies.search;
+        activeParam   = query;
+      }
+
+      // Reset to page 1 whenever the query changes
+      currentPage = 1;
+      fetchByPage(1);
+    });
   }
 }

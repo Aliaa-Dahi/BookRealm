@@ -11,7 +11,7 @@ import "./search-input.css";
 export default function SearchInput(placeholder = "Search...", classNames = "search-element") {
     return `
         <div class="search-wrapper">
-            <input type="search" class="search-input ${classNames}" placeholder="${placeholder}" autocomplete="off">
+            <input type="search" class="search-input  ${classNames}" placeholder="${placeholder}" autocomplete="off">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
         </div>
     `;

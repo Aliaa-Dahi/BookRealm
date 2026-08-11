@@ -50,6 +50,9 @@ export default function getNav(){
               <a class="nav-link" href="/books">Books</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/geners">Genres</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#my-lists">My Lists</a>
             </li>
           </ul>
