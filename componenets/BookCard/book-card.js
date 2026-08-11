@@ -28,11 +28,18 @@ export default function BookCard(book) {
     return `
         <div class="col-12 col-md-6 col-lg-3">
             <div class="card book-card shadow-sm h-100">
-                <img
-                    src="${coverUrl}"
-                    class="card-img-top"
-                    alt="${book.title}"
-                >
+                <div class="position-relative">
+                    <img
+                        src="${coverUrl}"
+                        class="card-img-top"
+                        alt="${book.title}"
+                    >
+                    ${book.rating ? `
+                    <div class="book-rating-badge">
+                        <i class="fa-solid fa-star"></i> ${book.rating}
+                    </div>
+                    ` : ''}
+                </div>
                 <div class="card-body d-flex flex-column justify-content-between">
                     <h3 class="book-title playfair playfair-800">
                         ${book.title}

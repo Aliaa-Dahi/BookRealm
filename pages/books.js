@@ -10,29 +10,9 @@ import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
 const fetchStrategies = {
   // Fetch by Subject/Genre
   genre: async (param, limit, offset) => {
-    const response = await fetch(`https://openlibrary.org/subjects/${param}.json?limit=${limit}&offset=${offset}`);
-    const data = await response.json();
-    
-    // Normalize data format to consistent structure
-    const works = (data.works || []).map(work => ({
-      key: work.key,
-      title: work.title,
-      cover_id: work.cover_id || null,
-      author_name: work.authors && work.authors.length > 0 ? work.authors.map(a => a.name).join(', ') : 'Unknown Author',
-      first_publish_year: work.first_publish_year || 'N/A',
-      edition_count: work.edition_count || 0
-    }));
-
-    return {
-      works: works,
-      work_count: data.work_count || 0
-    };
-  },
-
-  // Fetch by Search Query (Keyword/Title/Author search)
-  search: async (param, limit, offset) => {
     const page = Math.floor(offset / limit) + 1;
-    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(param)}&limit=${limit}&page=${page}`);
+    // We use the search API here instead of the subjects API to get rating data
+    const response = await fetch(`https://openlibrary.org/search.json?subject=${encodeURIComponent(param)}&limit=${limit}&page=${page}&fields=*,ratings_average`);
     const data = await response.json();
     
     // Normalize data format to consistent structure
@@ -42,7 +22,31 @@ const fetchStrategies = {
       cover_id: doc.cover_i || null,
       author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
       first_publish_year: doc.first_publish_year || 'N/A',
-      edition_count: doc.edition_count || 0
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
+    }));
+
+    return {
+      works: works,
+      work_count: data.numFound || 0
+    };
+  },
+
+  // Fetch by Search Query (Keyword/Title/Author search)
+  search: async (param, limit, offset) => {
+    const page = Math.floor(offset / limit) + 1;
+    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(param)}&limit=${limit}&page=${page}&fields=*,ratings_average`);
+    const data = await response.json();
+    
+    // Normalize data format to consistent structure
+    const works = (data.docs || []).map(doc => ({
+      key: doc.key,
+      title: doc.title,
+      cover_id: doc.cover_i || null,
+      author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+      first_publish_year: doc.first_publish_year || 'N/A',
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
     }));
 
     return {
@@ -63,7 +67,8 @@ const fetchStrategies = {
       cover_id: entry.covers ? entry.covers[0] : null,
       author_name: 'Author Works', // Fallback as author works api only returns titles/keys by default
       first_publish_year: entry.first_publish_year || (entry.created?.value ? new Date(entry.created.value).getFullYear() : 'N/A'),
-      edition_count: entry.revision || 0
+      edition_count: entry.revision || 0,
+      rating: null
     }));
 
     return {
