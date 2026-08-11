@@ -1,5 +1,6 @@
 import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
+import { generes } from "./geners.js";
 
 export function renderHome(container) {
   container.innerHTML = `
@@ -57,7 +58,7 @@ export function renderHome(container) {
 
   const homeGenresWrapper = container.querySelector(".home-generes-container");
   if (homeGenresWrapper) {
-    homeGenresWrapper.innerHTML = createGenresGrid(8);
+    homeGenresWrapper.innerHTML = createGenresGrid(generes, 8);
     attachGenreClickListener(homeGenresWrapper);
   }
 
@@ -88,8 +89,18 @@ export function renderHome(container) {
 }
 
 async function fetchTopRated(){
-  const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8');
+  const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8&fields=*,ratings_average');
   const data = await response.json();
   
-  return data.docs;
+  const works = (data.docs || []).map(doc => ({
+    key: doc.key,
+    title: doc.title,
+    cover_id: doc.cover_i || null,
+    author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+    first_publish_year: doc.first_publish_year || 'N/A',
+    edition_count: doc.edition_count || 0,
+    rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
+  }));
+
+  return works;
 }
