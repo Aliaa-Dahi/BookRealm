@@ -1,20 +1,26 @@
 .book-details-page {
-    padding-bottom: 4rem;
+    /* padding-bottom: 4rem; */
 }
 
 
 /* Cover Image */
 .bd-cover-wrapper {
     background-color: #f8f9fa;
-    padding: 2rem;
+    padding: 0;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    height: calc(100vh - 120px); /* Page height minus navbar and spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 .bd-cover-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fills the container seamlessly */
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
@@ -89,6 +95,92 @@
     line-height: 1.8;
     color: #4a4a4a;
     margin-bottom: 3rem;
+}
+
+/* Stats Grid (Pages, Languages, Ratings) */
+.bd-stats-grid {
+    display: flex;
+    gap: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+}
+.bd-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.bd-stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+    font-weight: 600;
+}
+.bd-stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* Languages Popover */
+.bd-languages {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.bd-more-languages {
+    /* background: transparent; */
+    border: none;
+    color: var(--secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: var(--general-transition);
+}
+.bd-more-languages:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+.bd-languages-popover {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 8px;
+    background: rgb(232, 223, 202); /* Light secondary gold */
+    border: 1px solid var(--secondary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    z-index: 100;
+    min-width: 250px; /* Wide div */
+    max-height: 200px;
+    overflow-y: auto;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+/* Trigger popover on hover */
+.bd-languages:hover .bd-languages-popover,
+.bd-languages-popover:hover {
+    opacity: 1;
+    visibility: visible;
+}
+.bd-languages-list {
+    display: flex;
+    flex-wrap: wrap; /* Wrap like tags */
+    gap: 6px;
+    padding: 12px;
+}
+.bd-language-item {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    padding: 2px 4px;
+    font-weight: 600;
+}
+.bd-language-item:not(:last-child)::after {
+    content: ",";
 }
 
 /* Actions */
