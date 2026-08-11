@@ -125,7 +125,7 @@ export function renderBooks(container){
   const { strategy, param, displayName } = getFetchStrategy();
   const fetchFn = fetchStrategies[strategy];
   
-  const paginationHTML = Pagination();
+  // const paginationHTML = Pagination();
 
   container.innerHTML = `
       <div class="books-page container mt-5 pt-5">
@@ -134,81 +134,115 @@ export function renderBooks(container){
               <span class="text-muted inter inter-500 total-count-badge"></span>
           </div>
           <div class="books-grid-wrapper"></div>
-          ${paginationHTML}
+          <div class="pagination-holder"></div>
          
-          <div class="load-more-container text-center mt-5 mb-5"></div>
       </div>
   `;
 
   const booksGridWrapper = container.querySelector(".books-grid-wrapper");
-  const loadMoreContainer = container.querySelector(".load-more-container");
   const totalCountBadge = container.querySelector(".total-count-badge");
 
   let allBooks = [];
   let offset = 0;
+  let currentPage = 1;
   const limit = 20;
+  let totalWorks = 0;
 
-//   Pagination
-  let pagination = document.querySelector('#pag-nav')
-  pagination.addEventListener("click", (e)=>{
-    e.preventDefault();
-    const page = e.target.textContent;
-    console.log(page)
-  })
+  function renderPagination(totalWorks, currentPage) {
+      let paginationHolder = container.querySelector(".pagination-holder");
+      if (!paginationHolder) return;
 
-  async function loadMoreBooks() {
+      const totalPageNumber = Math.ceil(totalWorks / limit);
+      // Re-render the pagination HTML (updates window + active/disabled state)
+      paginationHolder.innerHTML = Pagination(totalPageNumber, currentPage);
+
+      let pagination = paginationHolder.querySelector('#pag-nav');
+      if (pagination) {
+          pagination.addEventListener("click", (e) => {
+              e.preventDefault();
+              
+              const targetLink = e.target.closest('.page-link');
+              if (!targetLink) return;
+
+              const pageText = targetLink.textContent.trim();
+              let targetPage = currentPage;
+
+              if (pageText === '«' || targetLink.getAttribute('aria-label') === 'Previous') {
+                  if (currentPage > 1) {
+                      targetPage = currentPage - 1;
+                  } else {
+                      return;
+                  }
+              } else if (pageText === '»' || targetLink.getAttribute('aria-label') === 'Next') {
+                  const maxPage = Math.ceil(totalWorks / limit);
+                  if (currentPage < maxPage) {
+                      targetPage = currentPage + 1;
+                  } else {
+                      return;
+                  }
+              } else {
+                  const parsed = parseInt(pageText, 10);
+                  if (!isNaN(parsed)) {
+                      targetPage = parsed;
+                  } else {
+                      return;
+                  }
+              }
+
+              currentPage = targetPage;
+              fetchByPage(currentPage);
+          });
+      }
+  }
+
+  async function fetchByPage(pageNumber) {
       // Show loading spinner
-      loadMoreContainer.innerHTML = `
-          <div class="spinner-border text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
+      booksGridWrapper.innerHTML = `
+          <div class="text-center w-100 my-5">
+              <div class="spinner-border text-secondary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div>
           </div>
       `;
 
       try {
-          // Call the selected strategy dynamically
-          const data = await fetchFn(param, limit, offset);
+          const currentOffset = (pageNumber - 1) * limit;
+          // Call the selected strategy dynamically with calculated offset
+          const data = await fetchFn(param, limit, currentOffset); 
           const works = data.works || [];
-          const totalWorks = data.work_count || 0;
+          totalWorks = data.work_count || 0;
 
-          allBooks = [...allBooks, ...works];
-          
-          // Render or update the books grid
-          booksGridWrapper.innerHTML = createBooksGrid(allBooks);
+          // Render only the books for the current page
+          booksGridWrapper.innerHTML = createBooksGrid(works);
           
           // Update total badge count
-          totalCountBadge.textContent = `Showing ${allBooks.length} of ${totalWorks} books`;
+          const startNum = works.length > 0 ? (pageNumber - 1) * limit + 1 : 0;
+          const endNum = Math.min(pageNumber * limit, totalWorks);
+          totalCountBadge.textContent = works.length > 0 
+              ? `Showing ${startNum} - ${endNum} of ${totalWorks} books` 
+              : `No books found`;
 
-          // If there are more books, render "Load More" button
-          if (allBooks.length < totalWorks && works.length > 0) {
-              loadMoreContainer.innerHTML = `
-                  <button class="sub-btn px-4 py-2 load-more-btn">
-                      Load More Books
-                  </button>
-              `;
-              const loadMoreBtn = loadMoreContainer.querySelector(".load-more-btn");
-              loadMoreBtn.addEventListener("click", () => {
-                  offset += limit;
-                  loadMoreBooks();
-              });
-          } else {
-              loadMoreContainer.innerHTML = `<p class="text-muted inter inter-500 mt-3">You've reached the end of the collection.</p>`;
+          // Re-render pagination every time: updates sliding window + active/disabled state
+          if (totalWorks > 0) {
+              renderPagination(totalWorks, pageNumber);
           }
-      } catch (error) {
+      }
+      catch (error) {
           console.error("Error loading books with strategy:", strategy, error);
-          loadMoreContainer.innerHTML = `
+          booksGridWrapper.innerHTML = `
               <div class="alert alert-danger d-inline-block">
                   Failed to load books. <button class="btn btn-link p-0 text-danger retry-btn align-baseline">Retry</button>
               </div>
           `;
-          const retryBtn = loadMoreContainer.querySelector(".retry-btn");
+          const retryBtn = booksGridWrapper.querySelector(".retry-btn");
           if (retryBtn) {
-              retryBtn.addEventListener("click", loadMoreBooks);
+              retryBtn.addEventListener("click", () => fetchByPage(pageNumber));
           }
       }
   }
 
   // Initial load call
   if (booksGridWrapper && fetchFn) {
-      loadMoreBooks();
+      fetchByPage(1);
   }
 }
