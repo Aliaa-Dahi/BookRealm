@@ -2,6 +2,7 @@ import createBooksGrid from "../componenets/BooksContainer/books-container.js";
 import Pagination, { attachPaginationEvents } from "../componenets/Pagination/pagination.js";
 import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
 import SearchInput from "../componenets/SearchInput/search-input.js";
+import BookDetails from "../componenets/BookDetails/book-details.js";
 /**
  * Strategy Pattern for fetching books from Open Library.
  * To add a new way to fetch books:
@@ -76,6 +77,33 @@ const fetchStrategies = {
       works: works,
       work_count: data.size || 0
     };
+  },
+
+  // Fetch details for a single book by title (takes first result)
+  bookDetails: async (param) => {
+    const fields = 'key,title,author_name,cover_i,first_publish_year,edition_count,ratings_average,ratings_count,subject,publisher,language,number_of_pages_median';
+    const response = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(param)}&limit=1&fields=${fields}`);
+    const data = await response.json();
+
+    const works = (data.docs || []).map(doc => ({
+      key: doc.key,
+      title: doc.title,
+      cover_id: doc.cover_i || null,
+      author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+      first_publish_year: doc.first_publish_year || 'N/A',
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? parseFloat(doc.ratings_average.toFixed(1)) : null,
+      ratings_count: doc.ratings_count || 0,
+      subjects: doc.subject ? doc.subject.slice(0, 3) : [],
+      publishers: doc.publisher ? doc.publisher.slice(0, 2) : [],
+      languages: doc.language || [],
+      pages: doc.number_of_pages_median || null
+    }));
+
+    return {
+      works: works,
+      work_count: data.numFound || 0
+    };
   }
 };
 
@@ -108,9 +136,25 @@ function getFetchStrategy() {
     };
   }
 
-  // 3. Genre Strategy (e.g., /books/fantasy)
-  if (pathParts[2]) {
-    const genre = pathParts[2];
+  // 3. Book Details Strategy (e.g., /books/harry-potter-and-the-philosophers-stone)
+  //    Detected when pathParts[2] exists and is NOT a known genre keyword
+  //    We distinguish it by checking whether it came from a BookCard click (data stored in slug form)
+  if (pathParts[2] && pathParts[2] !== 'author') {
+    const slug = pathParts[2];
+    // If the slug looks like a book title (contains hyphens typical of multi-word titles)
+    // and is not a single genre word — treat as book detail
+    const isBookSlug = slug.includes('-');
+    if (isBookSlug) {
+      const titleFromSlug = slug.replace(/-/g, ' ');
+      return {
+        strategy: 'bookDetails',
+        param: titleFromSlug,
+        displayName: titleFromSlug.replace(/\b\w/g, c => c.toUpperCase())
+      };
+    }
+
+    // 4. Genre Strategy (e.g., /books/fantasy — single word slugs)
+    const genre = slug;
     const formattedGenre = genre.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     return {
       strategy: 'genre',
@@ -130,6 +174,31 @@ function getFetchStrategy() {
 export function renderBooks(container){
   // Determine which strategy and parameter to use based on URL/Path
   const { strategy, param, displayName } = getFetchStrategy();
+
+  // ── Book Details page ────────────────────────────────────────────────────
+  if (strategy === 'bookDetails') {
+    // Show a spinner while the API call is pending
+    container.innerHTML = `
+      <div class="text-center w-100 my-5 pt-5">
+        <div class="spinner-border text-secondary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    `;
+
+    fetchStrategies.bookDetails(param).then(data => {
+      const book = (data.works || [])[0] || null;
+      if (book) {
+        container.innerHTML = BookDetails(book);
+      } else {
+        container.innerHTML = `<div class="container mt-5 pt-5"><p class="text-muted inter">Book not found.</p></div>`;
+      }
+    }).catch(() => {
+      container.innerHTML = `<div class="container mt-5 pt-5"><p class="text-danger inter">Failed to load book details.</p></div>`;
+    });
+    return;
+  }
+
   const fetchFn = fetchStrategies[strategy];
   
   // const paginationHTML = Pagination();

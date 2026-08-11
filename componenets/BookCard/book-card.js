@@ -25,8 +25,15 @@ export default function BookCard(book) {
         ? `${rawAuthor.split(',')[0]} & others`
         : rawAuthor;
 
+    // Normalize title to a URL-safe slug: lowercase, spaces → dashes, strip special chars
+    const slug = book.title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-');
+
     return `
-        <div class="col-12 col-md-6 col-lg-3">
+        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-title="${book.title}">
             <div class="card book-card shadow-sm h-100">
                 <div class="position-relative">
                     <img
@@ -56,6 +63,6 @@ export default function BookCard(book) {
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     `;
 }
