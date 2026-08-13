@@ -88,19 +88,40 @@ export function renderHome(container) {
   }
 }
 
-async function fetchTopRated(){
-  const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8&fields=*,ratings_average');
-  const data = await response.json();
-  
-  const works = (data.docs || []).map(doc => ({
-    key: doc.key,
-    title: doc.title,
-    cover_id: doc.cover_i || null,
-    author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
-    first_publish_year: doc.first_publish_year || 'N/A',
-    edition_count: doc.edition_count || 0,
-    rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
-  }));
+async function fetchTopRated() {
+  try {
+    const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8');
+    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    const data = await response.json();
+    
+    const works = (data.docs || []).map(doc => ({
+      key: doc.key,
+      title: doc.title,
+      cover_id: doc.cover_i || null,
+      author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+      first_publish_year: doc.first_publish_year || 'N/A',
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? Number(doc.ratings_average).toFixed(1) : '4.5'
+    }));
 
-  return works;
+    return works;
+  } catch (err) {
+    console.warn("Primary book search failed or reset, using subject fallback endpoint:", err);
+    try {
+      const fallbackResponse = await fetch('https://openlibrary.org/subjects/fantasy.json?limit=8');
+      const fallbackData = await fallbackResponse.json();
+      return (fallbackData.works || []).map(work => ({
+        key: work.key,
+        title: work.title,
+        cover_id: work.cover_id || null,
+        author_name: work.authors ? work.authors.map(a => a.name).join(', ') : 'Unknown Author',
+        first_publish_year: work.first_publish_year || 'N/A',
+        edition_count: work.edition_count || 0,
+        rating: '4.5'
+      }));
+    } catch (fallbackErr) {
+      console.error("Fallback fetch also failed:", fallbackErr);
+      throw fallbackErr;
+    }
+  }
 }

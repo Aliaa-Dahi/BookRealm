@@ -1,5 +1,7 @@
 import './auth-modal.css';
 import { registerUser, loginUser } from './auth.service.js';
+import { showToast } from '../../utils/toast.js';
+import { Modal } from 'bootstrap';
 
 // Track which mode the modal is currently in
 let currentAuthType = 'login';
@@ -134,16 +136,18 @@ async function handleSubmit() {
   try {
     if (currentAuthType === 'register') {
       await registerUser({ firstName, lastName, email, password });
-      alert(`Welcome, ${firstName}! Your account has been created.`);
+      showToast(`Welcome, ${firstName}! Your account has been created.`, 'success');
     } else {
       const user = await loginUser({ email, password });
-      alert(`Welcome back, ${user.firstName}!`);
+      showToast(`Welcome back, ${user.firstName}!`, 'success');
     }
 
     // Close modal on success
     const modalEl = document.getElementById('authModal');
-    const bsModal = window.bootstrap?.Modal?.getInstance(modalEl);
-    bsModal?.hide();
+    if (modalEl) {
+      const bsModal = Modal.getOrCreateInstance(modalEl);
+      bsModal.hide();
+    }
 
   } catch (err) {
     if (err.inner?.length > 0) {

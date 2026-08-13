@@ -1,0 +1,42 @@
+.toastify.bookrealm-toast {
+  background: var(--dark-brown, #2C2016) !important;
+  color: var(--neutral, #F9F8F6) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border-left: 4px solid var(--secondary, #C5A059) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 4px !important;
+  padding: 12px 18px !important;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.4s ease !important;
+}
+
+.toastify.bookrealm-toast.on {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.bookrealm-toast-success {
+  border-left-color: var(--secondary, #C5A059) !important;
+}
+
+.bookrealm-toast-error {
+  border-left-color: #e74c3c !important;
+}
+
+.bookrealm-toast .toast-close {
+  color: var(--secondary, #C5A059) !important;
+  opacity: 0.8 !important;
+  font-size: 1.1rem !important;
+  line-height: 1 !important;
+  padding-left: 12px !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s, transform 0.2s !important;
+}
+
+.bookrealm-toast .toast-close:hover {
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+}

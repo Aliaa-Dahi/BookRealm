@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 const USERS_KEY = 'users';
+const CURRENT_USER_KEY = 'currentUser';
 
 // ── LocalStorage helpers ─────────────────────────────────────────────────────
 
@@ -10,6 +11,35 @@ export function getUsers() {
 
 function saveUsers(users) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+// ── Active Session Management ─────────────────────────────────────────────────
+
+export function getCurrentUser() {
+  const data = localStorage.getItem(CURRENT_USER_KEY);
+  return data ? JSON.parse(data) : null;
+}
+
+export function setCurrentUser(user) {
+  if (!user) return;
+  const { password, ...safeUser } = user;
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+  window.dispatchEvent(new CustomEvent('authChange'));
+}
+
+export function logoutUser() {
+  localStorage.removeItem(CURRENT_USER_KEY);
+  window.dispatchEvent(new CustomEvent('authChange'));
+}
+
+export function getUserInitials(user) {
+  if (!user) return '';
+  const first = user.firstName ? user.firstName.trim().charAt(0).toUpperCase() : '';
+  const last  = user.lastName ? user.lastName.trim().charAt(0).toUpperCase() : '';
+  const initials = `${first}${last}`.trim();
+  if (initials) return initials;
+  if (user.email) return user.email.trim().charAt(0).toUpperCase();
+  return 'U';
 }
 
 // ── Yup Schemas ──────────────────────────────────────────────────────────────
@@ -47,6 +77,10 @@ export async function registerUser({ firstName, lastName, email, password }) {
   const newUser = { firstName, lastName, email, password };
   users.push(newUser);
   saveUsers(users);
+
+  // Set active session
+  setCurrentUser(newUser);
+
   return newUser;
 }
 
@@ -67,6 +101,9 @@ export async function loginUser({ email, password }) {
   if (!user) {
     throw new Yup.ValidationError('Invalid email or password', null, 'general');
   }
+
+  // Set active session
+  setCurrentUser(user);
 
   return user;
 }

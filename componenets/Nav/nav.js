@@ -1,4 +1,6 @@
 import './nav.css';
+import { getCurrentUser, getUserInitials, logoutUser } from '../AuthModal/auth.service.js';
+import { showToast } from '../../utils/toast.js';
 
 export function updateActiveLink() {
   const navLinks = document.querySelectorAll('.nav-link');
@@ -27,13 +29,51 @@ export function updateActiveLink() {
   });
 }
 
-// Update the active state dynamically when the URL hash changes
-window.addEventListener('hashchange', updateActiveLink);
-updateActiveLink()
+// ── Auth Navigation UI State ──────────────────────────────────────────────────
 
-export default function getNav(){
-    
-    return `<!-- Nav -->
+export function renderAuthNav() {
+  const user = getCurrentUser();
+  const initials = getUserInitials(user);
+
+  document.querySelectorAll('.logged-out-view').forEach(el => {
+    el.classList.toggle('d-none', !!user);
+    el.classList.toggle('d-flex', !user);
+  });
+
+  document.querySelectorAll('.logged-in-view').forEach(el => {
+    el.classList.toggle('d-none', !user);
+    el.classList.toggle('d-flex', !!user);
+  });
+
+  if (user) {
+    document.querySelectorAll('.user-initials-text').forEach(el => (el.textContent = initials));
+    document.querySelectorAll('.user-fullname-text').forEach(
+      el => (el.textContent = `${user.firstName} ${user.lastName}`)
+    );
+    document.querySelectorAll('.user-avatar-circle').forEach(
+      el => (el.title = `${user.firstName} ${user.lastName}`)
+    );
+  }
+}
+
+// Listen for auth state changes & page load
+window.addEventListener('hashchange', updateActiveLink);
+window.addEventListener('authChange', renderAuthNav);
+document.addEventListener('DOMContentLoaded', () => {
+  updateActiveLink();
+  renderAuthNav();
+});
+
+// Delegated click handler for logout buttons
+document.addEventListener('click', e => {
+  if (e.target && e.target.classList.contains('logout-btn')) {
+    logoutUser();
+    showToast('You have logged out.', 'info');
+  }
+});
+
+export default function getNav() {
+  return `<!-- Nav -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
       <div class="container-fluid">
         <a class="navbar-brand playfair playfair-900" href="/">BookRealm</a>
@@ -57,16 +97,27 @@ export default function getNav(){
             </li>
           </ul>
 
-          <div class="auth-buttons d-flex gap-2">
-            <a href="#" class="auth-btn main-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
-            <a href="#" class="auth-btn sub-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+          <div class="auth-buttons d-flex align-items-center gap-2">
+            <!-- Logged Out View (Desktop) -->
+            <div class="logged-out-view d-flex gap-2">
+              <a href="#" class="auth-btn main-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
+              <a href="#" class="auth-btn sub-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+            </div>
+
+            <!-- Logged In View (Desktop: Circle on left of Logout button) -->
+            <div class="logged-in-view d-none align-items-center gap-3">
+              <div class="user-avatar-circle" title="User Profile">
+                <span class="user-initials-text"></span>
+              </div>
+              <button type="button" class="auth-btn sub-btn logout-btn">Logout</button>
+            </div>
           </div>
 
         </div>
       </div>
     </nav>
 
-    <!-- Mobile Nan -->
+    <!-- Mobile Nav -->
     <div class="mobile-nav d-md-none">
       <div class="container-fluid bg-body-tertiary d-flex justify-content-between shadow-sm p-3">
         <a class="navbar-brand playfair playfair-900 " href="/">BookRealm</a>
@@ -77,23 +128,45 @@ export default function getNav(){
 
     </div>
 
-    <!-- OffCanvas -->
+    <!-- OffCanvas (Mobile) -->
     <div class="offcanvas offcanvas-start pt-2" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title playfair playfair-900" id="offcanvasRightLabel">BookRealm</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column justify-content-between">
-        <ul class="list-unstyled">
-          <li class="mb-3"><a href="/" class="nav-link text-decoration-none text-dark">Home</a></li>
-          <li class="mb-3"><a href="/geners" class="nav-link text-decoration-none text-dark">Genres</a></li>
-          <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
-        </ul>
+        <div>
+          <!-- Logged In View (Mobile: On TOP of links tabs) -->
+          <div class="logged-in-view d-none align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm border">
+            <div class="user-avatar-circle" title="User Profile">
+              <span class="user-initials-text"></span>
+            </div>
+            <div class="d-flex flex-column">
+              <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
+              <small class="text-muted inter" style="font-size: 0.78rem;">Reader Account</small>
+            </div>
+          </div>
+
+          <ul class="list-unstyled">
+            <li class="mb-3"><a href="/" class="nav-link text-decoration-none text-dark">Home</a></li>
+            <li class="mb-3"><a href="/books" class="nav-link text-decoration-none text-dark">Books</a></li>
+            <li class="mb-3"><a href="/geners" class="nav-link text-decoration-none text-dark">Genres</a></li>
+            <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
+          </ul>
+        </div>
 
         <div class="mt-4">
-          <a href="#" class="auth-btn main-btn d-block mb-3" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
-          <a href="#" class="auth-btn sub-btn d-block" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+          <!-- Logged Out View (Mobile) -->
+          <div class="logged-out-view flex-column gap-2">
+            <a href="#" class="auth-btn main-btn d-block mb-3" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
+            <a href="#" class="auth-btn sub-btn d-block" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+          </div>
+
+          <!-- Logged In View Logout Button (Mobile Bottom) -->
+          <div class="logged-in-view d-none">
+            <button type="button" class="auth-btn sub-btn logout-btn w-100">Logout</button>
+          </div>
         </div>
       </div>
-    </div>`
+    </div>`;
 }
