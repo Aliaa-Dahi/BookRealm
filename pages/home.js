@@ -1,5 +1,6 @@
 import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
+import { createSkeletonGrid } from "../componenets/BookCard/book-card-skeleton.js";
 import { generes } from "./geners.js";
 
 export function renderHome(container) {
@@ -64,14 +65,8 @@ export function renderHome(container) {
 
   const homeBooksWrapper = container.querySelector(".home-books-container");
   if (homeBooksWrapper) {
-    // Show a loading spinner while fetching
-    homeBooksWrapper.innerHTML = `
-      <div class="text-center py-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    `;
+    // Show shimmer skeleton cards while fetching
+    homeBooksWrapper.innerHTML = createSkeletonGrid(8);
     
     fetchTopRated()
       .then(booksArray => {

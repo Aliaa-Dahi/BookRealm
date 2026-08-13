@@ -1,4 +1,5 @@
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
+import { createSkeletonGrid } from "../componenets/BookCard/book-card-skeleton.js";
 import Pagination, { attachPaginationEvents } from "../componenets/Pagination/pagination.js";
 import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
 import SearchInput from "../componenets/SearchInput/search-input.js";
@@ -61,14 +62,8 @@ export function renderBooks(container) {
   let totalWorks = 0;
 
   async function fetchByPage(pageNumber) {
-      // Show loading spinner
-      booksGridWrapper.innerHTML = `
-          <div class="text-center w-100 my-5">
-              <div class="spinner-border text-secondary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-              </div>
-          </div>
-      `;
+      // Show shimmer skeleton cards while loading
+      booksGridWrapper.innerHTML = createSkeletonGrid(8);
 
       try {
           const currentOffset = (pageNumber - 1) * limit;
