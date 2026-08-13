@@ -51,7 +51,7 @@ export default function getAuthModal() {
             <label class="library-label inter text-uppercase">Password</label>
             <div class="input-icon-wrapper">
               <input id="input-password" type="password" class="library-input inter" placeholder="••••••••">
-              <i class="fa-solid fa-key"></i>
+              <i id="toggle-password-btn" class="fa-regular fa-eye-slash toggle-password-icon" style="cursor: pointer;"></i>
             </div>
             <p class="auth-error-msg d-none" id="error-password"></p>
           </div>
@@ -164,6 +164,21 @@ export function updateAuthModal(authType) {
 
   // Reset all inputs
   modalEl.querySelectorAll('.library-input').forEach(input => (input.value = ''));
+
+  // Reset password input visibility and icon
+  const passInput = modalEl.querySelector('#input-password');
+  const toggleIcon = modalEl.querySelector('#toggle-password-btn');
+  if (passInput && toggleIcon) {
+    passInput.type = 'password';
+    toggleIcon.className = 'fa-regular fa-eye-slash toggle-password-icon';
+    toggleIcon.onclick = () => {
+      const isPassword = passInput.type === 'password';
+      passInput.type = isPassword ? 'text' : 'password';
+      toggleIcon.className = isPassword
+        ? 'fa-regular fa-eye toggle-password-icon'
+        : 'fa-regular fa-eye-slash toggle-password-icon';
+    };
+  }
 
   // Update subtitle
   modalEl.querySelector('.library-subtitle').textContent = config.subtitle;

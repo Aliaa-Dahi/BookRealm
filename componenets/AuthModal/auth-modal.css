@@ -173,3 +173,12 @@
     opacity: 0.75;
 }
 
+.toggle-password-icon {
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.toggle-password-icon:hover {
+    opacity: 0.9;
+    color: var(--dark-text);
+}
+
