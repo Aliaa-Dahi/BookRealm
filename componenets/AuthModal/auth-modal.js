@@ -1,5 +1,6 @@
 import './auth-modal.css';
 import { registerUser, loginUser } from './auth.service.js';
+import { showToast } from '../../utils/toast.js';
 
 // Track which mode the modal is currently in
 let currentAuthType = 'login';
@@ -134,10 +135,10 @@ async function handleSubmit() {
   try {
     if (currentAuthType === 'register') {
       await registerUser({ firstName, lastName, email, password });
-      alert(`Welcome, ${firstName}! Your account has been created.`);
+      showToast(`Welcome, ${firstName}! Your account has been created.`, 'success');
     } else {
       const user = await loginUser({ email, password });
-      alert(`Welcome back, ${user.firstName}!`);
+      showToast(`Welcome back, ${user.firstName}!`, 'success');
     }
 
     // Close modal on success
