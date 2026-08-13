@@ -7,8 +7,8 @@ export function showToast(message, type = 'success') {
     text: message,
     duration: 3000,
     close: true,
-    gravity: 'top',
-    position: 'right',
+    gravity: 'bottom',
+    position: 'left',
     stopOnFocus: false,
     className: `bookrealm-toast bookrealm-toast-${type}`,
   }).showToast();
