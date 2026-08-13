@@ -71,4 +71,34 @@ nav .active:hover::before {
     font-size: 25px;
 }
 
+/* ── User Avatar Circle (Dark Circle with Gold Initials) ── */
+.user-avatar-circle {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    border-radius: 50% !important;
+    background-color: var(--primary) !important; /* Dark circle background #1A1F2C */
+    color: var(--secondary) !important;          /* Gold initials #C5A059 */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px !important;
+    border: 2px solid var(--secondary) !important; /* Gold border */
+    box-shadow: 0 4px 10px rgba(26, 31, 44, 0.3) !important;
+    user-select: none !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    transition: var(--general-transition) !important;
+}
+
+.user-avatar-circle:hover {
+    transform: var(--uphover) !important;
+    background-color: var(--dark-brown) !important;
+    box-shadow: 0 6px 16px rgba(197, 160, 89, 0.4) !important;
+}
+
 

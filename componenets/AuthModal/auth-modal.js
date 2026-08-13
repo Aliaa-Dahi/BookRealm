@@ -1,6 +1,7 @@
 import './auth-modal.css';
 import { registerUser, loginUser } from './auth.service.js';
 import { showToast } from '../../utils/toast.js';
+import { Modal } from 'bootstrap';
 
 // Track which mode the modal is currently in
 let currentAuthType = 'login';
@@ -143,8 +144,10 @@ async function handleSubmit() {
 
     // Close modal on success
     const modalEl = document.getElementById('authModal');
-    const bsModal = window.bootstrap?.Modal?.getInstance(modalEl);
-    bsModal?.hide();
+    if (modalEl) {
+      const bsModal = Modal.getOrCreateInstance(modalEl);
+      bsModal.hide();
+    }
 
   } catch (err) {
     if (err.inner?.length > 0) {

@@ -9,7 +9,7 @@ import "./css/common.css";
 import "./css/home.css";
 
 // Components
-import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
+import Nav, { updateActiveLink, renderAuthNav } from "./componenets/Nav/nav.js";
 import getAuthModal, { updateAuthModal } from "./componenets/AuthModal/auth-modal.js";
 import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
@@ -19,6 +19,8 @@ import { renderBooks } from "./pages/books.js";
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
   navContainer.innerHTML = Nav();
+  renderAuthNav();
+
   const authModalContainer = document.querySelector(".auth-modal-container");
   authModalContainer.innerHTML = getAuthModal();
 
