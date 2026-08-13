@@ -46,6 +46,8 @@ export function renderAuthNav() {
   });
 
   if (user) {
+    const profileUrl = `/users/${user.user_name || 'profile'}`;
+    document.querySelectorAll('.user-profile-link').forEach(el => el.setAttribute('href', profileUrl));
     document.querySelectorAll('.user-initials-text').forEach(el => (el.textContent = initials));
     document.querySelectorAll('.user-fullname-text').forEach(
       el => (el.textContent = `${user.firstName} ${user.lastName}`)
@@ -73,40 +75,40 @@ document.addEventListener('click', e => {
 });
 
 export default function getNav() {
-  return `<!-- Nav -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
-      <div class="container-fluid">
-        <a class="navbar-brand playfair playfair-900" href="/">BookRealm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+  const user = getCurrentUser();
+  const profileUrl = user && user.user_name ? `/users/${user.user_name}` : '/users/profile';
+
+  return `
+    <!-- Desktop Nav -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top d-none d-md-flex p-2">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand playfair playfair-900 fs-3" href="/">BookRealm</a>
+
+        <div class="d-flex align-items-center gap-5" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/books">Books</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/geners">Genres</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#my-lists">My Lists</a>
+              <a class="nav-link" href="/books">Books</a>
             </li>
           </ul>
 
-          <div class="auth-buttons d-flex align-items-center gap-2">
-            <!-- Logged Out View (Desktop) -->
-            <div class="logged-out-view d-flex gap-2">
-              <a href="#" class="auth-btn main-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
-              <a href="#" class="auth-btn sub-btn" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+          <div class="auth-buttons">
+            <!-- Logged Out View -->
+            <div class="logged-out-view d-flex gap-3">
+              <button type="button" class="auth-btn sub-btn" data-bs-toggle="modal"
+                data-bs-target="#authModal" data-tab="login">Login</button>
+              <button type="button" class="auth-btn main-btn" data-bs-toggle="modal"
+                data-bs-target="#authModal" data-tab="register">Register</button>
             </div>
 
             <!-- Logged In View (Desktop: Circle on left of Logout button) -->
             <div class="logged-in-view d-none align-items-center gap-3">
-              <a href="/profile" class="text-decoration-none" title="User Profile">
+              <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
                 <div class="user-avatar-circle">
                   <span class="user-initials-text"></span>
                 </div>
@@ -140,12 +142,12 @@ export default function getNav() {
         <div>
           <!-- Logged In View (Mobile: On TOP of links tabs) -->
           <div class="logged-in-view d-none align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm border">
-            <a href="/profile" class="text-decoration-none" title="User Profile">
+            <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
               <div class="user-avatar-circle">
                 <span class="user-initials-text"></span>
               </div>
             </a>
-            <a href="/profile" class="text-decoration-none text-dark">
+            <a href="${profileUrl}" class="text-decoration-none text-dark user-profile-link">
               <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
             </a>
           </div>

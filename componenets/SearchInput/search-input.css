@@ -17,7 +17,7 @@
   border-radius: 999px !important;
   background-color: #fff !important;
   color: var(--primary, #1a1a1a);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.5;
   outline: none !important;

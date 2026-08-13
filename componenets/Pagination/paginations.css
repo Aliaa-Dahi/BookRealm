@@ -24,7 +24,7 @@
     border: 1.5px solid var(--gray);
     background-color: transparent;
     color: var(--primary);
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
     font-weight: 500;
     font-size: 0.9rem;
     transition: var(--general-transition);
@@ -76,4 +76,4 @@
     background-color: var(--primary-transparent);
     border-color: var(--primary-transparent);
     color: var(--gray);
-}
+}

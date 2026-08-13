@@ -1,7 +1,7 @@
 .toastify.bookrealm-toast {
   background: var(--dark-brown, #2C2016) !important;
   color: var(--neutral, #F9F8F6) !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: var(--font-body, 'Lora', serif) !important;
   font-size: 0.9rem !important;
   font-weight: 500 !important;
   border-left: 4px solid var(--secondary, #C5A059) !important;

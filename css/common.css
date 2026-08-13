@@ -15,7 +15,13 @@
 
   /* others */
   --uphover : translateY(-1px);
-  --general-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+  --general-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* fonts */
+  --font-display:    "Playfair", serif;           /* headings, titles, branding   */
+  --font-body:       "Lora", serif;               /* body text, UI copy           */
+  --font-accent:     "Cormorant Garamond", serif; /* decorative/pull-quote use    */
+  --font-script:     "Great Vibes", cursive;      /* one-off script accent        */
 }
 
 
@@ -27,9 +33,11 @@
 
 
 
-/* fonts */
+/* ── Font utilities ── */
+
+/* Playfair — display headings, titles, branding */
 .playfair {
-  font-family: "Playfair", serif;
+  font-family: var(--font-display);
   font-optical-sizing: auto;
   font-variation-settings: "wdth" 100;
 }
@@ -41,8 +49,9 @@
 .playfair-800 { font-weight: 800; }
 .playfair-900 { font-weight: 900; }
 
+/* Lora — body text, UI copy, labels */
 .inter {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-optical-sizing: auto;
   font-style: normal;
 }
@@ -54,11 +63,19 @@
 .inter-800 { font-weight: 800; }
 .inter-900 { font-weight: 900; }
 
-.script-font {
-  font-family: 'Great Vibes', cursive;
+/* Cormorant Garamond — decorative accent, pull quotes, special headings */
+.cormorant {
+  font-family: var(--font-accent);
 }
-.mono-font {
-  font-family: 'Courier New', Courier, monospace;
+.cormorant-300 { font-weight: 300; }
+.cormorant-400 { font-weight: 400; }
+.cormorant-500 { font-weight: 500; }
+.cormorant-600 { font-weight: 600; }
+.cormorant-700 { font-weight: 700; }
+
+/* Great Vibes — script accent (auth modal subtitle) */
+.script-font {
+  font-family: var(--font-script);
 }
 
 a {

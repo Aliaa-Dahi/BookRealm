@@ -44,11 +44,9 @@ export function showContent() {
     renderGeners(app);
   } else if (currentPath.startsWith("/books")) {
     renderBooks(app);
-  } 
-  else if(currentPath.startsWith("/profile")){
+  } else if (currentPath.startsWith("/users") || currentPath.startsWith("/profile")) {
     renderProfile(app);
-  }
-  else {
+  } else {
     renderHome(app);
   }
 
