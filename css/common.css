@@ -8,6 +8,9 @@
   --primary-transparent: rgba(26, 31, 44, 0.05);
   --secondary-transparent: rgba(197, 160, 89, 0.3);
   --neutral-transparent: rgba(234, 231, 231, 0.6);
+  --paper-bg: #DCD8C8;
+  --paper-line: #B5B2A3;
+  --dark-text: #353C44;
 
   /* others */
   --uphover : translateY(-1px);
@@ -49,6 +52,13 @@
 .inter-700 { font-weight: 700; }
 .inter-800 { font-weight: 800; }
 .inter-900 { font-weight: 900; }
+
+.script-font {
+  font-family: 'Great Vibes', cursive;
+}
+.mono-font {
+  font-family: 'Courier New', Courier, monospace;
+}
 
 a {
   text-decoration: none !important;

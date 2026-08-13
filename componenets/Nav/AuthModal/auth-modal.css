@@ -1,0 +1,130 @@
+
+.modal-content.library-card {
+    background-color: var(--paper-bg);
+    border-radius: 4px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    color: var(--dark-text);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background noise texture */
+.modal-content.library-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+.library-card-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-close {
+    top: 0px;
+    right: -22px;
+}
+
+.library-header {
+    border-top: 1px solid var(--paper-line);
+    padding-top: 20px;
+    margin-bottom: 25px;
+}
+
+.library-title {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.library-form-id {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--dark-text);
+    opacity: 0.8;
+}
+
+.library-subtitle {
+    color: var(--secondary);
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.library-input-group {
+    margin-bottom: 30px;
+}
+
+.library-label {
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
+    color: var(--dark-text);
+    opacity: 0.8;
+}
+
+.library-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--paper-line);
+    border-radius: 0;
+    padding: 8px 0;
+    width: 100%;
+    color: var(--dark-text);
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.library-input::placeholder {
+    color: rgba(53, 60, 68, 0.4);
+}
+
+.library-input:focus {
+    border-bottom-color: var(--dark-text);
+    box-shadow: none;
+    background: transparent;
+}
+
+.input-icon-wrapper {
+    position: relative;
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    color: var(--paper-line);
+    font-size: 1.1rem;
+}
+
+.library-footer {
+    padding-top: 25px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.library-footer-text {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7rem;
+    color: var(--dark-text);
+    opacity: 0.7;
+    max-width: 75%;
+    line-height: 1.5;
+}
+
+.library-footer-icon {
+    font-size: 2.2rem;
+    color: var(--paper-line);
+    opacity: 0.6;
+}

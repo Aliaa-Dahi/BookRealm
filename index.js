@@ -10,6 +10,7 @@ import "./css/home.css";
 
 // Components
 import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
+import getAuthModal from "./componenets/Nav/AuthModal/auth-modal.js";
 import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
 import { renderGeners } from "./pages/geners.js";
@@ -18,6 +19,8 @@ import { renderBooks } from "./pages/books.js";
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
   navContainer.innerHTML = Nav();
+  const authModalContainer = document.querySelector(".auth-modal-container");
+  authModalContainer.innerHTML = getAuthModal();
 }
 
 export function showContent() {

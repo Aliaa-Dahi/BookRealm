@@ -58,8 +58,8 @@ export default function getNav(){
           </ul>
 
           <div class="auth-buttons d-flex gap-2">
-            <a href="#" class="auth-btn main-btn">Login</a>
-            <a href="#" class="auth-btn sub-btn">Register</a>
+            <a href="#" class="auth-btn main-btn" data-bs-toggle="modal" data-bs-target="#authModal">Login</a>
+            <a href="#" class="auth-btn sub-btn" data-bs-toggle="modal" data-bs-target="#authModal">Register</a>
           </div>
 
         </div>
@@ -91,8 +91,8 @@ export default function getNav(){
         </ul>
 
         <div class="mt-4">
-          <a href="#" class="auth-btn main-btn d-block mb-3">Login</a>
-          <a href="#" class="auth-btn sub-btn d-block">Register</a>
+          <a href="#" class="auth-btn main-btn d-block mb-3" data-bs-toggle="modal" data-bs-target="#authModal">Login</a>
+          <a href="#" class="auth-btn sub-btn d-block" data-bs-toggle="modal" data-bs-target="#authModal">Register</a>
         </div>
       </div>
     </div>`
