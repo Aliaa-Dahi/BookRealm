@@ -4,7 +4,6 @@ import { showContent } from "../../index.js";
 
 export function createGenresGrid(genresArray = [], count = genresArray.length) {
     let genereContainerHTML = `<div class="generes-cards row g-4">`;
-    console.log(genresArray);
 
     genresArray.slice(0, count).forEach(genere => {
       

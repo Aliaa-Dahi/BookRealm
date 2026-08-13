@@ -10,6 +10,7 @@ import "./css/home.css";
 
 // Components
 import Nav, { updateActiveLink } from "./componenets/Nav/nav.js";
+import getAuthModal, { updateAuthModal } from "./componenets/AuthModal/auth-modal.js";
 import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
 import { renderGeners } from "./pages/geners.js";
@@ -18,6 +19,16 @@ import { renderBooks } from "./pages/books.js";
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
   navContainer.innerHTML = Nav();
+  const authModalContainer = document.querySelector(".auth-modal-container");
+  authModalContainer.innerHTML = getAuthModal();
+
+  // Detect which button triggered the modal (login or register)
+  const authModalEl = document.getElementById("authModal");
+  authModalEl.addEventListener("show.bs.modal", (event) => {
+    const trigger = event.relatedTarget;
+    const authType = trigger?.dataset?.bsAuthType; // "login" or "register"
+    updateAuthModal(authType);
+  });
 }
 
 export function showContent() {
