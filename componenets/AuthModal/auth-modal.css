@@ -154,3 +154,22 @@
 .library-input.input-error {
     border-bottom-color: #c0392b;
 }
+
+/* ── Mode Switch Link ── */
+.auth-switch-text {
+    font-size: 0.8rem;
+    color: var(--dark-text);
+    opacity: 0.8;
+}
+
+.auth-switch-link {
+    color: var(--secondary);
+    text-decoration: underline;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.auth-switch-link:hover {
+    opacity: 0.75;
+}
+

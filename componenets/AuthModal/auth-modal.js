@@ -63,6 +63,11 @@ export default function getAuthModal() {
         <div class="d-flex justify-content-center mt-3">
           <button id="auth-submit-btn" type="button" class="main-btn inter inter-600 w-100">Login</button>
         </div>
+
+        <p class="auth-switch-text text-center mt-3 mb-0 inter" id="auth-switch">
+          <span id="auth-switch-prompt">Don't have an account?</span>
+          <a href="#" id="auth-switch-link" class="auth-switch-link fw-semibold ms-1">Register</a>
+        </p>
       </div>
     </div>
   </div>
@@ -76,11 +81,17 @@ const MODAL_CONFIG = {
     subtitle: 'Welcome back, BookRealm.',
     showNames: false,
     btnText: 'Login',
+    switchPrompt: "Don't have an account?",
+    switchLinkText: 'Register',
+    switchTargetType: 'register',
   },
   register: {
     subtitle: 'Join us, BookRealm.',
     showNames: true,
     btnText: 'Register',
+    switchPrompt: 'Already have an account?',
+    switchLinkText: 'Login',
+    switchTargetType: 'login',
   },
 };
 
@@ -131,8 +142,6 @@ async function handleSubmit() {
     bsModal?.hide();
 
   } catch (err) {
-    console.log( typeof err);
-    
     if (err.inner?.length > 0) {
       // Multiple Yup errors (abortEarly: false)
       err.inner.forEach(e => showError(e.path, e.message));
@@ -143,7 +152,7 @@ async function handleSubmit() {
   }
 }
 
-// ── updateAuthModal (called from index.js on show.bs.modal) ──────────────────
+// ── updateAuthModal (called from index.js on show.bs.modal & toggle link) ────
 
 export function updateAuthModal(authType) {
   currentAuthType = authType ?? 'login';
@@ -168,4 +177,16 @@ export function updateAuthModal(authType) {
   const btn = modalEl.querySelector('#auth-submit-btn');
   btn.textContent = config.btnText;
   btn.onclick = handleSubmit;
+
+  // Update mode toggle link text & handler
+  const switchPromptEl = modalEl.querySelector('#auth-switch-prompt');
+  const switchLinkEl   = modalEl.querySelector('#auth-switch-link');
+  if (switchPromptEl && switchLinkEl) {
+    switchPromptEl.textContent = config.switchPrompt;
+    switchLinkEl.textContent   = config.switchLinkText;
+    switchLinkEl.onclick = (e) => {
+      e.preventDefault();
+      updateAuthModal(config.switchTargetType);
+    };
+  }
 }
