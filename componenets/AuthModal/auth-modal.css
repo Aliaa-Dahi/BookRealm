@@ -128,3 +128,29 @@
     color: var(--paper-line);
     opacity: 0.6;
 }
+
+/* ── Validation errors ── */
+.auth-error-msg {
+    font-size: 0.72rem;
+    color: #c0392b;
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.auth-general-error {
+    font-size: 0.82rem;
+    color: #a93226;
+    background-color: rgba(231, 76, 60, 0.08);
+    border: 1px dashed rgba(169, 50, 38, 0.4);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.library-input.input-error {
+    border-bottom-color: #c0392b;
+}
