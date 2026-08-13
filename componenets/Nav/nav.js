@@ -141,10 +141,7 @@ export default function getNav() {
             <div class="user-avatar-circle" title="User Profile">
               <span class="user-initials-text"></span>
             </div>
-            <div class="d-flex flex-column">
-              <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
-              <small class="text-muted inter" style="font-size: 0.78rem;">Reader Account</small>
-            </div>
+            <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
           </div>
 
           <ul class="list-unstyled">
