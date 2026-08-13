@@ -8,26 +8,48 @@ export default function getAuthModal(){
         <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
         
         <p class="library-subtitle script-font">Welcome back, BookRealm.</p>
-        
-        <div class="library-input-group mt-5">
-          <label class="library-label inter text-uppercase"> Full Name</label>
-          <div class="input-icon-wrapper">
-            <input type="text" class="library-input inter" placeholder="Enter your name...">
-            <i class="fa-regular fa-user"></i>
+
+        <div class="auth-fields d-flex flex-column gap-3 mt-4 mb-4">
+
+          <!-- Register only: First Name + Last Name row -->
+          <div id="field-names" class="d-none d-flex gap-3">
+            <div class="library-input-group flex-fill">
+              <label class="library-label inter text-uppercase">First Name</label>
+              <div class="input-icon-wrapper">
+                <input id="input-first-name" type="text" class="library-input inter" placeholder="First name...">
+                <i class="fa-regular fa-user"></i>
+              </div>
+            </div>
+            <div class="library-input-group flex-fill">
+              <label class="library-label inter text-uppercase">Last Name</label>
+              <div class="input-icon-wrapper">
+                <input id="input-last-name" type="text" class="library-input inter" placeholder="Last name...">
+              </div>
+            </div>
           </div>
+
+          <!-- Email (always visible) -->
+          <div class="library-input-group">
+            <label class="library-label inter text-uppercase">Email</label>
+            <div class="input-icon-wrapper">
+              <input id="input-email" type="email" class="library-input inter" placeholder="your@email.com">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+          </div>
+
+          <!-- Password (always visible) -->
+          <div class="library-input-group">
+            <label class="library-label inter text-uppercase">Password</label>
+            <div class="input-icon-wrapper">
+              <input id="input-password" type="password" class="library-input inter" placeholder="••••••••">
+              <i class="fa-solid fa-key"></i>
+            </div>
+          </div>
+
         </div>
         
-        <div class="library-input-group mt-4 mb-5">
-          <label class="library-label inter text-uppercase">Password</label>
-          <div class="input-icon-wrapper">
-            <input type="password" class="library-input inter" placeholder="••••••••">
-            <i class="fa-solid fa-key"></i>
-          </div>
-        </div>
-        
-        <div class="library-footer">
-          <p class="library-footer-text m-0">By signing in, you agree to handle all digital volumes with care and return them to their virtual shelves on time.</p>
-          <i class="fa-solid fa-book-open library-footer-icon"></i>
+        <div class="d-flex justify-content-center mt-3">
+          <button id="auth-submit-btn" type="button" class="main-btn inter inter-600 w-100">Login</button>
         </div>
       </div>
     </div>
@@ -38,13 +60,13 @@ export default function getAuthModal(){
 const MODAL_CONFIG = {
   login: {
     subtitle: "Welcome back, BookRealm.",
-    nameLabel: "Patron Username",
-    namePlaceholder: "Enter your name...",
+    showNames: false,
+    btnText: "Login",
   },
   register: {
     subtitle: "Join us, BookRealm.",
-    nameLabel: "Full Name",
-    namePlaceholder: "Enter your full name...",
+    showNames: true,
+    btnText: "Register",
   },
 };
 
@@ -53,7 +75,14 @@ export function updateAuthModal(authType) {
   const modalEl = document.getElementById("authModal");
   if (!modalEl) return;
 
+  // Update subtitle
   modalEl.querySelector(".library-subtitle").textContent = config.subtitle;
-  modalEl.querySelector(".library-label").textContent = config.nameLabel;
-  modalEl.querySelector(".library-input[type='text']").placeholder = config.namePlaceholder;
+
+  // Show/hide first name + last name row
+  const namesRow = modalEl.querySelector("#field-names");
+  namesRow.classList.toggle("d-none", !config.showNames);
+  namesRow.classList.toggle("d-flex", config.showNames);
+
+  // Update submit button text
+  modalEl.querySelector("#auth-submit-btn").textContent = config.btnText;
 }

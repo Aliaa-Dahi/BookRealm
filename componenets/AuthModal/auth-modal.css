@@ -2,7 +2,7 @@
 .modal-content.library-card {
     background-color: var(--paper-bg);
     border-radius: 4px;
-    padding: 40px;
+    padding: 20px 50px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     color: var(--dark-text);
     border: none;
@@ -107,8 +107,8 @@
 }
 
 .library-footer {
-    padding-top: 25px;
-    margin-top: 50px;
+    padding-top: 0px;
+    margin-top: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
