@@ -73,8 +73,15 @@ export async function registerUser({ firstName, lastName, email, password }) {
     throw err;
   }
 
+  // Generate unique id, formatted user_name, and join_date timestamp
+  const id = Date.now().toString();
+  const cleanFirst = firstName.trim().toLowerCase().replace(/\s+/g, '');
+  const cleanLast  = lastName.trim().toLowerCase().replace(/\s+/g, '');
+  const user_name  = `${cleanFirst}_${cleanLast}_${id}`;
+  const join_date  = new Date().toISOString();
+
   // Save
-  const newUser = { firstName, lastName, email, password };
+  const newUser = { id, user_name, join_date, firstName, lastName, email, password };
   users.push(newUser);
   saveUsers(users);
 
@@ -100,6 +107,26 @@ export async function loginUser({ email, password }) {
 
   if (!user) {
     throw new Yup.ValidationError('Invalid email or password', null, 'general');
+  }
+
+  // Ensure user has id, user_name, and join_date generated
+  let updated = false;
+  if (!user.id) {
+    user.id = Date.now().toString();
+    updated = true;
+  }
+  if (!user.user_name) {
+    const cleanFirst = (user.firstName || 'user').trim().toLowerCase().replace(/\s+/g, '');
+    const cleanLast  = (user.lastName || '').trim().toLowerCase().replace(/\s+/g, '');
+    user.user_name  = cleanLast ? `${cleanFirst}_${cleanLast}_${user.id}` : `${cleanFirst}_${user.id}`;
+    updated = true;
+  }
+  if (!user.join_date) {
+    user.join_date = new Date().toISOString();
+    updated = true;
+  }
+  if (updated) {
+    saveUsers(users);
   }
 
   // Set active session

@@ -4,7 +4,7 @@ nav {
  left: 0;
  right: 0;  
  z-index: 120;
-
+ background-color: var(--neutral) !important;
 }
 
 .navbar-brand, .offcanvas-title  {
@@ -83,7 +83,7 @@ nav .active:hover::before {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--font-body) !important;
     font-weight: 700 !important;
     font-size: 0.9rem !important;
     letter-spacing: 0.5px !important;

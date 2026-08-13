@@ -115,7 +115,7 @@
 }
 
 .library-footer-text {
-    font-family: "Courier New", Courier, monospace;
+    font-family: var(--font-accent);
     font-size: 0.7rem;
     color: var(--dark-text);
     opacity: 0.7;
@@ -135,7 +135,7 @@
     color: #c0392b;
     margin-top: 4px;
     margin-bottom: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-weight: 500;
     letter-spacing: 0.02em;
 }
