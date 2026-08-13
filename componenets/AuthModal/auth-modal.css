@@ -182,3 +182,13 @@
     color: var(--dark-text);
 }
 
+/* ── Override Browser Autofill Styles ── */
+.library-input:-webkit-autofill,
+.library-input:-webkit-autofill:hover,
+.library-input:-webkit-autofill:focus,
+.library-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--paper-bg) inset !important;
+    -webkit-text-fill-color: var(--dark-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+

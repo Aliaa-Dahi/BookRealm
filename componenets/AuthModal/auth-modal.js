@@ -17,52 +17,56 @@ export default function getAuthModal() {
 
         <div class="auth-fields d-flex flex-column gap-3 mt-4 mb-4">
 
-          <!-- Register only: First Name + Last Name row -->
-          <div id="field-names" class="d-none gap-3">
-            <div class="library-input-group flex-fill">
-              <label class="library-label inter text-uppercase">First Name</label>
-              <div class="input-icon-wrapper">
-                <input id="input-firstName" type="text" class="library-input inter" placeholder="First name...">
-                <i class="fa-regular fa-user"></i>
+        <form id="auth-form">
+          <div class="auth-fields d-flex flex-column gap-3 mt-4 mb-4">
+
+            <!-- Register only: First Name + Last Name row -->
+            <div id="field-names" class="d-none gap-3">
+              <div class="library-input-group flex-fill">
+                <label class="library-label inter text-uppercase">First Name</label>
+                <div class="input-icon-wrapper">
+                  <input id="input-firstName" type="text" class="library-input inter" placeholder="First name...">
+                  <i class="fa-regular fa-user"></i>
+                </div>
+                <p class="auth-error-msg d-none" id="error-firstName"></p>
               </div>
-              <p class="auth-error-msg d-none" id="error-firstName"></p>
-            </div>
-            <div class="library-input-group flex-fill">
-              <label class="library-label inter text-uppercase">Last Name</label>
-              <div class="input-icon-wrapper">
-                <input id="input-lastName" type="text" class="library-input inter" placeholder="Last name...">
+              <div class="library-input-group flex-fill">
+                <label class="library-label inter text-uppercase">Last Name</label>
+                <div class="input-icon-wrapper">
+                  <input id="input-lastName" type="text" class="library-input inter" placeholder="Last name...">
+                </div>
+                <p class="auth-error-msg d-none" id="error-lastName"></p>
               </div>
-              <p class="auth-error-msg d-none" id="error-lastName"></p>
             </div>
+
+            <!-- Email (always visible) -->
+            <div class="library-input-group">
+              <label class="library-label inter text-uppercase">Email</label>
+              <div class="input-icon-wrapper">
+                <input id="input-email" type="email" class="library-input inter" placeholder="your@email.com">
+                <i class="fa-regular fa-envelope"></i>
+              </div>
+              <p class="auth-error-msg d-none" id="error-email"></p>
+            </div>
+
+            <!-- Password (always visible) -->
+            <div class="library-input-group">
+              <label class="library-label inter text-uppercase">Password</label>
+              <div class="input-icon-wrapper">
+                <input id="input-password" type="password" class="library-input inter" placeholder="••••••••">
+                <i id="toggle-password-btn" class="fa-regular fa-eye-slash toggle-password-icon" style="cursor: pointer;"></i>
+              </div>
+              <p class="auth-error-msg d-none" id="error-password"></p>
+            </div>
+
           </div>
 
-          <!-- Email (always visible) -->
-          <div class="library-input-group">
-            <label class="library-label inter text-uppercase">Email</label>
-            <div class="input-icon-wrapper">
-              <input id="input-email" type="email" class="library-input inter" placeholder="your@email.com">
-              <i class="fa-regular fa-envelope"></i>
-            </div>
-            <p class="auth-error-msg d-none" id="error-email"></p>
+          <p class="auth-error-msg auth-general-error d-none text-center mb-2" id="error-general"></p>
+
+          <div class="d-flex justify-content-center mt-3">
+            <button id="auth-submit-btn" type="submit" class="main-btn inter inter-600 w-100">Login</button>
           </div>
-
-          <!-- Password (always visible) -->
-          <div class="library-input-group">
-            <label class="library-label inter text-uppercase">Password</label>
-            <div class="input-icon-wrapper">
-              <input id="input-password" type="password" class="library-input inter" placeholder="••••••••">
-              <i id="toggle-password-btn" class="fa-regular fa-eye-slash toggle-password-icon" style="cursor: pointer;"></i>
-            </div>
-            <p class="auth-error-msg d-none" id="error-password"></p>
-          </div>
-
-        </div>
-
-        <p class="auth-error-msg auth-general-error d-none text-center mb-2" id="error-general"></p>
-
-        <div class="d-flex justify-content-center mt-3">
-          <button id="auth-submit-btn" type="button" class="main-btn inter inter-600 w-100">Login</button>
-        </div>
+        </form>
 
         <p class="auth-switch-text text-center mt-3 mb-0 inter" id="auth-switch">
           <span id="auth-switch-prompt">Don't have an account?</span>
@@ -188,10 +192,17 @@ export function updateAuthModal(authType) {
   namesRow.classList.toggle('d-none', !config.showNames);
   namesRow.classList.toggle('d-flex', config.showNames);
 
-  // Update submit button text and attach handler
+  // Update submit button text and form submit handler
   const btn = modalEl.querySelector('#auth-submit-btn');
   btn.textContent = config.btnText;
-  btn.onclick = handleSubmit;
+
+  const form = modalEl.querySelector('#auth-form');
+  if (form) {
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      handleSubmit();
+    };
+  }
 
   // Update mode toggle link text & handler
   const switchPromptEl = modalEl.querySelector('#auth-switch-prompt');
