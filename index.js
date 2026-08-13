@@ -15,6 +15,7 @@ import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
 import { renderGeners } from "./pages/geners.js";
 import { renderBooks } from "./pages/books.js";
+import { renderProfile } from "./pages/profile.js";
 
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
@@ -35,7 +36,6 @@ if (navContainer) {
 
 export function showContent() {
   const currentPath = window.location.pathname;
-  console.log("Current path:", currentPath);
 
   const app = document.getElementById("app");
   if (!app) return;
@@ -44,7 +44,11 @@ export function showContent() {
     renderGeners(app);
   } else if (currentPath.startsWith("/books")) {
     renderBooks(app);
-  } else {
+  } 
+  else if(currentPath.startsWith("/profile")){
+    renderProfile(app);
+  }
+  else {
     renderHome(app);
   }
 

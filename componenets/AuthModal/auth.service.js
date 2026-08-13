@@ -73,8 +73,14 @@ export async function registerUser({ firstName, lastName, email, password }) {
     throw err;
   }
 
+  // Generate unique id and formatted user_name
+  const id = Date.now().toString();
+  const cleanFirst = firstName.trim().toLowerCase().replace(/\s+/g, '');
+  const cleanLast  = lastName.trim().toLowerCase().replace(/\s+/g, '');
+  const user_name  = `${cleanFirst}_${cleanLast}_${id}`;
+
   // Save
-  const newUser = { firstName, lastName, email, password };
+  const newUser = { id, user_name, firstName, lastName, email, password };
   users.push(newUser);
   saveUsers(users);
 
@@ -100,6 +106,22 @@ export async function loginUser({ email, password }) {
 
   if (!user) {
     throw new Yup.ValidationError('Invalid email or password', null, 'general');
+  }
+
+  // Ensure user has id and user_name generated
+  let updated = false;
+  if (!user.id) {
+    user.id = Date.now().toString();
+    updated = true;
+  }
+  if (!user.user_name) {
+    const cleanFirst = (user.firstName || 'user').trim().toLowerCase().replace(/\s+/g, '');
+    const cleanLast  = (user.lastName || '').trim().toLowerCase().replace(/\s+/g, '');
+    user.user_name  = cleanLast ? `${cleanFirst}_${cleanLast}_${user.id}` : `${cleanFirst}_${user.id}`;
+    updated = true;
+  }
+  if (updated) {
+    saveUsers(users);
   }
 
   // Set active session

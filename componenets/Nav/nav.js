@@ -106,9 +106,11 @@ export default function getNav() {
 
             <!-- Logged In View (Desktop: Circle on left of Logout button) -->
             <div class="logged-in-view d-none align-items-center gap-3">
-              <div class="user-avatar-circle" title="User Profile">
-                <span class="user-initials-text"></span>
-              </div>
+              <a href="/profile" class="text-decoration-none" title="User Profile">
+                <div class="user-avatar-circle">
+                  <span class="user-initials-text"></span>
+                </div>
+              </a>
               <button type="button" class="auth-btn sub-btn logout-btn">Logout</button>
             </div>
           </div>
@@ -138,10 +140,14 @@ export default function getNav() {
         <div>
           <!-- Logged In View (Mobile: On TOP of links tabs) -->
           <div class="logged-in-view d-none align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm border">
-            <div class="user-avatar-circle" title="User Profile">
-              <span class="user-initials-text"></span>
-            </div>
-            <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
+            <a href="/profile" class="text-decoration-none" title="User Profile">
+              <div class="user-avatar-circle">
+                <span class="user-initials-text"></span>
+              </div>
+            </a>
+            <a href="/profile" class="text-decoration-none text-dark">
+              <span class="user-fullname-text playfair playfair-700 text-dark" style="font-size: 1.05rem;"></span>
+            </a>
           </div>
 
           <ul class="list-unstyled">
