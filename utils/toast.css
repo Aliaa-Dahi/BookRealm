@@ -5,7 +5,7 @@
   font-size: 0.9rem !important;
   font-weight: 500 !important;
   border-left: 4px solid var(--secondary, #C5A059) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 10px 30px var(--primary-shadow) !important;
   border-radius: 4px !important;
   padding: 12px 18px !important;
   transform: translateX(120%);
@@ -23,7 +23,7 @@
 }
 
 .bookrealm-toast-error {
-  border-left-color: #e74c3c !important;
+  border-left-color: var(--color-error) !important;
 }
 
 .bookrealm-toast .toast-close {

@@ -138,13 +138,13 @@ export function renderProfile(container) {
               </div>
               <div>
                 <h2 class="profile-username playfair playfair-900 mb-0 fs-2">${displayName}</h2>
-                <p class="mb-2 mt-1 small">
-                  <span class="profile-display-name">${username}</span>
+                <p class="mb-1 mt-1 small">
+                  <span class="profile-display-name">@${username}</span>
                   <span class="profile-join-date ms-2">• Joined ${joinDateFormatted}</span>
                 </p>
-                <div>
-                  <button type="button" class="sub-btn btn-sm text-uppercase px-3 py-1 fw-semibold small">
-                    Edit Profile
+                <div class="mt-2">
+                  <button type="button" class="btn sub-btn btn-sm d-inline-flex align-items-center gap-2">
+                    <i class="fa-regular fa-pen-to-square"></i> Edit Profile
                   </button>
                 </div>
               </div>

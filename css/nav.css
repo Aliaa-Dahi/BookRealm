@@ -88,7 +88,7 @@ nav .active:hover::before {
     font-size: 0.9rem !important;
     letter-spacing: 0.5px !important;
     border: 2px solid var(--secondary) !important; /* Gold border */
-    box-shadow: 0 4px 10px rgba(26, 31, 44, 0.3) !important;
+    box-shadow: 0 4px 10px var(--primary-shadow) !important;
     user-select: none !important;
     cursor: pointer !important;
     flex-shrink: 0 !important;
@@ -98,7 +98,7 @@ nav .active:hover::before {
 .user-avatar-circle:hover {
     transform: var(--uphover) !important;
     background-color: var(--dark-brown) !important;
-    box-shadow: 0 6px 16px rgba(197, 160, 89, 0.4) !important;
+    box-shadow: 0 6px 16px var(--secondary-shadow) !important;
 }
 
 

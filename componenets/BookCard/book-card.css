@@ -64,7 +64,7 @@
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 700;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px var(--primary-shadow);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -88,9 +88,9 @@
 .skeleton-box {
     background: linear-gradient(
         90deg,
-        #e9e6e0 25%,
-        #f5f3ed 37%,
-        #e9e6e0 63%
+        var(--paper-bg)  25%,
+        var(--neutral)   37%,
+        var(--paper-bg)  63%
     );
     background-size: 400% 100%;
     animation: bookShimmer 1.4s ease infinite;

@@ -13,7 +13,7 @@
 
 .genre-card:hover {
     transform: var(--uphover);
-    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.2);
+    box-shadow: 0 8px 24px var(--secondary-shadow-light);
     border-color: var(--secondary);
 }
 

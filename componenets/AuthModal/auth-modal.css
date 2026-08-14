@@ -85,7 +85,7 @@
 }
 
 .library-input::placeholder {
-    color: rgba(53, 60, 68, 0.4);
+    color: rgba(61, 46, 34, 0.35);
 }
 
 .library-input:focus {
@@ -132,7 +132,7 @@
 /* ── Validation errors ── */
 .auth-error-msg {
     font-size: 0.72rem;
-    color: #c0392b;
+    color: var(--color-error);
     margin-top: 4px;
     margin-bottom: 0;
     font-family: var(--font-body);
@@ -142,9 +142,9 @@
 
 .auth-general-error {
     font-size: 0.82rem;
-    color: #a93226;
-    background-color: rgba(231, 76, 60, 0.08);
-    border: 1px dashed rgba(169, 50, 38, 0.4);
+    color: var(--color-error);
+    background-color: var(--color-error-bg);
+    border: 1px dashed var(--color-error-border);
     border-radius: 4px;
     padding: 8px 12px;
     margin-top: 8px;
@@ -152,7 +152,7 @@
 }
 
 .library-input.input-error {
-    border-bottom-color: #c0392b;
+    border-bottom-color: var(--color-error);
 }
 
 /* ── Mode Switch Link ── */
