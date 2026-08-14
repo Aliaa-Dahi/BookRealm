@@ -1,0 +1,24 @@
+.profile-subnav {
+  background-color: var(--neutral);
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.profile-nav-tabs .nav-link {
+  color: var(--gray);
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  transition: var(--general-transition);
+}
+
+.profile-nav-tabs .nav-link:hover {
+  color: var(--primary);
+}
+
+.profile-nav-tabs .nav-link.active {
+  color: var(--primary);
+  background: transparent;
+  border-bottom-color: var(--secondary);
+}

@@ -1,3 +1,4 @@
+import './profile-lists.css';
 import createBooksGrid from "../BooksContainer/books-container.js";
 import { createSkeletonGrid } from "../BookCard/book-card-skeleton.js";
 import { getList } from "../../services/list.service.js";
@@ -8,10 +9,10 @@ import { fetchBooksByIds } from "../../services/book.service.js";
  */
 function renderEmptyListState(title, description, iconClass = "fa-regular fa-bookmark") {
     return `
-        <div class="text-center py-5 rounded-4 shadow-sm my-3 border" style="background-color: var(--light-paper); border-color: var(--paper-line) !important;">
-            <i class="${iconClass} fs-1 mb-3" style="color: var(--secondary);"></i>
-            <h5 class="playfair playfair-700 fs-4 mb-2" style="color: var(--primary);">${title} is Empty</h5>
-            <p class="inter text-muted mb-3 fs-6" style="max-width: 420px; margin: 0 auto;">${description}</p>
+        <div class="empty-list-state">
+            <i class="${iconClass} empty-list-state-icon"></i>
+            <h5 class="playfair playfair-700 empty-list-state-title">${title} is Empty</h5>
+            <p class="inter empty-list-state-desc">${description}</p>
             <a href="/books" class="btn sub-btn btn-sm d-inline-flex align-items-center gap-2">
                 <i class="fa-solid fa-compass"></i> Discover Books
             </a>

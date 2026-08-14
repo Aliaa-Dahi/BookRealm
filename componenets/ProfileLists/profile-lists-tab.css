@@ -1,0 +1,43 @@
+.list-summary-card {
+  background-color: var(--light-paper);
+  border: 1px solid var(--paper-line) !important;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: block;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.list-summary-card:hover {
+  transform: var(--uphover);
+  box-shadow: 0 6px 20px var(--primary-shadow);
+}
+
+.list-card-icon {
+  font-size: 1.5rem;
+  color: var(--secondary);
+}
+
+.list-card-title {
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+
+.list-card-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--gray);
+}
+
+.list-card-badge {
+  background-color: var(--secondary);
+  color: var(--primary);
+  font-size: 0.8rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 600;
+}
+
+.lists-tab-title {
+  color: var(--primary);
+}

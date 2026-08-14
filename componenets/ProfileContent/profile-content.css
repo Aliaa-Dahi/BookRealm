@@ -1,0 +1,51 @@
+.profile-section-title {
+  color: var(--dark-text);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85rem;
+}
+
+.profile-section-link {
+  color: var(--secondary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  transition: var(--general-transition);
+}
+
+.profile-section-link:hover {
+  color: var(--primary);
+}
+
+.profile-section-header {
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.following-circle {
+  width: 44px;
+  height: 44px;
+  background-color: var(--primary);
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+  font-size: 0.9rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: var(--general-transition);
+  cursor: default;
+}
+
+.following-circle:hover {
+  transform: var(--uphover);
+  background-color: var(--dark-brown);
+}
+
+.profile-section-icon-fav {
+  color: var(--secondary);
+}

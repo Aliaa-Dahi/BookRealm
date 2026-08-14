@@ -121,7 +121,7 @@ export default function BookCard(book) {
     const ratingVal = book.rating || getFallbackRating(bookId);
 
     return `
-        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-title="${book.title}">
+        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-id="${bookId}" data-book-title="${book.title}">
             <div class="card book-card shadow-sm h-100">
                 <div class="position-relative overflow-hidden">
                     <img
