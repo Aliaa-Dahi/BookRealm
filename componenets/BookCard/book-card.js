@@ -118,7 +118,7 @@ export default function BookCard(book) {
 
     return `
         <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
-            <div class="card book-card shadow-sm h-100">
+            <div class="card book-card shadow-sm h-100 rounded-2">
                 <div class="position-relative">
                     <img
                         src="${coverUrl}"
@@ -126,20 +126,20 @@ export default function BookCard(book) {
                         alt="${book.title}"
                     >
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
-                        <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
+                        <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
                             <i class="fa-solid fa-eye"></i>
                         </button>
-                        <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
+                        <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
                         <div class="dots-btn-wrapper position-relative">
-                            <button type="button" class="btn card-action-btn dots-btn rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
                                 <i class="fa-solid fa-ellipsis"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between">
+                <div class="card-body d-flex flex-column justify-content-between p-1 pt-3">
                     <h3 class="book-title playfair playfair-800">
                         ${book.title}
                     </h3>

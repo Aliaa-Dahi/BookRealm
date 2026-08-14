@@ -1,5 +1,5 @@
 import * as bootstrap from "bootstrap";
-import { getCurrentUser, getUsers, getUserInitials } from "../componenets/AuthModal/auth.service.js";
+import { getCurrentUser, getUsers, getUserInitials } from "../services/auth.service.js";
 import { renderProfileHeader }      from "../componenets/ProfileHeader/profile-header.js";
 import { renderProfileSubnav }      from "../componenets/ProfileSubnav/profile-subnav.js";
 import { renderProfileContent }     from "../componenets/ProfileContent/profile-content.js";

@@ -1,5 +1,5 @@
 import './auth-modal.css';
-import { registerUser, loginUser } from './auth.service.js';
+import { registerUser, loginUser } from '../../services/auth.service.js';
 import { showToast } from '../../utils/toast.js';
 import { Modal } from 'bootstrap';
 
@@ -11,66 +11,64 @@ let currentAuthType = 'login';
 export default function getAuthModal() {
   return `<div class="modal fade" id="authModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content library-card border-0">
+    <div class="modal-content library-card border-0 position-relative">
       <div class="library-card-inner">
         <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
 
         <p class="library-subtitle script-font">Welcome back, BookRealm.</p>
 
-        <div class="auth-fields d-flex flex-column gap-3 mt-4 mb-4">
-
         <form id="auth-form">
-          <div class="auth-fields d-flex flex-column gap-3 mt-4 mb-4">
+          <div class="d-flex flex-column gap-3 mt-4 mb-4">
 
             <!-- Register only: First Name + Last Name row -->
             <div id="field-names" class="d-none gap-3">
-              <div class="library-input-group flex-fill">
-                <label class="library-label inter text-uppercase">First Name</label>
+              <div class="mb-4 flex-fill">
+                <label class="library-label inter text-uppercase form-label w-100">First Name</label>
                 <div class="input-icon-wrapper">
-                  <input id="input-firstName" type="text" class="library-input inter" placeholder="First name...">
+                  <input id="input-firstName" type="text" class="library-input inter w-100" placeholder="First name...">
                   <i class="fa-regular fa-user"></i>
                 </div>
-                <p class="auth-error-msg d-none" id="error-firstName"></p>
+                <p class="auth-error-msg d-none mt-1" id="error-firstName"></p>
               </div>
-              <div class="library-input-group flex-fill">
-                <label class="library-label inter text-uppercase">Last Name</label>
+              <div class="mb-4 flex-fill">
+                <label class="library-label inter text-uppercase form-label w-100">Last Name</label>
                 <div class="input-icon-wrapper">
-                  <input id="input-lastName" type="text" class="library-input inter" placeholder="Last name...">
+                  <input id="input-lastName" type="text" class="library-input inter w-100" placeholder="Last name...">
                 </div>
-                <p class="auth-error-msg d-none" id="error-lastName"></p>
+                <p class="auth-error-msg d-none mt-1" id="error-lastName"></p>
               </div>
             </div>
 
-            <!-- Email (always visible) -->
-            <div class="library-input-group">
-              <label class="library-label inter text-uppercase">Email</label>
+            <!-- Email -->
+            <div class="mb-4">
+              <label class="library-label inter text-uppercase form-label w-100">Email</label>
               <div class="input-icon-wrapper">
-                <input id="input-email" type="email" class="library-input inter" placeholder="your@email.com">
+                <input id="input-email" type="email" class="library-input inter w-100" placeholder="your@email.com">
                 <i class="fa-regular fa-envelope"></i>
               </div>
-              <p class="auth-error-msg d-none" id="error-email"></p>
+              <p class="auth-error-msg d-none mt-1" id="error-email"></p>
             </div>
 
-            <!-- Password (always visible) -->
-            <div class="library-input-group">
-              <label class="library-label inter text-uppercase">Password</label>
+            <!-- Password -->
+            <div class="mb-4">
+              <label class="library-label inter text-uppercase form-label w-100">Password</label>
               <div class="input-icon-wrapper">
-                <input id="input-password" type="password" class="library-input inter" placeholder="••••••••">
+                <input id="input-password" type="password" class="library-input inter w-100" placeholder="••••••••">
                 <i id="toggle-password-btn" class="fa-regular fa-eye-slash toggle-password-icon" style="cursor: pointer;"></i>
               </div>
-              <p class="auth-error-msg d-none" id="error-password"></p>
+              <p class="auth-error-msg d-none mt-1" id="error-password"></p>
             </div>
 
           </div>
 
           <p class="auth-error-msg auth-general-error d-none text-center mb-2" id="error-general"></p>
 
-          <div class="d-flex justify-content-center mt-3">
+          <div class="mt-3">
             <button id="auth-submit-btn" type="submit" class="btn main-btn d-inline-flex align-items-center gap-2 w-100">Login</button>
           </div>
         </form>
 
-        <p class="auth-switch-text text-center mt-3 mb-0 inter" id="auth-switch">
+        <p class="text-center mt-3 mb-0 inter small text-opacity-75" id="auth-switch" style="color: var(--dark-text);">
           <span id="auth-switch-prompt">Don't have an account?</span>
           <a href="#" id="auth-switch-link" class="auth-switch-link fw-semibold ms-1">Register</a>
         </p>

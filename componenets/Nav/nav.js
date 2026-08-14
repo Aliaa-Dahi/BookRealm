@@ -1,5 +1,5 @@
 import './nav.css';
-import { getCurrentUser, getUserInitials, logoutUser } from '../AuthModal/auth.service.js';
+import { getCurrentUser, getUserInitials, logoutUser } from '../../services/auth.service.js';
 import { showToast } from '../../utils/toast.js';
 
 export function updateActiveLink() {
