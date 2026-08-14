@@ -1,86 +1,8 @@
-import createBooksGrid from "../componenets/BooksContainer/books-container.js";
 import { getCurrentUser, getUsers, getUserInitials } from "../componenets/AuthModal/auth.service.js";
+import { loadListSection, loadFavoritesSection, loadWatchlistSection } from "../componenets/Profile/profile-lists.js";
+import { getFavorites, getReadList } from "../services/list.service.js";
+import ViewAll from "../componenets/ViewAll/view-all.js";
 import "../css/profile.css";
-
-// Static dataset for Favorite Books
-const staticFavoriteBooks = [
-  {
-    key: "/works/OL27448W",
-    title: "The Hobbit",
-    cover_id: 8406785,
-    author_name: "J.R.R. Tolkien",
-    first_publish_year: 1937,
-    edition_count: 342,
-    rating: "4.8"
-  },
-  {
-    key: "/works/OL82586W",
-    title: "Harry Potter and the Sorcerer's Stone",
-    cover_id: 10521270,
-    author_name: "J.K. Rowling",
-    first_publish_year: 1997,
-    edition_count: 512,
-    rating: "4.9"
-  },
-  {
-    key: "/works/OL27479W",
-    title: "Pride and Prejudice",
-    cover_id: 10515152,
-    author_name: "Jane Austen",
-    first_publish_year: 1813,
-    edition_count: 1250,
-    rating: "4.7"
-  },
-  {
-    key: "/works/OL1168083W",
-    title: "To Kill a Mockingbird",
-    cover_id: 8228691,
-    author_name: "Harper Lee",
-    first_publish_year: 1960,
-    edition_count: 489,
-    rating: "4.8"
-  }
-];
-
-// Static dataset for Recent Likes
-const staticRecentLikes = [
-  {
-    key: "/works/OL21636838W",
-    title: "The Name of the Wind",
-    cover_id: 8231996,
-    author_name: "Patrick Rothfuss",
-    first_publish_year: 2007,
-    edition_count: 94,
-    rating: "4.6"
-  },
-  {
-    key: "/works/OL15358693W",
-    title: "Dune",
-    cover_id: 9112040,
-    author_name: "Frank Herbert",
-    first_publish_year: 1965,
-    edition_count: 318,
-    rating: "4.7"
-  },
-  {
-    key: "/works/OL17342898W",
-    title: "The Way of Kings",
-    cover_id: 12547191,
-    author_name: "Brandon Sanderson",
-    first_publish_year: 2010,
-    edition_count: 67,
-    rating: "4.9"
-  },
-  {
-    key: "/works/OL17358742W",
-    title: "1984",
-    cover_id: 8575704,
-    author_name: "George Orwell",
-    first_publish_year: 1949,
-    edition_count: 980,
-    rating: "4.7"
-  }
-];
 
 // Static Following user list
 const staticFollowing = [
@@ -92,9 +14,15 @@ const staticFollowing = [
 export function renderProfile(container) {
   if (!container) return;
 
-  // Extract user_name from URL path (e.g., /users/john_doe_1723589000123)
+  // Extract user_name and optional list name from URL path
+  // Format: /users/:username or /users/:username/lists/:listName
   const pathParts = window.location.pathname.split('/');
   const urlUsername = (pathParts[1] === 'users' && pathParts[2]) ? pathParts[2] : null;
+
+  let initialTab = 'profile';
+  if (pathParts[3] === 'lists' && pathParts[4]) {
+    initialTab = pathParts[4].toLowerCase();
+  }
 
   const currentUser = getCurrentUser();
   const allUsers = getUsers();
@@ -122,6 +50,15 @@ export function renderProfile(container) {
   const joinDateFormatted = user.join_date
     ? new Date(user.join_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  // Dynamically count total books across lists
+  const favCount = (getFavorites()?.books || []).length;
+  const readListCount = (getReadList()?.books || []).length;
+  const totalBooksCount = favCount + readListCount;
+
+  const profileBaseUrl = `/users/${username}`;
+  const favListUrl = `/users/${username}/lists/favourites`;
+  const watchlistUrl = `/users/${username}/lists/watchlist`;
 
   container.innerHTML = `
     <div class="profile-page pb-5">
@@ -153,15 +90,15 @@ export function renderProfile(container) {
             <!-- Stats Counters Right -->
             <div class="d-flex align-items-center gap-4">
               <div class="text-center">
-                <div class="profile-stat-number">100</div>
+                <div class="profile-stat-number">${totalBooksCount}</div>
                 <div class="profile-stat-label">Books</div>
               </div>
               <div class="text-center">
-                <div class="profile-stat-number">4</div>
+                <div class="profile-stat-number">2</div>
                 <div class="profile-stat-label">Lists</div>
               </div>
               <div class="text-center">
-                <div class="profile-stat-number">3</div>
+                <div class="profile-stat-number">${staticFollowing.length}</div>
                 <div class="profile-stat-label">Following</div>
               </div>
               <div class="text-center">
@@ -179,22 +116,13 @@ export function renderProfile(container) {
         <div class="container">
           <ul class="nav profile-nav-tabs flex-nowrap overflow-x-auto">
             <li class="nav-item">
-              <a class="nav-link active inter" href="#profile">Profile</a>
+              <a class="nav-link inter" data-tab="profile" href="${profileBaseUrl}">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link inter" href="#books">Books</a>
+              <a class="nav-link inter" data-tab="favourites" href="${favListUrl}">Favourites (${favCount})</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link inter" href="#reviews">Reviews</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link inter" href="#watchlist">Watchlist</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link inter" href="#lists">Lists</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link inter" href="#likes">Likes</a>
+              <a class="nav-link inter" data-tab="watchlist" href="${watchlistUrl}">Watchlist (${readListCount})</a>
             </li>
           </ul>
         </div>
@@ -204,26 +132,33 @@ export function renderProfile(container) {
       <div class="container">
         
         <!-- FAVORITE BOOKS SECTION -->
-        <section class="mb-5">
+        <section id="section-favourites" class="mb-5 profile-tab-section">
           <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
-            <h6 class="profile-section-title mb-0">Favorite Books</h6>
+            <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
+              <i class="fa-solid fa-heart text-danger"></i> Favorite Books
+            </h6>
+            <div class="view-all-holder">
+              ${favCount > 4 ? ViewAll(favListUrl, "View All") : ''}
+            </div>
           </div>
-          ${createBooksGrid(staticFavoriteBooks)}
+          <div id="profile-favorites-container"></div>
         </section>
 
-        <!-- RECENT LIKES SECTION -->
-        <section class="mb-5">
+        <!-- WATCHLIST (READ LIST) SECTION -->
+        <section id="section-watchlist" class="mb-5 profile-tab-section">
           <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
-            <h6 class="profile-section-title mb-0">Recent Likes</h6>
-            <a href="/books?q=popular" class="profile-section-link text-decoration-none">
-              <i class="fa-solid fa-heart me-1"></i> ALL
-            </a>
+            <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
+              <i class="fa-solid fa-eye" style="color: var(--secondary);"></i> Watchlist (Want to Read)
+            </h6>
+            <div class="view-all-holder">
+              ${readListCount > 4 ? ViewAll(watchlistUrl, "View All") : ''}
+            </div>
           </div>
-          ${createBooksGrid(staticRecentLikes)}
+          <div id="profile-watchlist-container"></div>
         </section>
 
         <!-- FOLLOWING SECTION -->
-        <section class="mb-4">
+        <section id="section-following" class="mb-4 profile-tab-section">
           <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
             <h6 class="profile-section-title mb-0">Following (${staticFollowing.length})</h6>
           </div>
@@ -240,4 +175,70 @@ export function renderProfile(container) {
 
     </div>
   `;
+
+  const favContainer = document.getElementById('profile-favorites-container');
+  const watchContainer = document.getElementById('profile-watchlist-container');
+
+  // Tab activation controller with URL synchronization
+  const activateTab = (tabName, updateUrl = false) => {
+    const tabLinks = container.querySelectorAll('.profile-nav-tabs .nav-link');
+    tabLinks.forEach(link => {
+      const linkTab = link.getAttribute('data-tab');
+      link.classList.toggle('active', linkTab === tabName);
+    });
+
+    const sections = container.querySelectorAll('.profile-tab-section');
+    const viewAllHolders = container.querySelectorAll('.view-all-holder');
+
+    if (tabName === 'profile') {
+      sections.forEach(s => s.style.display = 'block');
+      viewAllHolders.forEach(h => h.style.display = 'block');
+      loadFavoritesSection(favContainer, 4);
+      loadWatchlistSection(watchContainer, 4);
+      if (updateUrl) {
+        history.pushState({}, '', profileBaseUrl);
+      }
+    } else {
+      sections.forEach(s => {
+        s.style.display = (s.id === `section-${tabName}`) ? 'block' : 'none';
+      });
+      viewAllHolders.forEach(h => h.style.display = 'none');
+
+      const targetListUrl = `/users/${username}/lists/${tabName}`;
+      if (updateUrl) {
+        history.pushState({}, '', targetListUrl);
+      }
+
+      if (tabName === 'favourites') {
+        loadListSection(favContainer, 'favourites', { limit: 1000, iconClass: 'fa-regular fa-heart' });
+      } else if (tabName === 'watchlist') {
+        loadListSection(watchContainer, 'readList', { limit: 1000, iconClass: 'fa-regular fa-eye' });
+      }
+    }
+  };
+
+  // Activate tab based on initial URL (or default to 'profile')
+  activateTab(initialTab, false);
+
+  // Bind sub-nav tab link clicks
+  const tabLinks = container.querySelectorAll('.profile-nav-tabs .nav-link');
+  tabLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetTab = link.getAttribute('data-tab');
+      activateTab(targetTab, true);
+    });
+  });
+
+  // Bind "View All" link clicks
+  container.querySelectorAll('.view-all-link').forEach(viewAllBtn => {
+    viewAllBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = viewAllBtn.getAttribute('href');
+      if (href && href.includes('/lists/')) {
+        const listName = href.split('/lists/')[1];
+        activateTab(listName, true);
+      }
+    });
+  });
 }

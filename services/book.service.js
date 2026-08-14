@@ -185,3 +185,63 @@ export function getFetchStrategy() {
     displayName: 'All Books Collection'
   };
 }
+
+
+export async function fetchBooksByIds(bookIds = []) {
+  if (!Array.isArray(bookIds) || bookIds.length === 0) return [];
+
+  const promises = bookIds.map(async (id) => {
+    if (!id) return null;
+
+    // If ID is already a full book object, return it directly!
+    if (typeof id === 'object' && (id.title || id.key)) {
+      return id;
+    }
+
+    try {
+      const idStr = String(id);
+      let url = '';
+
+      if (idStr.startsWith('/works/') || idStr.startsWith('OL')) {
+        const workKey = idStr.startsWith('/works/') ? idStr : `/works/${idStr}`;
+        url = `https://openlibrary.org/search.json?q=key:"${encodeURIComponent(workKey)}"&limit=1&fields=*,ratings_average`;
+      } else {
+        url = `https://openlibrary.org/search.json?title=${encodeURIComponent(idStr)}&limit=1&fields=*,ratings_average`;
+      }
+
+      const res = await fetch(url);
+      const data = await res.json();
+      const doc = data.docs && data.docs[0];
+
+      if (doc) {
+        return {
+          key: doc.key || idStr,
+          title: doc.title || idStr,
+          cover_id: doc.cover_i || null,
+          author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+          first_publish_year: doc.first_publish_year || 'N/A',
+          edition_count: doc.edition_count || 0,
+          rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
+        };
+      }
+
+      // Fallback object if API record wasn't found
+      return {
+        key: idStr,
+        title: idStr.replace(/^\/works\//, '').replace(/-/g, ' '),
+        cover_id: null,
+        author_name: 'Unknown Author',
+        first_publish_year: 'N/A',
+        edition_count: 0,
+        rating: null
+      };
+    } catch (e) {
+      console.error(`Error fetching book for ID: ${id}`, e);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(promises);
+  return results.filter(Boolean);
+}
+

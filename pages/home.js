@@ -1,6 +1,7 @@
 import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
 import { createSkeletonGrid } from "../componenets/BookCard/book-card-skeleton.js";
+import ViewAll from "../componenets/ViewAll/view-all.js";
 import { generes } from "./geners.js";
 
 export function renderHome(container) {
@@ -31,9 +32,7 @@ export function renderHome(container) {
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="section-title playfair playfair-700">Common Geners</h2>
-            <a href="/geners" class="inter inter-600 text-dark">
-              View All <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+            ${ViewAll("/geners", "View All")}
           </div>
           <div class="home-generes-container"></div>
         </div>
@@ -45,16 +44,12 @@ export function renderHome(container) {
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="section-title playfair playfair-700">Popular Books</h2>
-            <a href="/books" class="inter inter-600 text-dark">
-              View All <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+            ${ViewAll("/books", "View All")}
           </div>
           <div class="home-books-container"></div>
         </div>
       </div>
     </section>
-
-    
   `;
 
   const homeGenresWrapper = container.querySelector(".home-generes-container");
