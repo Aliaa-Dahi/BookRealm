@@ -3,7 +3,7 @@ import { getLists } from "../../services/list.service.js";
 import { MainBtn } from "../Button/button.js";
 
 const LIST_META = {
-    favourites: { icon: 'fa-solid fa-heart text-danger',       label: 'Favourites'       },
+    favourites: { icon: 'fa-solid fa-heart',       label: 'Favourites'       },
     readList:   { icon: 'fa-solid fa-eye',                      label: 'Watchlist'        },
 };
 
@@ -53,11 +53,7 @@ function renderListCard(key, listObj, listUrl) {
 export function renderListsTab(username) {
     const listsMap = getLists();
 
-    const listOrder = [
-        'favourites',
-        'readList',
-        ...Object.keys(listsMap).filter(k => k !== 'favourites' && k !== 'readList')
-    ];
+    const listOrder = Object.keys(listsMap).filter(k => k !== 'favourites' && k !== 'readList');
 
     const cardsHtml = listOrder.map(key => {
         const listObj = listsMap[key];

@@ -149,6 +149,7 @@ export function renderProfile(container) {
     container.querySelectorAll('.list-summary-card').forEach(card => {
       card.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation(); // prevent the global router from also pushing a history entry
         const key = card.getAttribute('data-list-key');
         if (key) activateTab(key, true);
       });

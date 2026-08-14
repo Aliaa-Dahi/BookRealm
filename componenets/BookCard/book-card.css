@@ -1,15 +1,29 @@
 /* Book Card */
+.book-card-link {
+    position: relative;
+    z-index: 1;
+}
+
+.book-card-link:hover,
+.book-card-link:has(.dropdown-active) {
+    z-index: 999 !important;
+}
+
 .book-card {
+    position: relative;
     border: 2px solid transparent;
     border-radius: 6px;
     background-color: transparent;
     transition: var(--general-transition);
+    z-index: 1;
 }
 
-.book-card:hover {
+.book-card:hover,
+.book-card.dropdown-active {
     transform: var(--uphover);
     border-color: var(--secondary) !important;
     box-shadow: 0 6px 16px var(--secondary-transparent) !important;
+    z-index: 999 !important;
 }
 
 .book-card .card-img-top {
@@ -49,41 +63,25 @@
 
 /* Star Rating Footer */
 .book-card-rating {
-    display: flex;
-    align-items: center;
+    /* d-flex align-items-center via Bootstrap; custom only: */
     border-top: 1px solid var(--paper-line);
     padding-top: 8px;
     margin-top: 6px;
 }
 
 .book-card-stars {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
+    /* d-inline-flex align-items-center gap-1 via Bootstrap; custom only: */
     font-size: 0.85rem;
 }
 
-.star-filled {
-    color: var(--secondary);
-}
-
-.star-empty {
-    color: var(--paper-line);
-}
+.star-filled { color: var(--secondary); }
+.star-empty  { color: var(--paper-line); }
 
 .star-partial-wrapper {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    /* position-relative d-inline-flex align-items-center justify-content-center via Bootstrap; custom only: */
     font-size: 0.85rem;
 }
-
-.star-clipped {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+/* .star-clipped — position-absolute top-0 start-0 fully handled by Bootstrap */
 
 .rating-number {
     font-size: 0.8rem;
@@ -97,12 +95,15 @@
     background: linear-gradient(to top, var(--primary) 0%, transparent 100%);
     opacity: 0;
     pointer-events: none;
-    transition: var(--general-transition);
-    transform: translateY(100%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform: translateY(8px);
     z-index: 5;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-.book-card:hover .book-card-hover-overlay {
+.book-card:hover .book-card-hover-overlay,
+.book-card.dropdown-active .book-card-hover-overlay {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
@@ -205,4 +206,5 @@
     width: 35%;
     height: 12px;
 }
+
 

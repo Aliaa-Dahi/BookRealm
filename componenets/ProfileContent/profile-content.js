@@ -21,7 +21,7 @@ export function renderProfileContent({ favCount, readListCount, favListUrl, watc
             <section id="section-favourites" class="mb-5 profile-tab-section">
                 <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
                     <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-heart text-danger"></i> Favorite Books
+                        <i class="fa-solid fa-heart"></i> Favorite Books
                     </h6>
                     <div class="view-all-holder" id="holder-fav-view-all">
                         ${favCount > 4 ? ViewAll(favListUrl, "View All") : ''}

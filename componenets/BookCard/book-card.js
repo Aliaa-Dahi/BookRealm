@@ -1,5 +1,6 @@
 import "./book-card.css";
 import { isBookFavorite, toggleFavoriteBook, isBookInReadList, toggleReadListBook } from "../../services/list.service.js";
+import { renderBookCardDropdown } from "../BookCardDropdown/book-card-dropdown.js";
 
 /**
  * Generates a deterministic fallback rating for books without an explicit rating.
@@ -15,10 +16,7 @@ function getFallbackRating(keyStr) {
     return values[Math.abs(hash) % values.length];
 }
 
-/**
- * Renders star rating icons supporting full, half (50%), quarter (25%), and 3/4 (75%) stars.
- * All star colors are assigned via common.css variables in book-card.css.
- */
+
 function renderStarRating(ratingVal) {
     const num = Math.min(5, Math.max(0, parseFloat(ratingVal) || 4.5));
 
@@ -43,16 +41,16 @@ function renderStarRating(ratingVal) {
         starsHtml += `<i class="fa-solid fa-star star-filled"></i>`;
     } else if (fillPct > 0) {
         starsHtml += `
-            <span class="star-partial-wrapper">
+            <span class="star-partial-wrapper position-relative d-inline-flex align-items-center justify-content-center">
                 <i class="fa-regular fa-star star-empty"></i>
-                <i class="fa-solid fa-star star-filled star-clipped" style="clip-path: inset(0 ${100 - fillPct}% 0 0);"></i>
+                <i class="fa-solid fa-star star-filled star-clipped position-absolute top-0 start-0" style="clip-path: inset(0 ${100 - fillPct}% 0 0);"></i>
             </span>
         `;
     }
 
     return `
-        <div class="book-card-rating">
-            <div class="book-card-stars" title="${num.toFixed(2)} out of 5 stars">
+        <div class="book-card-rating d-flex align-items-center">
+            <div class="book-card-stars d-inline-flex align-items-center gap-1" title="${num.toFixed(2)} out of 5 stars">
                 ${starsHtml}
             </div>
             <span class="rating-number">${num.toFixed(1)}</span>
@@ -60,9 +58,11 @@ function renderStarRating(ratingVal) {
     `;
 }
 
-// Global click delegation for action buttons (heart for favourites, eye for readList)
+// ── Heart & Eye Action Button Delegations ────────────────────────────────────
 if (typeof document !== 'undefined') {
     document.addEventListener('click', (e) => {
+
+        // ── Heart button ──
         const heartBtn = e.target.closest('.heart-btn');
         if (heartBtn) {
             e.preventDefault();
@@ -75,6 +75,7 @@ if (typeof document !== 'undefined') {
             return;
         }
 
+        // ── Eye button ──
         const eyeBtn = e.target.closest('.eye-btn');
         if (eyeBtn) {
             e.preventDefault();
@@ -89,13 +90,8 @@ if (typeof document !== 'undefined') {
     });
 }
 
-/**
- * BookCard
- * Returns the HTML string for a single book card column.
- *
- * @param {Object} book
- * @returns {string} HTML string
- */
+
+
 export default function BookCard(book) {
     // Use a high-quality placeholder image if cover_id is missing
     const coverUrl = book.cover_id || book.cover_i
@@ -121,9 +117,9 @@ export default function BookCard(book) {
     const ratingVal = book.rating || getFallbackRating(bookId);
 
     return `
-        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-id="${bookId}" data-book-title="${book.title}">
+        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
             <div class="card book-card shadow-sm h-100">
-                <div class="position-relative overflow-hidden">
+                <div class="position-relative">
                     <img
                         src="${coverUrl}"
                         class="card-img-top"
@@ -136,9 +132,11 @@ export default function BookCard(book) {
                         <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <button type="button" class="btn card-action-btn dots-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="More Options">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
+                        <div class="dots-btn-wrapper position-relative">
+                            <button type="button" class="btn card-action-btn dots-btn rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-between">
@@ -150,7 +148,7 @@ export default function BookCard(book) {
                         ${isMultiAuthor ? `<i class="fa-solid fa-users ms-1 text-muted" title="Multiple authors participated in this book"></i>` : ''}
                     </span>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer bg-transparent border-0 px-1 pb-2 pt-0">
                     ${renderStarRating(ratingVal)}
                 </div>
             </div>
