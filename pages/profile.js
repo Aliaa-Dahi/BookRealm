@@ -59,22 +59,24 @@ export function renderProfile(container) {
     const all = getLists();
     let booksSum = 0;
     Object.values(all).forEach(l => { booksSum += (l.books || []).length; });
+    const customListsCount = Object.keys(all).filter(k => k !== 'favourites' && k !== 'readList').length;
     return {
-      favCount:        (all.favourites?.books || []).length,
-      readListCount:   (all.readList?.books   || []).length,
-      totalBooksCount: booksSum,
-      totalListsCount: Object.keys(all).length
+      favCount:         (all.favourites?.books || []).length,
+      readListCount:    (all.readList?.books   || []).length,
+      customListsCount,
+      totalBooksCount:  booksSum,
+      totalListsCount:  customListsCount
     };
   };
 
-  const { favCount, readListCount, totalBooksCount, totalListsCount } = getCounts();
+  const { favCount, readListCount, customListsCount, totalBooksCount, totalListsCount } = getCounts();
   let activeTabName = initialTab;
 
   // ── Assemble page from components ─────────────────────────────────────────────
   container.innerHTML = `
     <div class="profile-page pb-5">
       ${renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount, followingCount: STATIC_FOLLOWING.length })}
-      ${renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount })}
+      ${renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount, customListsCount })}
       ${renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following: STATIC_FOLLOWING })}
       ${renderCreateListModal()}
       ${renderConfirmModal()}
@@ -91,9 +93,10 @@ export function renderProfile(container) {
     const c  = getCounts();
     const el = id => document.getElementById(id);
     if (el('stat-total-books'))  el('stat-total-books').textContent  = c.totalBooksCount;
-    if (el('stat-total-lists'))  el('stat-total-lists').textContent  = c.totalListsCount;
+    if (el('stat-total-lists'))  el('stat-total-lists').textContent  = c.customListsCount;
     if (el('tab-fav-count'))     el('tab-fav-count').textContent     = c.favCount;
     if (el('tab-watch-count'))   el('tab-watch-count').textContent   = c.readListCount;
+    if (el('tab-lists-count'))   el('tab-lists-count').textContent   = c.customListsCount;
   };
 
   // ── Tab activation ────────────────────────────────────────────────────────────

@@ -11,7 +11,7 @@ import './profile-subnav.css';
  * @param {number} params.readListCount
  * @returns {string} HTML string
  */
-export function renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount }) {
+export function renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount, customListsCount = 0 }) {
     return `
         <div class="profile-subnav mb-5 shadow-sm">
             <div class="container">
@@ -30,7 +30,9 @@ export function renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link border-0 bg-transparent inter text-nowrap" data-tab="lists" href="${listsBaseUrl}">Lists</a>
+                        <a class="nav-link border-0 bg-transparent inter text-nowrap" data-tab="lists" href="${listsBaseUrl}">
+                            Lists (<span id="tab-lists-count">${customListsCount}</span>)
+                        </a>
                     </li>
                 </ul>
             </div>
