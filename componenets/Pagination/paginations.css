@@ -45,7 +45,7 @@
     border-color: var(--secondary);
     color: var(--primary);
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+    box-shadow: 0 4px 12px var(--secondary-shadow-light);
 }
 
 /* ── Disabled (prev/next at boundary) ── */

@@ -1,17 +1,32 @@
 :root {
-  /* colors */
-  --primary : #1A1F2C;
-  --secondary: #C5A059;
-  --tertiary: #281D0B;
-  --neutral: #F9F8F6;
-  --gray : #A6ABBC;
-  --primary-transparent: rgba(26, 31, 44, 0.05);
-  --secondary-transparent: rgba(197, 160, 89, 0.3);
-  --neutral-transparent: rgba(234, 231, 231, 0.6);
-  --paper-bg: #DCD8C8;
-  --paper-line: #B5B2A3;
-  --dark-text: #353C44;
-  --dark-brown: #2C2016;
+  /* ── Core Palette ── */
+  --primary:   #2C1F14;   /* dark walnut — ink, headings, UI chrome       */
+  --secondary: #B8894A;   /* aged amber gold — accents, highlights, CTAs  */
+  --tertiary:  #1A0F07;   /* deep espresso — darkest backgrounds/overlays */
+  --neutral:   #FAF7F2;   /* warm ivory — page background, card surfaces  */
+  --gray:      #9E9080;   /* warm taupe — muted text, labels, borders     */
+
+  /* ── Transparent / Overlay Variants ── */
+  --primary-transparent:   rgba(44, 31, 20, 0.05);
+  --secondary-transparent: rgba(184, 137, 74, 0.25);
+  --neutral-transparent:   rgba(250, 247, 242, 0.6);
+
+  /* ── Shadow Variants (replaces repeated inline rgba) ── */
+  --primary-shadow:         rgba(44, 31, 20, 0.25);
+  --secondary-shadow:       rgba(184, 137, 74, 0.4);
+  --secondary-shadow-light: rgba(184, 137, 74, 0.2);
+
+  /* ── Paper / Parchment Tones ── */
+  --paper-bg:   #E8E0CE;   /* aged parchment — modal background        */
+  --paper-line: #C4B99A;   /* warm sand — input dividers               */
+  --dark-text:  #3D2E22;   /* warm dark brown — text on paper bg       */
+  --dark-brown: #1E1208;   /* deep espresso — toast bg, dark surfaces  */
+
+  /* ── Semantic: Feedback Colors ── */
+  --color-error:        #A0392B;
+  --color-error-bg:     rgba(160, 57, 43, 0.08);
+  --color-error-border: rgba(160, 57, 43, 0.35);
+  --color-success:      #5A7A4A;
 
   /* others */
   --uphover : translateY(-1px);
@@ -94,7 +109,7 @@ a {
 
 .main-btn:hover, .sub-btn:hover {
   transform: var(--uphover);
-  box-shadow: 0 4px 12px rgba(26, 31, 44, 0.08);
+  box-shadow: 0 4px 12px var(--primary-shadow);
 }
 
 .main-btn:active, .sub-btn:active {
