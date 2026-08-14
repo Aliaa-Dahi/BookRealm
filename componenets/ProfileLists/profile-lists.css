@@ -2,28 +2,20 @@
   background-color: var(--light-paper);
   border: 1px solid var(--paper-line) !important;
   border-radius: 1rem;
-  padding: 3rem 1rem;
-  text-align: center;
-  margin: 1rem 0;
 }
 
 .empty-list-state-icon {
-  font-size: 2.5rem;
   color: var(--secondary);
   margin-bottom: 0.75rem;
-  display: block;
 }
 
 .empty-list-state-title {
   color: var(--primary);
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
 }
 
 .empty-list-state-desc {
   color: var(--gray);
   font-size: 0.9rem;
   max-width: 420px;
-  margin: 0 auto 1rem;
   line-height: 1.6;
 }

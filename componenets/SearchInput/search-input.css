@@ -5,7 +5,6 @@
   margin: 0 auto 2rem auto;
 }
 
-/* Strip ALL browser/Bootstrap defaults from input[type=search] */
 .search-input,
 .search-input[type="search"] {
   -webkit-appearance: none;
@@ -23,7 +22,6 @@
   outline: none !important;
   box-shadow: 0 4px 6px var(--primary-transparent);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  box-sizing: border-box;
 }
 
 .search-input:focus,
@@ -37,12 +35,10 @@
   font-weight: 400;
 }
 
-/* Cancel button that browsers add to search inputs */
 .search-input::-webkit-search-cancel-button {
   display: none;
 }
 
-/* Icon inside the pill */
 .search-wrapper .search-icon {
   position: absolute;
   left: 18px;

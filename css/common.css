@@ -103,7 +103,6 @@ a {
 .section-title {
   color: var(--primary);
   position: relative;
-  display: inline-block;
   padding-bottom: 8px;
 }
 
@@ -120,8 +119,6 @@ a {
 
 /* ── Book count pill badge ── */
 .count-badge {
-  display: inline-flex;
-  align-items: center;
   gap: 0;
   padding: 6px 14px;
   border-radius: 999px;
@@ -131,7 +128,6 @@ a {
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  white-space: nowrap;
   transition: var(--general-transition);
 }
 

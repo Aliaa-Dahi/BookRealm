@@ -1,9 +1,5 @@
 /* ── Book Card Dropdown Component ───────────────────────────────────────────── */
 
-.dots-btn-wrapper {
-    position: relative;
-}
-
 /* Main Parchment Dropdown Popover */
 .card-dots-dropdown {
     position: absolute;
@@ -28,10 +24,11 @@
     pointer-events: auto;
 }
 
-/* Sub-dropdown (Flyout to the Right for Custom Lists) */
+/* Sub-dropdown — opens to the right by default */
 .card-sub-dropdown {
     position: absolute;
     left: calc(100% + 8px);
+    right: auto;
     top: -10px;
     width: 200px;
     background-color: var(--paper-bg);
@@ -46,7 +43,13 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Hover or click trigger opens the sub-dropdown */
+/* Flipped: not enough room on the right — open to the left instead */
+.card-dots-dropdown.sub-flipped .card-sub-dropdown {
+    left: auto;
+    right: calc(100% + 8px);
+    transform: translateX(6px) scale(0.97);
+}
+
 .add-to-list-wrapper:hover .card-sub-dropdown,
 .card-sub-dropdown.open {
     opacity: 1;
@@ -62,7 +65,6 @@
     z-index: 0;
 }
 
-/* Keep noise behind content */
 .card-dots-dropdown > *:not(.card-dropdown-noise),
 .card-sub-dropdown > *:not(.card-dropdown-noise) {
     position: relative;
@@ -101,11 +103,10 @@
     transform: scale(1.15);
 }
 
-/* Action Trigger ("Add to list" & "Write a review") */
+/* Action buttons */
 .card-dropdown-action-btn,
 .card-dropdown-list-item,
 .card-dropdown-review-btn {
-    background: none;
     font-family: var(--font-body);
     font-size: 0.82rem;
     color: var(--dark-text);
@@ -126,7 +127,6 @@
     font-size: 0.8rem;
     color: var(--paper-line);
     width: 14px;
-    text-align: center;
     transition: color 0.15s ease;
 }
 

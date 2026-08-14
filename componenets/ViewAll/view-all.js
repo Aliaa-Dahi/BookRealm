@@ -10,7 +10,7 @@ import "./view-all.css";
  */
 export default function ViewAll(href = "/books", label = "View All") {
     return `
-        <a href="${href}" class="view-all-link inter inter-600 text-decoration-none">
+        <a href="${href}" class="view-all-link inter inter-600 text-decoration-none d-inline-flex align-items-center">
             ${label} <i class="fa-solid fa-arrow-right ms-2 transition-icon"></i>
         </a>
     `;

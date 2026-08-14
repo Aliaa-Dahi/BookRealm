@@ -124,6 +124,12 @@
     border-color: var(--secondary) !important;
 }
 
+/* Mobile action buttons in footer — same size as desktop overlay */
+.card-mobile-actions {
+    border-top: 1px solid var(--paper-line);
+    padding-top: 8px;
+}
+
 /* ── Shimmer Skeleton ── */
 @keyframes bookShimmer {
     0%   { background-position: -200% 0; }

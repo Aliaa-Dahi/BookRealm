@@ -125,6 +125,7 @@ export default function BookCard(book) {
                         class="card-img-top"
                         alt="${book.title}"
                     >
+                    <!-- Desktop hover overlay (hidden on mobile/tablet) -->
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
                         <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
                             <i class="fa-solid fa-eye"></i>
@@ -150,6 +151,20 @@ export default function BookCard(book) {
                 </div>
                 <div class="card-footer bg-transparent border-0 px-1 pb-2 pt-0">
                     ${renderStarRating(ratingVal)}
+                    <!-- Mobile/tablet action buttons (hidden on desktop where hover overlay is used) -->
+                    <div class="card-mobile-actions d-flex d-md-none align-items-center justify-content-center gap-3 mt-2">
+                        <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                        <div class="dots-btn-wrapper position-relative">
+                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>

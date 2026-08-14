@@ -19,7 +19,6 @@
     color: var(--secondary) !important; 
 }
 
-
 .navbar .active {
     color: var(--primary) !important; 
     position: relative;
@@ -44,9 +43,7 @@
 .offcanvas .nav-link {
     font-weight: 500;
     padding: 10px 15px;
-    border-radius: 6px;
     transition: var(--general-transition);
-    display: block;
 }
 
 .offcanvas .nav-link.active:hover {
@@ -60,38 +57,31 @@
 .offcanvas .active {
     background-color: var(--secondary) !important;
     color: var(--primary) !important;
-    box-shadow: 0 4px 10px var(--secondary-transparent); /* Premium gold shadow */
+    box-shadow: 0 4px 10px var(--secondary-transparent);
 }
 
 /* OffCanvas */
 .bars-icon {
-    border:none;
+    border: none;
     color: var(--primary);
     background-color: transparent !important;
     font-size: 25px;
 }
 
-/* ── User Avatar Circle (Dark Circle with Gold Initials) ── */
+/* ── User Avatar Circle ── */
 .user-avatar-circle {
     width: 42px !important;
     height: 42px !important;
     min-width: 42px !important;
     min-height: 42px !important;
-    border-radius: 50% !important;
-    background-color: var(--primary) !important; /* Dark circle background #1A1F2C */
-    color: var(--secondary) !important;          /* Gold initials #C5A059 */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    background-color: var(--primary) !important;
+    color: var(--secondary) !important;
     font-family: var(--font-body) !important;
     font-weight: 700 !important;
     font-size: 0.9rem !important;
     letter-spacing: 0.5px !important;
-    border: 2px solid var(--secondary) !important; /* Gold border */
+    border: 2px solid var(--secondary) !important;
     box-shadow: 0 4px 10px var(--primary-shadow) !important;
-    user-select: none !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
     transition: var(--general-transition) !important;
 }
 

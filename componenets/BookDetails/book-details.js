@@ -44,22 +44,21 @@ export default function BookDetails(book) {
            
 
             <div class="row gx-5 mt-4">
-                <!-- Left: Cover Image -->
-                <div class="col-md-5  mb-4 mb-md-0">
-                    <div class="bd-cover-wrapper">
-                        <img src="${coverUrl}" alt="${book.title} Cover" class="bd-cover-image">
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <div class="bd-cover-wrapper rounded-4 text-center d-flex align-items-center justify-content-center overflow-hidden">
+                        <img src="${coverUrl}" alt="${book.title} Cover" class="bd-cover-image w-100 h-100">
                     </div>
                 </div>
 
                 <!-- Right: Book Info -->
-                <div class="col-md-6 ">
-                    <span class="bd-overline inter">${subjectHtml}</span>
+                <div class="col-md-6">
+                    <span class="bd-overline inter d-block text-uppercase">${subjectHtml}</span>
                     <h2 class="bd-title playfair playfair-800">${book.title}</h2>
                     <div class="bd-author playfair">
                         by <strong>${book.author_name}</strong>
                     </div>
 
-                    <div class="bd-meta-row inter">
+                    <div class="bd-meta-row inter d-flex align-items-center">
                         <div class="d-flex align-items-center gap-2">
                             <div class="bd-stars">${starsHtml}</div>
                             <span class="bd-rating-count fw-bold">${rating}</span>
@@ -70,24 +69,24 @@ export default function BookDetails(book) {
                         </div>
                     </div>
 
-                    <div class="bd-stats-grid inter mb-4">
+                    <div class="bd-stats-grid inter mb-4 d-flex">
                         ${book.pages ? `
-                        <div class="bd-stat-item">
+                        <div class="bd-stat-item d-flex flex-column">
                             <span class="bd-stat-label">Pages</span>
                             <span class="bd-stat-value">${book.pages}</span>
                         </div>
                         ` : ''}
                         ${hasLanguages ? `
-                        <div class="bd-stat-item">
+                        <div class="bd-stat-item d-flex flex-column">
                             <span class="bd-stat-label">Languages</span>
-                            <div class="bd-languages">
+                            <div class="bd-languages d-flex align-items-center">
                                 <span class="bd-stat-value">${visibleLanguages}</span>
                                 ${hasMoreLanguages ? `
                                 <button type="button" class="bd-more-languages" aria-expanded="false" aria-label="Show all languages">
                                     +${remainingCount} more
                                 </button>
                                 <div class="bd-languages-popover">
-                                    <div class="bd-languages-list">
+                                    <div class="bd-languages-list d-flex flex-wrap">
                                         ${book.languages.map(l => `<a href="/books/${l.toLowerCase()}" class="text-decoration-none bd-language-item">${l.toUpperCase()}</a>`).join('')}
                                     </div>
                                 </div>
@@ -96,14 +95,14 @@ export default function BookDetails(book) {
                         </div>
                         ` : ''}
                         ${book.ratings_count ? `
-                        <div class="bd-stat-item">
+                        <div class="bd-stat-item d-flex flex-column">
                             <span class="bd-stat-label">Ratings</span>
                             <span class="bd-stat-value">${book.ratings_count.toLocaleString()}</span>
                         </div>
                         ` : ''}
                     </div>
 
-                    <div class="bd-actions inter mt-4">
+                    <div class="bd-actions inter mt-4 d-flex align-items-center">
                         <button class="btn main-btn d-inline-flex align-items-center gap-2">
                             <i class="fa-solid fa-book-open-reader"></i> Read Now
                         </button>

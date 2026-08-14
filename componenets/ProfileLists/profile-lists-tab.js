@@ -21,13 +21,13 @@ function renderListCard(key, listObj, listUrl) {
 
     return `
         <div class="col-12 col-md-6 col-lg-4">
-            <a href="${listUrl}" class="text-decoration-none list-summary-card h-100"
+            <a href="${listUrl}" class="text-decoration-none d-block list-summary-card p-4 h-100"
                data-list-key="${key}">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <span class="list-card-icon">
                         <i class="${meta.icon}"></i>
                     </span>
-                    <span class="list-card-badge">
+                    <span class="list-card-badge rounded-pill fw-semibold">
                         ${count} ${count === 1 ? 'book' : 'books'}
                     </span>
                 </div>

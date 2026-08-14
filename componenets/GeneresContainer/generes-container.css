@@ -5,8 +5,6 @@
     padding: 20px;
     cursor: pointer;
     transition: var(--general-transition);
-    display: flex;
-    flex-direction: column;
     gap: 10px;
     height: 100%;
 }
@@ -18,8 +16,6 @@
 }
 
 .genre-card-top {
-    display: flex;
-    align-items: center;
     gap: 14px;
 }
 
@@ -27,11 +23,7 @@
     width: 52px;
     height: 52px;
     min-width: 52px;
-    border-radius: 50%;
     background-color: var(--secondary-transparent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .genre-icon-wrapper i {
@@ -50,14 +42,11 @@
     color: var(--gray);
     line-height: 1.5;
     margin: 0;
-    flex: 1;
 }
 
 .genre-explore {
     font-size: 0.82rem;
     color: var(--secondary);
-    display: flex;
-    align-items: center;
     gap: 6px;
     margin-top: auto;
 }

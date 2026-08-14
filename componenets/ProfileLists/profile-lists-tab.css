@@ -2,9 +2,6 @@
   background-color: var(--light-paper);
   border: 1px solid var(--paper-line) !important;
   border-radius: 1rem;
-  padding: 1.5rem;
-  display: block;
-  text-decoration: none;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -33,9 +30,7 @@
   background-color: var(--secondary);
   color: var(--primary);
   font-size: 0.8rem;
-  border-radius: 999px;
   padding: 0.25rem 0.75rem;
-  font-weight: 600;
 }
 
 .lists-tab-title {

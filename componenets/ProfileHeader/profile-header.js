@@ -22,7 +22,7 @@ export function renderProfileHeader({ initials, displayName, username, joinDateF
 
                     <!-- User info -->
                     <div class="d-flex align-items-center gap-3">
-                        <div class="profile-avatar-large shadow"><span>${initials}</span></div>
+                        <div class="profile-avatar-large rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow"><span>${initials}</span></div>
                         <div>
                             <h2 class="profile-username playfair playfair-900 mb-0 fs-2">${displayName}</h2>
                             <p class="mb-1 mt-1 small">

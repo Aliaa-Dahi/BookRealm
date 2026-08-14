@@ -55,7 +55,7 @@ export function renderProfileContent({ favCount, readListCount, favListUrl, watc
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     ${following.map(f => `
-                        <div class="following-circle shadow-sm" title="${f.name}">${f.initials}</div>
+                        <div class="following-circle rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" title="${f.name}">${f.initials}</div>
                     `).join('')}
                 </div>
             </section>

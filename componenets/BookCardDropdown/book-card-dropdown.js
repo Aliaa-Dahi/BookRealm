@@ -27,10 +27,10 @@ function renderCustomLists(bookId) {
 
         return `
             <button type="button"
-                    class="card-dropdown-list-item d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start ${inList ? 'in-list' : ''}"
+                    class="card-dropdown-list-item bg-transparent d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start ${inList ? 'in-list' : ''}"
                     data-dropdown-list-key="${key}"
                     data-dropdown-book-id="${bookId}">
-                <i class="fa-solid fa-bookmark card-dd-list-icon"></i>
+                <i class="fa-solid fa-bookmark card-dd-list-icon text-center"></i>
                 <span class="flex-fill text-truncate">${list.name}</span>
                 <i class="fa-solid fa-check check-icon"></i>
             </button>
@@ -66,10 +66,10 @@ export function renderBookCardDropdown(bookId) {
             <!-- Add to list (triggers sub-dropdown) -->
             <div class="position-relative add-to-list-wrapper">
                 <button type="button"
-                        class="card-dropdown-action-btn add-to-list-trigger d-flex align-items-center justify-content-between gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
+                        class="card-dropdown-action-btn bg-transparent add-to-list-trigger d-flex align-items-center justify-content-between gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
                         data-dropdown-book-id="${bookId}">
                     <div class="d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-plus card-dd-list-icon"></i>
+                        <i class="fa-solid fa-plus card-dd-list-icon text-center"></i>
                         <span>Add to list</span>
                     </div>
                     <i class="fa-solid fa-chevron-right card-dd-chevron"></i>
@@ -89,9 +89,9 @@ export function renderBookCardDropdown(bookId) {
 
             <!-- Write a review -->
             <button type="button"
-                    class="card-dropdown-review-btn d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
+                    class="card-dropdown-review-btn bg-transparent d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
                     data-dropdown-book-id="${bookId}">
-                <i class="fa-solid fa-pen-nib card-dd-list-icon"></i>
+                <i class="fa-solid fa-pen-nib card-dd-list-icon text-center"></i>
                 <span>Write a review</span>
             </button>
         </div>
@@ -133,6 +133,12 @@ if (typeof document !== 'undefined') {
             if (!isOpen) {
                 const sub = dropdown.querySelector('.card-sub-dropdown');
                 if (sub) sub.classList.remove('open');
+            } else {
+                // Detect if there's enough room to open the sub-dropdown to the right.
+                // Sub-dropdown is 200px wide + 8px gap = 208px needed.
+                const dropdownRect = dropdown.getBoundingClientRect();
+                const spaceRight = window.innerWidth - dropdownRect.right;
+                dropdown.classList.toggle('sub-flipped', spaceRight < 216);
             }
             card.classList.toggle('dropdown-active', isOpen);
             return;

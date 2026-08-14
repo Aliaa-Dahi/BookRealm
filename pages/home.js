@@ -8,8 +8,8 @@ export function renderHome(container) {
   container.innerHTML = `
     <!-- Hero -->
     <section class="hero">
-      <div class="overlay">
-        <div class="hero-content">
+      <div class="overlay d-flex flex-column justify-content-center align-items-center top-0 start-0 end-0 bottom-0">
+        <div class="hero-content d-flex flex-column text-center">
           <h1 class="playfair playfair-900">BookRealm</h1>
           <p class="lead inter inter-300">
             A sanctuary for curious minds. Discover over 4 million records
@@ -31,7 +31,7 @@ export function renderHome(container) {
       <div class="container">
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="section-title playfair playfair-700">Common Geners</h2>
+            <h2 class="section-title d-inline-block playfair playfair-700">Common Geners</h2>
             ${ViewAll("/geners", "View All")}
           </div>
           <div class="home-generes-container"></div>
@@ -43,7 +43,7 @@ export function renderHome(container) {
       <div class="container">
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="section-title playfair playfair-700">Popular Books</h2>
+            <h2 class="section-title d-inline-block playfair playfair-700">Popular Books</h2>
             ${ViewAll("/books", "View All")}
           </div>
           <div class="home-books-container"></div>

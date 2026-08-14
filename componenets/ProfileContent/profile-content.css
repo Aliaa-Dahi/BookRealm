@@ -32,10 +32,6 @@
   color: var(--secondary);
   border: 2px solid var(--secondary);
   font-size: 0.9rem;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 700;
   transition: var(--general-transition);
   cursor: default;

@@ -9,10 +9,10 @@ import { fetchBooksByIds } from "../../services/book.service.js";
  */
 function renderEmptyListState(title, description, iconClass = "fa-regular fa-bookmark") {
     return `
-        <div class="empty-list-state">
-            <i class="${iconClass} empty-list-state-icon"></i>
-            <h5 class="playfair playfair-700 empty-list-state-title">${title} is Empty</h5>
-            <p class="inter empty-list-state-desc">${description}</p>
+        <div class="empty-list-state text-center py-5 px-3 my-3">
+            <i class="${iconClass} fs-1 d-block empty-list-state-icon"></i>
+            <h5 class="playfair playfair-700 fs-5 mb-2 empty-list-state-title">${title} is Empty</h5>
+            <p class="inter empty-list-state-desc mx-auto mb-3">${description}</p>
             <a href="/books" class="btn sub-btn btn-sm d-inline-flex align-items-center gap-2">
                 <i class="fa-solid fa-compass"></i> Discover Books
             </a>

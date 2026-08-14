@@ -39,8 +39,8 @@ export function renderBooks(container) {
   container.innerHTML = `
       <div class="books-page container mt-5 pt-5">
           <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 border-bottom pb-3">
-              <h2 class="playfair playfair-800 section-title mb-0">${displayName}</h1>
-              <span class="inter inter-500 total-count-badge count-badge"></span>
+              <h2 class="playfair playfair-800 section-title d-inline-block mb-0">${displayName}</h2>
+              <span class="inter inter-500 total-count-badge count-badge d-inline-flex align-items-center text-nowrap"></span>
           </div>
           ${SearchInput()}
           <div class="books-grid-wrapper"></div>
