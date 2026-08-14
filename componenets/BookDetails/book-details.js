@@ -104,10 +104,10 @@ export default function BookDetails(book) {
                     </div>
 
                     <div class="bd-actions inter mt-4">
-                        <button class="main-btn border-0 py-2 px-4 rounded-3 d-inline-flex align-items-center gap-2">
+                        <button class="btn main-btn d-inline-flex align-items-center gap-2">
                             <i class="fa-solid fa-book-open-reader"></i> Read Now
                         </button>
-                        <button class="sub-btn  py-2 px-4 rounded-3 d-inline-flex align-items-center gap-2 ">
+                        <button class="btn sub-btn d-inline-flex align-items-center gap-2">
                             <i class="fa-regular fa-bookmark"></i> Add to Library
                         </button>
                     </div>

@@ -97,12 +97,14 @@ export default function getNav() {
             </li>
           </ul>
 
+          
+          </div>
           <div class="auth-buttons">
             <!-- Logged Out View -->
             <div class="logged-out-view d-flex gap-3">
-              <button type="button" class="auth-btn sub-btn" data-bs-toggle="modal"
+              <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
                 data-bs-target="#authModal" data-tab="login">Login</button>
-              <button type="button" class="auth-btn main-btn" data-bs-toggle="modal"
+              <button type="button" class="btn main-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
                 data-bs-target="#authModal" data-tab="register">Register</button>
             </div>
 
@@ -113,11 +115,9 @@ export default function getNav() {
                   <span class="user-initials-text"></span>
                 </div>
               </a>
-              <button type="button" class="auth-btn sub-btn logout-btn">Logout</button>
+              <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2 logout-btn">Logout</button>
             </div>
           </div>
-
-        </div>
       </div>
     </nav>
 
@@ -163,13 +163,13 @@ export default function getNav() {
         <div class="mt-4">
           <!-- Logged Out View (Mobile) -->
           <div class="logged-out-view flex-column gap-2">
-            <a href="#" class="auth-btn main-btn d-block mb-3" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
-            <a href="#" class="auth-btn sub-btn d-block" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
+            <a href="#" class="btn sub-btn d-flex align-items-center justify-content-center gap-2 w-100" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="login">Login</a>
+            <a href="#" class="btn main-btn d-flex align-items-center justify-content-center gap-2 w-100" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-auth-type="register">Register</a>
           </div>
 
           <!-- Logged In View Logout Button (Mobile Bottom) -->
           <div class="logged-in-view d-none">
-            <button type="button" class="auth-btn sub-btn logout-btn w-100">Logout</button>
+            <button type="button" class="btn sub-btn d-inline-flex align-items-center justify-content-center gap-2 w-100 logout-btn">Logout</button>
           </div>
         </div>
       </div>

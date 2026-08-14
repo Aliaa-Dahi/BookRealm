@@ -7,6 +7,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // Custom Styles
 import "./css/common.css";
 import "./css/home.css";
+import "./componenets/Button/button.css";
 
 // Components
 import Nav, { updateActiveLink, renderAuthNav } from "./componenets/Nav/nav.js";

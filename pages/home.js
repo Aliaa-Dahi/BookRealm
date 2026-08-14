@@ -16,11 +16,11 @@ export function renderHome(container) {
             modern reader.
           </p>
           <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
-            <button class="main-btn relative">
-              Start Discovery
+            <button class="btn main-btn d-inline-flex align-items-center gap-2">
               <i class="fa-solid fa-search"></i>
+              Start Discovery
             </button>
-            <button class="sub-btn">Browse Genres</button>
+            <button class="btn sub-btn d-inline-flex align-items-center gap-2">Browse Genres</button>
           </div>
         </div>
       </div>

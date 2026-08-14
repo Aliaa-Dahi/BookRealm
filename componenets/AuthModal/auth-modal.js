@@ -66,7 +66,7 @@ export default function getAuthModal() {
           <p class="auth-error-msg auth-general-error d-none text-center mb-2" id="error-general"></p>
 
           <div class="d-flex justify-content-center mt-3">
-            <button id="auth-submit-btn" type="submit" class="main-btn inter inter-600 w-100">Login</button>
+            <button id="auth-submit-btn" type="submit" class="btn main-btn d-inline-flex align-items-center gap-2 w-100">Login</button>
           </div>
         </form>
 

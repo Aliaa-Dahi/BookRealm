@@ -97,47 +97,7 @@ a {
   text-decoration: none !important;
 }
 
-/* btns */
-.main-btn, .sub-btn {
-  padding: 6px 16px;
-  border: 2px solid transparent;
-  font-weight: 500;
-  transition:var(--general-transition) ;
-  display: inline-block;
-  text-align: center;
-}
-
-.main-btn:hover, .sub-btn:hover {
-  transform: var(--uphover);
-  box-shadow: 0 4px 12px var(--primary-shadow);
-}
-
-.main-btn:active, .sub-btn:active {
-  transform: translateY(0);
-}
-
-.main-btn {
-  color: var(--neutral);
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.main-btn:hover {
-  background-color: var(--secondary);
-  border-color: var(--secondary);
-  color: var(--primary);
-}
-
-.sub-btn {
-  color: var(--secondary);
-  border-color: var(--secondary);
-  background-color: transparent;
-}
-
-.sub-btn:hover {
-  background-color: var(--secondary);
-  color: var(--primary);
-}
+/* Button styles live in components/Button/button.css */
 
 .section-title {
   color: var(--primary);
