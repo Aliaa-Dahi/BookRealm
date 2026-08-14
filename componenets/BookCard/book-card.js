@@ -1,16 +1,69 @@
 import "./book-card.css";
 
 /**
+ * Generates a deterministic fallback rating for books without an explicit rating.
+ * Returns values rounded to 0.25 steps (e.g. 3.75, 4.0, 4.25, 4.5, 4.75, 5.0).
+ */
+function getFallbackRating(keyStr) {
+    if (!keyStr) return 4.5;
+    let hash = 0;
+    for (let i = 0; i < keyStr.length; i++) {
+        hash = keyStr.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const values = [3.75, 4.0, 4.25, 4.5, 4.75, 5.0];
+    return values[Math.abs(hash) % values.length];
+}
+
+/**
+ * Renders star rating icons supporting full, half (50%), quarter (25%), and 3/4 (75%) stars.
+ * All star colors are assigned via common.css variables in book-card.css.
+ */
+function renderStarRating(ratingVal) {
+    const num = Math.min(5, Math.max(0, parseFloat(ratingVal) || 4.5));
+
+    const fullCount = Math.floor(num);
+    const remainder = num - fullCount;
+
+    let starsHtml = '';
+
+    // Render full stars
+    for (let i = 0; i < fullCount; i++) {
+        starsHtml += `<i class="fa-solid fa-star star-filled"></i>`;
+    }
+
+    // Render partial star (25%, 50%, or 75%) if remainder exists
+    let fillPct = 0;
+    if (remainder >= 0.875) fillPct = 100;
+    else if (remainder >= 0.625) fillPct = 75;
+    else if (remainder >= 0.375) fillPct = 50;
+    else if (remainder >= 0.125) fillPct = 25;
+
+    if (fillPct === 100) {
+        starsHtml += `<i class="fa-solid fa-star star-filled"></i>`;
+    } else if (fillPct > 0) {
+        starsHtml += `
+            <span class="star-partial-wrapper">
+                <i class="fa-regular fa-star star-empty"></i>
+                <i class="fa-solid fa-star star-filled star-clipped" style="clip-path: inset(0 ${100 - fillPct}% 0 0);"></i>
+            </span>
+        `;
+    }
+
+    return `
+        <div class="book-card-rating">
+            <div class="book-card-stars" title="${num.toFixed(2)} out of 5 stars">
+                ${starsHtml}
+            </div>
+            <span class="rating-number">${num.toFixed(1)}</span>
+        </div>
+    `;
+}
+
+/**
  * BookCard
  * Returns the HTML string for a single book card column.
  *
  * @param {Object} book
- * @param {string} book.title
- * @param {number|null} book.cover_id
- * @param {number|null} book.cover_i
- * @param {string} book.author_name
- * @param {string|number} book.first_publish_year
- * @param {number} book.edition_count
  * @returns {string} HTML string
  */
 export default function BookCard(book) {
@@ -25,27 +78,35 @@ export default function BookCard(book) {
         ? `${rawAuthor.split(',')[0]} & others`
         : rawAuthor;
 
-    // Normalize title to a URL-safe slug: lowercase, spaces → dashes, strip special chars
+    // Normalize title to a URL-safe slug
     const slug = book.title
         .toLowerCase()
         .trim()
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-');
 
+    const ratingVal = book.rating || getFallbackRating(book.key || book.title);
+
     return `
         <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-title="${book.title}">
             <div class="card book-card shadow-sm h-100">
-                <div class="position-relative">
+                <div class="position-relative overflow-hidden">
                     <img
                         src="${coverUrl}"
                         class="card-img-top"
                         alt="${book.title}"
                     >
-                    ${book.rating ? `
-                    <div class="book-rating-badge">
-                        <i class="fa-solid fa-star"></i> ${book.rating}
+                    <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
+                        <button type="button" class="btn card-action-btn eye-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="Quick View">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button type="button" class="btn card-action-btn heart-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="Like / Save">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                        <button type="button" class="btn card-action-btn dots-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="More Options">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
                     </div>
-                    ` : ''}
                 </div>
                 <div class="card-body d-flex flex-column justify-content-between">
                     <h3 class="book-title playfair playfair-800">
@@ -57,10 +118,7 @@ export default function BookCard(book) {
                     </span>
                 </div>
                 <div class="card-footer">
-                    <div class="edition-info d-flex justify-content-between">
-                        <span>${book.first_publish_year}</span>
-                        <span>${book.edition_count} Editions</span>
-                    </div>
+                    ${renderStarRating(ratingVal)}
                 </div>
             </div>
         </a>
