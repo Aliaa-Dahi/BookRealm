@@ -204,7 +204,7 @@ export async function fetchBooksByIds(bookIds = []) {
 
       if (idStr.startsWith('/works/') || idStr.startsWith('OL')) {
         const workKey = idStr.startsWith('/works/') ? idStr : `/works/${idStr}`;
-        url = `https://openlibrary.org/search.json?q=key:"${encodeURIComponent(workKey)}"&limit=1&fields=*,ratings_average`;
+        url = `https://openlibrary.org/search.json?q=${encodeURIComponent(workKey)}&limit=1&fields=*,ratings_average`;
       } else {
         url = `https://openlibrary.org/search.json?title=${encodeURIComponent(idStr)}&limit=1&fields=*,ratings_average`;
       }

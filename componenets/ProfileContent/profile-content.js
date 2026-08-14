@@ -48,6 +48,17 @@ export function renderProfileContent({ favCount, readListCount, favListUrl, watc
                 <div id="profile-lists-tab-container"></div>
             </section>
 
+            <!-- DYNAMIC CUSTOM LIST SECTION -->
+            <section id="section-custom-list" class="mb-5 profile-tab-section" style="display:none;">
+                <div class="d-flex flex-column mb-4 profile-section-header pb-2">
+                    <h5 class="playfair playfair-700 profile-section-title mb-1 d-flex align-items-center gap-2" id="custom-list-title">
+                        <i class="fa-solid fa-bookmark"></i> List Title
+                    </h5>
+                    <p class="inter text-muted mb-0" id="custom-list-desc"></p>
+                </div>
+                <div id="profile-custom-list-container"></div>
+            </section>
+
             <!-- FOLLOWING SECTION -->
             <section id="section-following" class="mb-4 profile-tab-section">
                 <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
