@@ -1,0 +1,19 @@
+.view-all-link {
+    color: var(--primary) !important;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s ease-in-out;
+}
+
+.view-all-link:hover {
+    color: var(--secondary) !important;
+}
+
+.view-all-link .transition-icon {
+    transition: transform 0.2s ease-in-out;
+}
+
+.view-all-link:hover .transition-icon {
+    transform: translateX(4px);
+}

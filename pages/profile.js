@@ -1,6 +1,7 @@
 import { getCurrentUser, getUsers, getUserInitials } from "../componenets/AuthModal/auth.service.js";
-import { loadFavoritesSection, loadWatchlistSection } from "../componenets/Profile/profile-tabs.js";
+import { loadListSection, loadFavoritesSection, loadWatchlistSection } from "../componenets/Profile/profile-lists.js";
 import { getFavorites, getReadList } from "../services/list.service.js";
+import ViewAll from "../componenets/ViewAll/view-all.js";
 import "../css/profile.css";
 
 // Static Following user list
@@ -13,9 +14,15 @@ const staticFollowing = [
 export function renderProfile(container) {
   if (!container) return;
 
-  // Extract user_name from URL path (e.g., /users/john_doe_1723589000123)
+  // Extract user_name and optional list name from URL path
+  // Format: /users/:username or /users/:username/lists/:listName
   const pathParts = window.location.pathname.split('/');
   const urlUsername = (pathParts[1] === 'users' && pathParts[2]) ? pathParts[2] : null;
+
+  let initialTab = 'profile';
+  if (pathParts[3] === 'lists' && pathParts[4]) {
+    initialTab = pathParts[4].toLowerCase();
+  }
 
   const currentUser = getCurrentUser();
   const allUsers = getUsers();
@@ -48,6 +55,10 @@ export function renderProfile(container) {
   const favCount = (getFavorites()?.books || []).length;
   const readListCount = (getReadList()?.books || []).length;
   const totalBooksCount = favCount + readListCount;
+
+  const profileBaseUrl = `/users/${username}`;
+  const favListUrl = `/users/${username}/lists/favourites`;
+  const watchlistUrl = `/users/${username}/lists/watchlist`;
 
   container.innerHTML = `
     <div class="profile-page pb-5">
@@ -105,13 +116,13 @@ export function renderProfile(container) {
         <div class="container">
           <ul class="nav profile-nav-tabs flex-nowrap overflow-x-auto">
             <li class="nav-item">
-              <a class="nav-link active inter" data-tab="all" href="#profile">All</a>
+              <a class="nav-link inter" data-tab="profile" href="${profileBaseUrl}">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link inter" data-tab="favourites" href="#favourites">Favourites (${favCount})</a>
+              <a class="nav-link inter" data-tab="favourites" href="${favListUrl}">Favourites (${favCount})</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link inter" data-tab="watchlist" href="#watchlist">Watchlist (${readListCount})</a>
+              <a class="nav-link inter" data-tab="watchlist" href="${watchlistUrl}">Watchlist (${readListCount})</a>
             </li>
           </ul>
         </div>
@@ -126,6 +137,9 @@ export function renderProfile(container) {
             <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
               <i class="fa-solid fa-heart text-danger"></i> Favorite Books
             </h6>
+            <div class="view-all-holder">
+              ${favCount > 4 ? ViewAll(favListUrl, "View All") : ''}
+            </div>
           </div>
           <div id="profile-favorites-container"></div>
         </section>
@@ -136,6 +150,9 @@ export function renderProfile(container) {
             <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
               <i class="fa-solid fa-eye" style="color: var(--secondary);"></i> Watchlist (Want to Read)
             </h6>
+            <div class="view-all-holder">
+              ${readListCount > 4 ? ViewAll(watchlistUrl, "View All") : ''}
+            </div>
           </div>
           <div id="profile-watchlist-container"></div>
         </section>
@@ -159,34 +176,68 @@ export function renderProfile(container) {
     </div>
   `;
 
-  // Asynchronously load the Favorites and Watchlist book grids
   const favContainer = document.getElementById('profile-favorites-container');
   const watchContainer = document.getElementById('profile-watchlist-container');
 
-  loadFavoritesSection(favContainer);
-  loadWatchlistSection(watchContainer);
+  // Tab activation controller with URL synchronization
+  const activateTab = (tabName, updateUrl = false) => {
+    const tabLinks = container.querySelectorAll('.profile-nav-tabs .nav-link');
+    tabLinks.forEach(link => {
+      const linkTab = link.getAttribute('data-tab');
+      link.classList.toggle('active', linkTab === tabName);
+    });
 
-  // Bind tab switching interactivity
+    const sections = container.querySelectorAll('.profile-tab-section');
+    const viewAllHolders = container.querySelectorAll('.view-all-holder');
+
+    if (tabName === 'profile') {
+      sections.forEach(s => s.style.display = 'block');
+      viewAllHolders.forEach(h => h.style.display = 'block');
+      loadFavoritesSection(favContainer, 4);
+      loadWatchlistSection(watchContainer, 4);
+      if (updateUrl) {
+        history.pushState({}, '', profileBaseUrl);
+      }
+    } else {
+      sections.forEach(s => {
+        s.style.display = (s.id === `section-${tabName}`) ? 'block' : 'none';
+      });
+      viewAllHolders.forEach(h => h.style.display = 'none');
+
+      const targetListUrl = `/users/${username}/lists/${tabName}`;
+      if (updateUrl) {
+        history.pushState({}, '', targetListUrl);
+      }
+
+      if (tabName === 'favourites') {
+        loadListSection(favContainer, 'favourites', { limit: 1000, iconClass: 'fa-regular fa-heart' });
+      } else if (tabName === 'watchlist') {
+        loadListSection(watchContainer, 'readList', { limit: 1000, iconClass: 'fa-regular fa-eye' });
+      }
+    }
+  };
+
+  // Activate tab based on initial URL (or default to 'profile')
+  activateTab(initialTab, false);
+
+  // Bind sub-nav tab link clicks
   const tabLinks = container.querySelectorAll('.profile-nav-tabs .nav-link');
   tabLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      tabLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-
       const targetTab = link.getAttribute('data-tab');
-      const sections = container.querySelectorAll('.profile-tab-section');
+      activateTab(targetTab, true);
+    });
+  });
 
-      if (targetTab === 'all') {
-        sections.forEach(s => s.style.display = 'block');
-      } else {
-        sections.forEach(s => {
-          if (s.id === `section-${targetTab}`) {
-            s.style.display = 'block';
-          } else {
-            s.style.display = 'none';
-          }
-        });
+  // Bind "View All" link clicks
+  container.querySelectorAll('.view-all-link').forEach(viewAllBtn => {
+    viewAllBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = viewAllBtn.getAttribute('href');
+      if (href && href.includes('/lists/')) {
+        const listName = href.split('/lists/')[1];
+        activateTab(listName, true);
       }
     });
   });

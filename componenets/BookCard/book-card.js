@@ -90,30 +90,6 @@ if (typeof document !== 'undefined') {
 }
 
 /**
- * Renders a single Skeleton Loading BookCard HTML string.
- * Uses custom shimmer CSS rules defined in book-card.css.
- *
- * @returns {string} HTML string
- */
-export function renderBookCardSkeleton() {
-    return `
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card book-card book-skeleton-card shadow-sm h-100 p-0">
-                <div class="skeleton-box skeleton-cover"></div>
-                <div class="card-body">
-                    <div class="skeleton-box skeleton-title-1 mb-2"></div>
-                    <div class="skeleton-box skeleton-title-2 mb-3"></div>
-                    <div class="skeleton-box skeleton-author"></div>
-                </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <div class="skeleton-box skeleton-footer-item"></div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-/**
  * BookCard
  * Returns the HTML string for a single book card column.
  *
