@@ -1,5 +1,5 @@
 import './nav.css';
-import { getCurrentUser, getUserInitials, logoutUser } from '../AuthModal/auth.service.js';
+import { getCurrentUser, getUserInitials, logoutUser } from '../../services/auth.service.js';
 import { showToast } from '../../utils/toast.js';
 
 export function updateActiveLink() {
@@ -111,7 +111,7 @@ export default function getNav() {
             <!-- Logged In View (Desktop: Circle on left of Logout button) -->
             <div class="logged-in-view d-none align-items-center gap-3">
               <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
-                <div class="user-avatar-circle">
+                <div class="user-avatar-circle rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 user-select-none">
                   <span class="user-initials-text"></span>
                 </div>
               </a>
@@ -143,7 +143,7 @@ export default function getNav() {
           <!-- Logged In View (Mobile: On TOP of links tabs) -->
           <div class="logged-in-view d-none align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm border">
             <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
-              <div class="user-avatar-circle">
+              <div class="user-avatar-circle rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 user-select-none">
                 <span class="user-initials-text"></span>
               </div>
             </a>
@@ -153,10 +153,10 @@ export default function getNav() {
           </div>
 
           <ul class="list-unstyled">
-            <li class="mb-3"><a href="/" class="nav-link text-decoration-none text-dark">Home</a></li>
-            <li class="mb-3"><a href="/books" class="nav-link text-decoration-none text-dark">Books</a></li>
-            <li class="mb-3"><a href="/geners" class="nav-link text-decoration-none text-dark">Genres</a></li>
-            <li class="mb-3"><a href="#my-lists" class="nav-link text-decoration-none text-dark">My Lists</a></li>
+            <li class="mb-3"><a href="/" class="nav-link d-block rounded-2 text-decoration-none text-dark">Home</a></li>
+            <li class="mb-3"><a href="/books" class="nav-link d-block rounded-2 text-decoration-none text-dark">Books</a></li>
+            <li class="mb-3"><a href="/geners" class="nav-link d-block rounded-2 text-decoration-none text-dark">Genres</a></li>
+            <li class="mb-3"><a href="#my-lists" class="nav-link d-block rounded-2 text-decoration-none text-dark">My Lists</a></li>
           </ul>
         </div>
 

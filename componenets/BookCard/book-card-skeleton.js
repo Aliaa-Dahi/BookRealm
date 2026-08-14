@@ -8,15 +8,15 @@ export function BookCardSkeleton() {
     <div class="col-12 col-md-6 col-lg-3">
       <div class="card book-card book-skeleton-card shadow-sm h-100">
         <div class="position-relative">
-          <div class="skeleton-box skeleton-cover"></div>
-          <div class="skeleton-box skeleton-badge"></div>
+          <div class="skeleton-box skeleton-cover w-100"></div>
+          <div class="skeleton-box skeleton-badge position-absolute top-0 end-0 mt-2 me-2"></div>
         </div>
-        <div class="card-body d-flex flex-column justify-content-between">
+        <div class="card-body d-flex flex-column justify-content-between p-1 pt-3">
           <div>
             <div class="skeleton-box skeleton-title-1 mb-2"></div>
             <div class="skeleton-box skeleton-title-2 mb-3"></div>
           </div>
-          <div class="skeleton-box skeleton-author"></div>
+          <div class="skeleton-box skeleton-author mt-2"></div>
         </div>
         <div class="card-footer">
           <div class="edition-info d-flex justify-content-between pt-2">

@@ -128,25 +128,44 @@ export function toggleBookInList(listKey, book) {
 
     saveLists(lists);
 
-    return {
+    const eventData = {
         inList,
         bookId,
         count: booksArr.length,
         listKey
     };
+
+    // Dispatch global custom event for real-time UI updates across components
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('bookListUpdated', { detail: eventData }));
+    }
+
+    return eventData;
 }
 
 
-export function createList(listKey, name, description = "") {
+export function createList(name, description = "") {
+    if (!name || !name.trim()) return null;
+    
+    const key = name.trim().toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_');
     const lists = getLists();
-    lists[listKey] = {
-        name: name || listKey,
-        description: description || "",
+    
+    lists[key] = {
+        name: name.trim(),
+        description: description.trim() || "",
         create_date: new Date().toISOString(),
         books: []
     };
+    
     saveLists(lists);
-    return lists[listKey];
+
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('bookListUpdated', { 
+            detail: { listKey: key, name: name.trim(), action: 'create', count: 0 } 
+        }));
+    }
+
+    return { key, ...lists[key] };
 }
 
 // ── Specific Shortcut Functions ──

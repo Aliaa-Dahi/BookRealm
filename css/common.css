@@ -17,10 +17,11 @@
   --secondary-shadow-light: rgba(184, 137, 74, 0.2);
 
   /* ── Paper / Parchment Tones ── */
-  --paper-bg:   #E8E0CE;   /* aged parchment — modal background        */
-  --paper-line: #C4B99A;   /* warm sand — input dividers               */
-  --dark-text:  #3D2E22;   /* warm dark brown — text on paper bg       */
-  --dark-brown: #1E1208;   /* deep espresso — toast bg, dark surfaces  */
+  --paper-bg:    #E8E0CE;   /* aged parchment — modal background        */
+  --paper-line:  #C4B99A;   /* warm sand — input dividers               */
+  --light-paper: #F2EDE0;   /* lightest parchment — card surfaces       */
+  --dark-text:   #3D2E22;   /* warm dark brown — text on paper bg       */
+  --dark-brown:  #1E1208;   /* deep espresso — toast bg, dark surfaces  */
 
   /* ── Semantic: Feedback Colors ── */
   --color-error:        #A0392B;
@@ -102,7 +103,6 @@ a {
 .section-title {
   color: var(--primary);
   position: relative;
-  display: inline-block;
   padding-bottom: 8px;
 }
 
@@ -119,8 +119,6 @@ a {
 
 /* ── Book count pill badge ── */
 .count-badge {
-  display: inline-flex;
-  align-items: center;
   gap: 0;
   padding: 6px 14px;
   border-radius: 999px;
@@ -130,7 +128,6 @@ a {
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  white-space: nowrap;
   transition: var(--general-transition);
 }
 

@@ -7,18 +7,10 @@
 .bd-cover-wrapper {
     background-color: var(--paper-bg);
     padding: 0;
-    border-radius: 12px;
-    text-align: center;
     box-shadow: 0 4px 20px var(--primary-shadow);
     height: calc(100vh - 120px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
 }
 .bd-cover-image {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 10px 30px var(--primary-shadow);
@@ -29,10 +21,8 @@
     font-size: 0.75rem;
     letter-spacing: 1.5px;
     color: var(--secondary);
-    text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    display: block;
 }
 .bd-overline .subject-link {
     color: inherit;
@@ -59,10 +49,8 @@
     font-weight: 400;
 }
 
-/* Meta Data (Rating & Date) */
+/* Meta Data */
 .bd-meta-row {
-    display: flex;
-    align-items: center;
     gap: 1.5rem;
     margin-bottom: 2rem;
     font-size: 0.9rem;
@@ -89,25 +77,14 @@
     font-weight: 600;
 }
 
-/* Details Text Block */
-.bd-details-block {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--dark-text);
-    margin-bottom: 3rem;
-}
-
-/* Stats Grid (Pages, Languages, Ratings) */
+/* Stats Grid */
 .bd-stats-grid {
-    display: flex;
     gap: 3rem;
     padding: 1.5rem 0;
     border-top: 1px solid var(--paper-line);
     border-bottom: 1px solid var(--paper-line);
 }
 .bd-stat-item {
-    display: flex;
-    flex-direction: column;
     gap: 4px;
 }
 .bd-stat-label {
@@ -126,12 +103,9 @@
 /* Languages Popover */
 .bd-languages {
     position: relative;
-    display: flex;
-    align-items: center;
     gap: 8px;
 }
 .bd-more-languages {
-    /* background: transparent; */
     border: none;
     color: var(--secondary);
     font-size: 0.85rem;
@@ -161,15 +135,12 @@
     overflow-y: auto;
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
-/* Trigger popover on hover */
 .bd-languages:hover .bd-languages-popover,
 .bd-languages-popover:hover {
     opacity: 1;
     visibility: visible;
 }
 .bd-languages-list {
-    display: flex;
-    flex-wrap: wrap; /* Wrap like tags */
     gap: 6px;
     padding: 12px;
 }
@@ -185,7 +156,5 @@
 
 /* Actions */
 .bd-actions {
-    display: flex;
     gap: 1rem;
-    align-items: center;
 }

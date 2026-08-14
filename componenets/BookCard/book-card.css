@@ -1,35 +1,40 @@
-/* Book Card */
+/* ── Book Card ── */
 .book-card {
     border: 2px solid transparent;
-    border-radius: 6px;
     background-color: transparent;
     transition: var(--general-transition);
 }
 
-.book-card:hover {
+.book-card:hover,
+.book-card.dropdown-active {
     transform: var(--uphover);
     border-color: var(--secondary) !important;
     box-shadow: 0 6px 16px var(--secondary-transparent) !important;
 }
 
+/* Reset Bootstrap's card-img-top border-radius; fix height */
 .book-card .card-img-top {
-    width: 100%;
     height: 300px;
     object-fit: cover;
     object-position: top;
     border-radius: 0;
 }
 
-.book-card .card-body {
-    padding: 12px 4px 4px 4px;
+/* z-index management so dropdown overlaps sibling cards */
+.book-card-link {
+    position: relative;
+    z-index: 1;
+}
+.book-card-link:hover,
+.book-card-link:has(.dropdown-active) {
+    z-index: 999 !important;
+}
+.book-card:hover,
+.book-card.dropdown-active {
+    z-index: 999 !important;
 }
 
-.book-card .card-footer {
-    background-color: transparent;
-    border: none;
-    padding: 0 4px 8px 4px;
-}
-
+/* Title — two-line clamp; no Bootstrap equivalent */
 .book-card .book-title {
     font-size: 1.3rem;
     color: var(--primary);
@@ -37,9 +42,9 @@
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .book-card .book-author {
@@ -47,42 +52,23 @@
     color: var(--gray);
 }
 
-/* Star Rating Footer */
+/* ── Star Rating ── */
 .book-card-rating {
-    display: flex;
-    align-items: center;
     border-top: 1px solid var(--paper-line);
     padding-top: 8px;
     margin-top: 6px;
+    gap: 6px;
 }
 
 .book-card-stars {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
     font-size: 0.85rem;
 }
 
-.star-filled {
-    color: var(--secondary);
-}
-
-.star-empty {
-    color: var(--paper-line);
-}
+.star-filled { color: var(--secondary); }
+.star-empty  { color: var(--paper-line); }
 
 .star-partial-wrapper {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     font-size: 0.85rem;
-}
-
-.star-clipped {
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .rating-number {
@@ -92,29 +78,32 @@
     color: var(--primary);
 }
 
-/* ── Book Card Image Hover Overlay (Desktop) ── */
+/* ── Hover Overlay ── */
 .book-card-hover-overlay {
     background: linear-gradient(to top, var(--primary) 0%, transparent 100%);
     opacity: 0;
     pointer-events: none;
-    transition: var(--general-transition);
-    transform: translateY(100%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform: translateY(8px);
     z-index: 5;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-.book-card:hover .book-card-hover-overlay {
+.book-card:hover .book-card-hover-overlay,
+.book-card.dropdown-active .book-card-hover-overlay {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
 
+/* ── Action Buttons ── */
 .card-action-btn {
     width: 38px;
     height: 38px;
     background-color: var(--primary);
     color: var(--neutral);
     border: 1.5px solid var(--paper-line);
-    padding: 0;
     font-size: 0.95rem;
     transition: var(--general-transition);
 }
@@ -126,83 +115,44 @@
 }
 
 .card-action-btn.eye-btn:hover,
-.card-action-btn.eye-btn.active {
-    color: var(--secondary) !important;
-    background-color: var(--dark-brown) !important;
-    border-color: var(--secondary) !important;
-}
-
+.card-action-btn.eye-btn.active,
 .card-action-btn.heart-btn:hover,
-.card-action-btn.heart-btn.active {
-    color: var(--secondary) !important;
-    background-color: var(--dark-brown) !important;
-    border-color: var(--secondary) !important;
-}
-
+.card-action-btn.heart-btn.active,
 .card-action-btn.dots-btn:hover {
     color: var(--secondary) !important;
     background-color: var(--dark-brown) !important;
+    border-color: var(--secondary) !important;
 }
 
-/* ── Shimmer Skeleton Loading ── */
+/* Mobile action buttons in footer — same size as desktop overlay */
+.card-mobile-actions {
+    border-top: 1px solid var(--paper-line);
+    padding-top: 8px;
+}
+
+/* ── Shimmer Skeleton ── */
 @keyframes bookShimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
 }
 
 .skeleton-box {
     background: linear-gradient(
         90deg,
-        var(--paper-bg)  25%,
-        var(--neutral)   37%,
-        var(--paper-bg)  63%
+        var(--paper-bg) 25%,
+        var(--neutral)  37%,
+        var(--paper-bg) 63%
     );
     background-size: 400% 100%;
     animation: bookShimmer 1.4s ease infinite;
     border-radius: 4px;
 }
 
-.book-skeleton-card {
-    pointer-events: none;
-}
+.book-skeleton-card { pointer-events: none; }
 
-.skeleton-cover {
-    width: 100%;
-    height: 300px;
-    border-radius: 0;
-}
-
-.skeleton-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 48px;
-    height: 24px;
-    border-radius: 6px;
-}
-
-.skeleton-title-1 {
-    width: 90%;
-    height: 20px;
-}
-
-.skeleton-title-2 {
-    width: 60%;
-    height: 20px;
-}
-
-.skeleton-author {
-    width: 45%;
-    height: 14px;
-    margin-top: 8px;
-}
-
-.skeleton-footer-item {
-    width: 35%;
-    height: 12px;
-}
-
+.skeleton-cover  { height: 300px; border-radius: 0; }
+.skeleton-badge  { width: 48px; height: 24px; border-radius: 6px; }
+.skeleton-title-1 { width: 90%; height: 20px; }
+.skeleton-title-2 { width: 60%; height: 20px; }
+.skeleton-author  { width: 45%; height: 14px; }
+.skeleton-footer-item { width: 35%; height: 12px; }

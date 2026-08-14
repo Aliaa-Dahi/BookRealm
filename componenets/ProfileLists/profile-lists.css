@@ -1,0 +1,21 @@
+.empty-list-state {
+  background-color: var(--light-paper);
+  border: 1px solid var(--paper-line) !important;
+  border-radius: 1rem;
+}
+
+.empty-list-state-icon {
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+}
+
+.empty-list-state-title {
+  color: var(--primary);
+}
+
+.empty-list-state-desc {
+  color: var(--gray);
+  font-size: 0.9rem;
+  max-width: 420px;
+  line-height: 1.6;
+}

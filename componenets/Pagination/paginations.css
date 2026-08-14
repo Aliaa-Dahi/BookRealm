@@ -1,7 +1,5 @@
 /* ── Pagination wrapper ── */
 .pag-wrapper {
-    display: flex;
-    justify-content: center;
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
 }
@@ -9,20 +7,14 @@
 /* ── Override Bootstrap list reset ── */
 .pag-wrapper .pagination {
     gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 /* ── Every page item ── */
 .pag-wrapper .page-item .page-link {
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 6px;
     border: 1.5px solid var(--gray);
-    background-color: transparent;
     color: var(--primary);
     font-family: var(--font-body);
     font-weight: 500;

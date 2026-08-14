@@ -1,0 +1,174 @@
+/* ── Book Card Dropdown Component ───────────────────────────────────────────── */
+
+/* Main Parchment Dropdown Popover */
+.card-dots-dropdown {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    width: 220px;
+    background-color: var(--paper-bg);
+    border: 1px solid var(--paper-line);
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
+    padding: 14px 16px;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card-dots-dropdown.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Sub-dropdown — opens to the right by default */
+.card-sub-dropdown {
+    position: absolute;
+    left: calc(100% + 8px);
+    right: auto;
+    top: -10px;
+    width: 200px;
+    background-color: var(--paper-bg);
+    border: 1px solid var(--paper-line);
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
+    padding: 12px 14px;
+    z-index: 110;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px) scale(0.97);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Flipped: not enough room on the right — open to the left instead */
+.card-dots-dropdown.sub-flipped .card-sub-dropdown {
+    left: auto;
+    right: calc(100% + 8px);
+    transform: translateX(6px) scale(0.97);
+}
+
+.add-to-list-wrapper:hover .card-sub-dropdown,
+.card-sub-dropdown.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
+}
+
+/* Noise texture overlay */
+.card-dropdown-noise {
+    opacity: 0.45;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+.card-dots-dropdown > *:not(.card-dropdown-noise),
+.card-sub-dropdown > *:not(.card-dropdown-noise) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Section label */
+.card-dropdown-label {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    color: var(--dark-text);
+    opacity: 0.65;
+}
+
+/* Divider */
+.card-dropdown-divider {
+    border-color: var(--paper-line);
+    opacity: 0.7;
+}
+
+/* Stars */
+.card-dd-star {
+    font-size: 1.1rem;
+    color: var(--paper-line);
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.card-dd-star.hover,
+.card-dd-star.active {
+    color: var(--secondary);
+}
+
+.card-dd-star.hover {
+    transform: scale(1.15);
+}
+
+/* Action buttons */
+.card-dropdown-action-btn,
+.card-dropdown-list-item,
+.card-dropdown-review-btn {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--dark-text);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.card-dropdown-action-btn:hover,
+.card-dropdown-action-btn.active-sub,
+.card-dropdown-list-item:hover,
+.card-dropdown-review-btn:hover {
+    background-color: var(--secondary-transparent);
+    color: var(--primary);
+}
+
+/* Icon styles */
+.card-dd-list-icon {
+    font-size: 0.8rem;
+    color: var(--paper-line);
+    width: 14px;
+    transition: color 0.15s ease;
+}
+
+.card-dropdown-action-btn:hover .card-dd-list-icon,
+.card-dropdown-action-btn.active-sub .card-dd-list-icon,
+.card-dropdown-list-item:hover .card-dd-list-icon,
+.card-dropdown-review-btn:hover .card-dd-list-icon {
+    color: var(--secondary);
+}
+
+.card-dd-chevron {
+    font-size: 0.65rem;
+    color: var(--paper-line);
+    transition: transform 0.2s ease, color 0.15s ease;
+}
+
+.add-to-list-wrapper:hover .card-dd-chevron,
+.card-dropdown-action-btn:hover .card-dd-chevron,
+.card-dropdown-action-btn.active-sub .card-dd-chevron {
+    color: var(--secondary);
+    transform: translateX(3px);
+}
+
+/* Checkmark */
+.check-icon {
+    font-size: 0.7rem;
+    color: var(--secondary);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.card-dropdown-list-item.in-list .card-dd-list-icon {
+    color: var(--secondary);
+}
+
+.card-dropdown-list-item.in-list .check-icon {
+    opacity: 1;
+}
+
+.empty-lists-msg {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--gray);
+    font-style: italic;
+}
