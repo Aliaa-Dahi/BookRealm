@@ -51,7 +51,6 @@
 .book-card-rating {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     border-top: 1px solid var(--paper-line);
     padding-top: 8px;
     margin-top: 6px;
@@ -126,14 +125,18 @@
     box-shadow: 0 4px 10px var(--secondary-transparent);
 }
 
-.card-action-btn.eye-btn:hover {
+.card-action-btn.eye-btn:hover,
+.card-action-btn.eye-btn.active {
     color: var(--secondary) !important;
     background-color: var(--dark-brown) !important;
+    border-color: var(--secondary) !important;
 }
 
-.card-action-btn.heart-btn:hover {
+.card-action-btn.heart-btn:hover,
+.card-action-btn.heart-btn.active {
     color: var(--secondary) !important;
     background-color: var(--dark-brown) !important;
+    border-color: var(--secondary) !important;
 }
 
 .card-action-btn.dots-btn:hover {

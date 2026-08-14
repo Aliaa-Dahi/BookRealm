@@ -1,4 +1,5 @@
 import "./book-card.css";
+import { isBookFavorite, toggleFavoriteBook, isBookInReadList, toggleReadListBook } from "../../services/list.service.js";
 
 /**
  * Generates a deterministic fallback rating for books without an explicit rating.
@@ -59,6 +60,59 @@ function renderStarRating(ratingVal) {
     `;
 }
 
+// Global click delegation for action buttons (heart for favourites, eye for readList)
+if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+        const heartBtn = e.target.closest('.heart-btn');
+        if (heartBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const bookId = heartBtn.getAttribute('data-book-id');
+            if (bookId) {
+                const res = toggleFavoriteBook(bookId);
+                heartBtn.classList.toggle('active', res.isFavorite);
+            }
+            return;
+        }
+
+        const eyeBtn = e.target.closest('.eye-btn');
+        if (eyeBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const bookId = eyeBtn.getAttribute('data-book-id');
+            if (bookId) {
+                const res = toggleReadListBook(bookId);
+                eyeBtn.classList.toggle('active', res.inReadList);
+            }
+            return;
+        }
+    });
+}
+
+/**
+ * Renders a single Skeleton Loading BookCard HTML string.
+ * Uses custom shimmer CSS rules defined in book-card.css.
+ *
+ * @returns {string} HTML string
+ */
+export function renderBookCardSkeleton() {
+    return `
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card book-card book-skeleton-card shadow-sm h-100 p-0">
+                <div class="skeleton-box skeleton-cover"></div>
+                <div class="card-body">
+                    <div class="skeleton-box skeleton-title-1 mb-2"></div>
+                    <div class="skeleton-box skeleton-title-2 mb-3"></div>
+                    <div class="skeleton-box skeleton-author"></div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="skeleton-box skeleton-footer-item"></div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 /**
  * BookCard
  * Returns the HTML string for a single book card column.
@@ -85,7 +139,10 @@ export default function BookCard(book) {
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-');
 
-    const ratingVal = book.rating || getFallbackRating(book.key || book.title);
+    const bookId = book.key || book.id || book.title;
+    const isFav = isBookFavorite(bookId);
+    const inReadList = isBookInReadList(bookId);
+    const ratingVal = book.rating || getFallbackRating(bookId);
 
     return `
         <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none" data-book-title="${book.title}">
@@ -97,10 +154,10 @@ export default function BookCard(book) {
                         alt="${book.title}"
                     >
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
-                        <button type="button" class="btn card-action-btn eye-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="Quick View">
+                        <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
                             <i class="fa-solid fa-eye"></i>
                         </button>
-                        <button type="button" class="btn card-action-btn heart-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="Like / Save">
+                        <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
                         <button type="button" class="btn card-action-btn dots-btn rounded-circle d-flex align-items-center justify-content-center" onclick="event.preventDefault(); event.stopPropagation();" title="More Options">
