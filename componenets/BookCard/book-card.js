@@ -115,10 +115,22 @@ export default function BookCard(book) {
     const isFav = isBookFavorite(bookId);
     const inReadList = isBookInReadList(bookId);
     const ratingVal = book.rating || getFallbackRating(bookId);
+    
+    // Select a deterministic ribbon color
+    const ribbonColors = ['var(--ribbon-blue)', 'var(--ribbon-red)', 'var(--ribbon-green)', 'var(--ribbon-brown)'];
+    let hash = 0;
+    const keyStr = String(bookId);
+    for (let i = 0; i < keyStr.length; i++) {
+        hash = keyStr.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const ribbonColor = ribbonColors[Math.abs(hash) % ribbonColors.length];
 
     return `
         <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
-            <div class="card book-card shadow-sm h-100 rounded-2">
+            <div class="card book-card h-100 border-0">
+                <div class="card-ribbon" style="--ribbon-color: ${ribbonColor};">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
                 <div class="position-relative">
                     <img
                         src="${coverUrl}"
@@ -140,7 +152,7 @@ export default function BookCard(book) {
                         </div>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between p-1 pt-3">
+                <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
                     <h3 class="book-title playfair playfair-800">
                         ${book.title}
                     </h3>
@@ -149,7 +161,7 @@ export default function BookCard(book) {
                         ${isMultiAuthor ? `<i class="fa-solid fa-users ms-1 text-muted" title="Multiple authors participated in this book"></i>` : ''}
                     </span>
                 </div>
-                <div class="card-footer bg-transparent border-0 px-1 pb-2 pt-0">
+                <div class="card-footer bg-transparent border-0 p-0 pb-1 pt-2">
                     ${renderStarRating(ratingVal)}
                     <!-- Mobile/tablet action buttons (hidden on desktop where hover overlay is used) -->
                     <div class="card-mobile-actions d-flex d-md-none align-items-center justify-content-center gap-3 mt-2">
