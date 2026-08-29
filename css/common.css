@@ -22,6 +22,14 @@
   --light-paper: #F2EDE0;   /* lightest parchment — card surfaces       */
   --dark-text:   #3D2E22;   /* warm dark brown — text on paper bg       */
   --dark-brown:  #1E1208;   /* deep espresso — toast bg, dark surfaces  */
+  
+  /* ── Book Card Specific ── */
+  --card-parchment: #F4EBD9;
+  --card-border:    #D5C3A5;
+  --ribbon-blue:  #1D3557;
+  --ribbon-red:   #8C2B20;
+  --ribbon-green: #3B5A3A;
+  --ribbon-brown: #825E36;
 
   /* ── Semantic: Feedback Colors ── */
   --color-error:        #A0392B;

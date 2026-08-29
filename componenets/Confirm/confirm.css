@@ -1,0 +1,10 @@
+/* Minimal custom hover transition for confirm action button */
+.btn-confirm-action {
+    transition: var(--general-transition);
+}
+
+.btn-confirm-action:hover {
+    background-color: #872e22 !important;
+    color: #fff !important;
+    transform: var(--uphover);
+}

@@ -203,3 +203,43 @@ export function toggleReadListBook(book) {
         count: res.count
     };
 }
+
+export function deleteList(key) {
+    if (!key || key === 'favourites' || key === 'readList') return false;
+    const lists = getLists();
+    if (!lists[key]) return false;
+    delete lists[key];
+    saveLists(lists);
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('bookListUpdated', {
+            detail: { listKey: key, action: 'delete' }
+        }));
+    }
+    return true;
+}
+
+export function updateList(key, nameOrObj, description = "") {
+    if (!key) return null;
+    const lists = getLists();
+    if (!lists[key]) return null;
+
+    let newName, newDesc;
+    if (typeof nameOrObj === 'object' && nameOrObj !== null) {
+        newName = nameOrObj.name;
+        newDesc = nameOrObj.description;
+    } else {
+        newName = nameOrObj;
+        newDesc = description;
+    }
+
+    if (newName !== undefined && newName.trim()) lists[key].name = newName.trim();
+    if (newDesc !== undefined) lists[key].description = newDesc.trim();
+
+    saveLists(lists);
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('bookListUpdated', {
+            detail: { listKey: key, action: 'update' }
+        }));
+    }
+    return lists[key];
+}

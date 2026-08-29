@@ -3,10 +3,11 @@ import { getCurrentUser, getUsers, getUserInitials } from "../services/auth.serv
 import { renderProfileHeader }      from "../componenets/ProfileHeader/profile-header.js";
 import { renderProfileSubnav }      from "../componenets/ProfileSubnav/profile-subnav.js";
 import { renderProfileContent }     from "../componenets/ProfileContent/profile-content.js";
-import { renderCreateListModal }    from "../componenets/CreateListModal/create-list-modal.js";
+import { renderCreateListModal, setupListModal } from "../componenets/CreateListModal/create-list-modal.js";
+import { renderConfirmModal, showConfirm }   from "../componenets/Confirm/confirm.js";
 import { renderListsTab }           from "../componenets/ProfileLists/profile-lists-tab.js";
 import { loadListSection, loadFavoritesSection, loadWatchlistSection } from "../componenets/ProfileLists/profile-lists.js";
-import { getLists, createList }     from "../services/list.service.js";
+import { getLists, getList, createList, updateList, deleteList } from "../services/list.service.js";
 import "../css/profile.css";
 
 const STATIC_FOLLOWING = [
@@ -24,7 +25,7 @@ export function renderProfile(container) {
 
   let initialTab = 'profile';
   if (pathParts[3] === 'lists') {
-    initialTab = pathParts[4] ? pathParts[4].toLowerCase() : 'lists';
+    initialTab = pathParts[4] ? pathParts[4] : 'lists';
   }
 
   const currentUser = getCurrentUser();
@@ -58,24 +59,27 @@ export function renderProfile(container) {
     const all = getLists();
     let booksSum = 0;
     Object.values(all).forEach(l => { booksSum += (l.books || []).length; });
+    const customListsCount = Object.keys(all).filter(k => k !== 'favourites' && k !== 'readList').length;
     return {
-      favCount:        (all.favourites?.books || []).length,
-      readListCount:   (all.readList?.books   || []).length,
-      totalBooksCount: booksSum,
-      totalListsCount: Object.keys(all).length
+      favCount:         (all.favourites?.books || []).length,
+      readListCount:    (all.readList?.books   || []).length,
+      customListsCount,
+      totalBooksCount:  booksSum,
+      totalListsCount:  customListsCount
     };
   };
 
-  const { favCount, readListCount, totalBooksCount, totalListsCount } = getCounts();
+  const { favCount, readListCount, customListsCount, totalBooksCount, totalListsCount } = getCounts();
   let activeTabName = initialTab;
 
   // ── Assemble page from components ─────────────────────────────────────────────
   container.innerHTML = `
     <div class="profile-page pb-5">
       ${renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount, followingCount: STATIC_FOLLOWING.length })}
-      ${renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount })}
+      ${renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount, customListsCount })}
       ${renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following: STATIC_FOLLOWING })}
       ${renderCreateListModal()}
+      ${renderConfirmModal()}
     </div>
   `;
 
@@ -89,9 +93,10 @@ export function renderProfile(container) {
     const c  = getCounts();
     const el = id => document.getElementById(id);
     if (el('stat-total-books'))  el('stat-total-books').textContent  = c.totalBooksCount;
-    if (el('stat-total-lists'))  el('stat-total-lists').textContent  = c.totalListsCount;
+    if (el('stat-total-lists'))  el('stat-total-lists').textContent  = c.customListsCount;
     if (el('tab-fav-count'))     el('tab-fav-count').textContent     = c.favCount;
     if (el('tab-watch-count'))   el('tab-watch-count').textContent   = c.readListCount;
+    if (el('tab-lists-count'))   el('tab-lists-count').textContent   = c.customListsCount;
   };
 
   // ── Tab activation ────────────────────────────────────────────────────────────
@@ -99,14 +104,21 @@ export function renderProfile(container) {
     activeTabName = tabName;
 
     container.querySelectorAll('.profile-nav-tabs .nav-link').forEach(link => {
-      link.classList.toggle('active', link.getAttribute('data-tab') === tabName);
+      const linkTab = link.getAttribute('data-tab');
+      link.classList.toggle('active', linkTab === tabName);
     });
 
     const sections       = container.querySelectorAll('.profile-tab-section');
     const viewAllHolders = container.querySelectorAll('.view-all-holder');
 
+    const customContainer = document.getElementById('profile-custom-list-container');
+    const customTitle     = document.getElementById('custom-list-title');
+    const customDesc      = document.getElementById('custom-list-desc');
+
     if (tabName === 'profile') {
-      sections.forEach(s => s.style.display = s.id === 'section-lists' ? 'none' : 'block');
+      sections.forEach(s => {
+        s.style.display = (s.id === 'section-favourites' || s.id === 'section-watchlist' || s.id === 'section-following') ? 'block' : 'none';
+      });
       viewAllHolders.forEach(h => h.style.display = 'block');
       loadFavoritesSection(favContainer, 4);
       loadWatchlistSection(watchContainer, 4);
@@ -119,16 +131,30 @@ export function renderProfile(container) {
       bindListCardNavigation();
       if (updateUrl) history.pushState({}, '', listsBaseUrl);
 
+    } else if (tabName === 'favourites' || tabName === 'favorites') {
+      sections.forEach(s => s.style.display = s.id === 'section-favourites' ? 'block' : 'none');
+      viewAllHolders.forEach(h => h.style.display = 'none');
+      loadListSection(favContainer,  'favourites', { limit: 1000, iconClass: 'fa-solid fa-heart' });
+      if (updateUrl) history.pushState({}, '', favListUrl);
+
+    } else if (tabName === 'watchlist' || tabName === 'readlist' || tabName === 'readList') {
+      sections.forEach(s => s.style.display = s.id === 'section-watchlist' ? 'block' : 'none');
+      viewAllHolders.forEach(h => h.style.display = 'none');
+      loadListSection(watchContainer, 'readList',  { limit: 1000, iconClass: 'fa-solid fa-eye'   });
+      if (updateUrl) history.pushState({}, '', watchlistUrl);
+
     } else {
-      sections.forEach(s => {
-        s.style.display = (s.id === `section-${tabName}`) ? 'block' : 'none';
-      });
+      // Custom user list!
+      sections.forEach(s => s.style.display = s.id === 'section-custom-list' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
 
-      if (tabName === 'favourites') {
-        loadListSection(favContainer,  'favourites', { limit: 1000, iconClass: 'fa-regular fa-heart' });
-      } else if (tabName === 'watchlist') {
-        loadListSection(watchContainer, 'readList',  { limit: 1000, iconClass: 'fa-regular fa-eye'   });
+      const listObj = getList(tabName);
+      if (listObj) {
+        if (customTitle) customTitle.innerHTML = `<i class="fa-solid fa-bookmark"></i> ${listObj.name}`;
+        if (customDesc)  customDesc.textContent = listObj.description || '';
+        loadListSection(customContainer, tabName, { limit: 1000, iconClass: 'fa-solid fa-bookmark' });
+      } else if (customContainer) {
+        customContainer.innerHTML = `<div class="alert alert-warning">List not found.</div>`;
       }
 
       if (updateUrl) history.pushState({}, '', `/users/${username}/lists/${tabName}`);
@@ -136,8 +162,10 @@ export function renderProfile(container) {
   };
 
   // ── Modal helpers ─────────────────────────────────────────────────────────────
-  const openCreateModal = () =>
+  const openCreateModal = () => {
+    setupListModal('create');
     bootstrap.Modal.getOrCreateInstance(document.getElementById('createListModal')).show();
+  };
 
   const bindCreateListTriggers = () => {
     container.querySelectorAll('.btn-create-list-trigger').forEach(btn => {
@@ -147,9 +175,49 @@ export function renderProfile(container) {
 
   const bindListCardNavigation = () => {
     container.querySelectorAll('.list-summary-card').forEach(card => {
-      card.addEventListener('click', (e) => {
+      // Edit button handler
+      const editBtn = card.querySelector('.btn-edit-list');
+      editBtn?.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation(); // prevent the global router from also pushing a history entry
+        e.stopPropagation();
+        const key  = editBtn.getAttribute('data-list-key');
+        const name = editBtn.getAttribute('data-list-name');
+        const desc = editBtn.getAttribute('data-list-desc');
+        setupListModal('edit', key, name, desc);
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('createListModal')).show();
+      });
+
+      // Delete button handler
+      const deleteBtn = card.querySelector('.btn-delete-list');
+      deleteBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const key  = deleteBtn.getAttribute('data-list-key');
+        const name = deleteBtn.getAttribute('data-list-name');
+
+        showConfirm({
+          title: 'Delete List',
+          message: `Are you sure you want to delete the list "${name}"? This action cannot be undone.`,
+          confirmText: 'Delete',
+          onConfirm: () => {
+            deleteList(key);
+            syncCounters();
+            if (activeTabName === key) {
+              activateTab('lists', true);
+            } else {
+              listsTabContainer.innerHTML = renderListsTab(username);
+              bindCreateListTriggers();
+              bindListCardNavigation();
+            }
+          }
+        });
+      });
+
+      // Card click navigation handler
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-edit-list') || e.target.closest('.btn-delete-list')) return;
+        e.preventDefault();
+        e.stopPropagation();
         const key = card.getAttribute('data-list-key');
         if (key) activateTab(key, true);
       });
@@ -159,13 +227,36 @@ export function renderProfile(container) {
   // ── Form submit ───────────────────────────────────────────────────────────────
   container.querySelector('#create-list-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = container.querySelector('#list-name-input')?.value?.trim();
-    const desc = container.querySelector('#list-desc-input')?.value?.trim();
+    const form = e.target;
+    const mode = form.dataset.mode || 'create';
+    const listKey = form.dataset.listKey || '';
+    const nameInput = container.querySelector('#list-name-input');
+    const descInput = container.querySelector('#list-desc-input');
+    const name = nameInput?.value?.trim();
+    const desc = descInput?.value?.trim();
     if (!name) return;
 
-    createList(name, desc);
+    let targetTabKey = 'lists';
+    if (mode === 'edit' && listKey) {
+      updateList(listKey, name, desc);
+      targetTabKey = listKey;
+    } else {
+      const created = createList(name, desc);
+      if (created && created.key) targetTabKey = created.key;
+    }
+
     bootstrap.Modal.getInstance(document.getElementById('createListModal'))?.hide();
-    activateTab('lists', true);
+
+    if (activeTabName === 'lists') {
+      listsTabContainer.innerHTML = renderListsTab(username);
+      bindCreateListTriggers();
+      bindListCardNavigation();
+    } else if (activeTabName === targetTabKey) {
+      activateTab(targetTabKey, false);
+    } else {
+      activateTab(targetTabKey, true);
+    }
+    syncCounters();
   });
 
   // ── View All clicks ───────────────────────────────────────────────────────────
@@ -195,7 +286,11 @@ export function renderProfile(container) {
     syncCounters();
 
     if (!inList && bookId) {
-      const containerId     = listKey === 'readList' ? 'profile-watchlist-container' : `profile-${listKey}-container`;
+      let containerId;
+      if (listKey === 'readList') containerId = 'profile-watchlist-container';
+      else if (listKey === 'favourites') containerId = 'profile-favorites-container';
+      else containerId = 'profile-custom-list-container';
+
       const targetContainer = document.getElementById(containerId);
       if (!targetContainer) return;
 
