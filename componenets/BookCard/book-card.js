@@ -117,17 +117,20 @@ export default function BookCard(book) {
     const isFav = isBookFavorite(bookId);
     const inReadList = isBookInReadList(bookId);
     const ratingVal = book.rating || getFallbackRating(bookId);
+    
 
     return `
-        <div class="col-12 col-md-6 col-lg-3 book-card-col" data-book-id="${bookId}" data-book-title="${book.title}">
-            <div class="card book-card">
-                <div class="position-relative overflow-hidden">
-                    <a href="/books/${slug}" class="d-block w-100 h-100 text-decoration-none" title="${book.title}">
-                        <img
-                            src="${coverUrl}"
-                            class="card-img-top"
-                            alt="${book.title}"
-                        >
+        <div class="col-12 col-md-6 col-lg-3 book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
+            <div class="card book-card h-100 border-0">
+                <div class="position-relative">
+                    <a href="/books/${slug}" class="text-decoration-none">
+                        <div class="img-holder">
+                            <img
+                                src="${coverUrl}"
+                                class="card-img-top"
+                                alt="${book.title}"
+                            >
+                        </div>
                     </a>
                     <!-- Desktop hover overlay (hidden on mobile/tablet) -->
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 w-100 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
@@ -142,9 +145,9 @@ export default function BookCard(book) {
                         </button>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column px-0 pb-0 pt-2">
+                <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
                     <h3 class="book-title playfair playfair-800">
-                        <a href="/books/${slug}" class="text-decoration-none color-inherit">${book.title}</a>
+                        ${book.title}
                     </h3>
                     <span class="book-author inter inter-600">
                         ${authorDisplay}

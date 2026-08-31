@@ -1,82 +1,47 @@
-/* ── Book Card (Vintage Parchment) ── */
+/* ── Book Card ── */
 .book-card {
-    background-image: url('/images/book-card-bg.png');
+    background: url(/images/book-card-bg.png);
     background-size: 100% 100%;
+    background-position: center center;
     background-repeat: no-repeat;
-    background-color: transparent !important;
-    border: none !important;
-    border-radius: 30px;
-    padding: 26px 28px 20px 28px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     transition: var(--general-transition);
+    border-radius: 23px;
+    margin: 0;
+    padding: 20px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
     position: relative;
-    /* Fixed uniform height — cover grows to fill, text stays at bottom */
-    height: 460px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    /* To allow the pseudo-element fold to look like a cut corner, we hide overflow on the border-radius? No, fold covers it. */
 }
 
-/* card-body shrinks to content */
-.book-card .card-body {
-    flex: 0 0 auto;
-    padding: 8px 0 2px 0 !important;
-}
+/* Folded Corner */
 
-/* card-footer sits neatly at bottom */
-.book-card .card-footer {
-    flex: 0 0 auto;
-    padding: 2px 0 0 0 !important;
-}
 
 .book-card:hover,
 .book-card.dropdown-active {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28) !important;
-}
-
-/* ── Cover Image fills available top space dynamically ── */
-.book-card .position-relative {
-    flex: 1;
-    min-height: 0;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-/* Ribbon */
-.card-ribbon {
-    position: absolute;
-    top: -2px;
-    left: 16px;
-    width: 28px;
-    height: 42px;
-    background-color: var(--ribbon-color, var(--ribbon-blue));
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 10px), 0 100%);
-    z-index: 10;
-    /* Note: filter: drop-shadow doesn't always work perfectly with clip-path on the same element, but it's acceptable here */
-}
-.card-ribbon i {
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #F8F5F0;
-    font-size: 0.8rem;
+    transform: var(--uphover);
+    /* border-color: var(--secondary); */
+    /* box-shadow: 0 8px 20px var(--secondary-shadow-light); */
 }
 
 /* Reset Bootstrap's card-img-top border-radius; fix height */
-.book-card .card-img-top {
-    width: 100%;
-    height: 100%;  /* fills the flex-grown wrapper */
+.book-card .img-holder {
+    height: 280px;
+    margin-top: 10px;
     object-fit: cover;
     object-position: top;
-    border-radius: 4px;
-    border: 1px solid rgba(44, 31, 20, 0.3);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-    display: block;
+    border-radius: 2px;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background-color: transparent;
 }
 
-/* ── z-index: dropdown overlaps sibling cards ── */
+.book-card .img-holder img{
+    height: 100%;
+    width: 100%;
+}
+
+/* z-index management so dropdown overlaps sibling cards */
 .book-card-link {
     position: relative;
     z-index: 1;
@@ -90,71 +55,64 @@
     z-index: 999 !important;
 }
 
-/* ── Title ── */
+.card-body, .book-card-rating {
+    padding-inline: 20px !important;
+}
+
+/* Title — two-line clamp; no Bootstrap equivalent */
 .book-card .book-title {
-    font-size: 1.1rem;
-    color: var(--primary);
+    font-size: 1.3rem;
     margin-bottom: 2px;
-    line-height: 1.2;
+    line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+    color: var(--primary);
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* ── Author ── */
+
+
 .book-card .book-author {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--gray);
-    letter-spacing: 0.01em;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* ── Star Rating ── */
 .book-card-rating {
-    /* border-top: 1px solid rgba(140, 115, 85, 0.25);
-    padding-top: 8px;
-    margin-top: 8px; */
+margin-bottom: 30px;
     gap: 6px;
 }
 
 .book-card-stars {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
-.star-filled  { color: var(--secondary); }
-.star-empty   { color: rgba(140, 115, 85, 0.3); }
+.star-filled { color: var(--secondary); }
+.star-empty  { color: var(--paper-line); }
 
 .star-partial-wrapper {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .rating-number {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 700;
     font-family: var(--font-body);
     color: var(--primary);
 }
 
-/* ── Hover Overlay (desktop only) ── */
+/* ── Hover Overlay ── */
 .book-card-hover-overlay {
-    background: linear-gradient(to top, rgba(28, 18, 10, 0.92) 0%, transparent 65%);
+    background: linear-gradient(to top, var(--primary) 0%, transparent 100%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.28s ease, transform 0.28s ease;
-    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform: translateY(8px);
     z-index: 5;
-    border-radius: 4px; /* matches image border-radius on all corners */
-    left: 0;
-    right: 0;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .book-card:hover .book-card-hover-overlay,
@@ -166,11 +124,8 @@
 
 /* ── Action Buttons ── */
 .card-action-btn {
-    pointer-events: auto !important;
     width: 38px;
     height: 38px;
-    flex-shrink: 0;
-    margin: 0;
     background-color: var(--primary);
     color: var(--neutral);
     border: 1.5px solid var(--paper-line);
@@ -180,7 +135,7 @@
 
 .card-action-btn:hover {
     border-color: var(--secondary) !important;
-    transform: translateY(-2px);
+    transform: var(--uphover);
     box-shadow: 0 4px 10px var(--secondary-transparent);
 }
 
@@ -194,9 +149,9 @@
     border-color: var(--secondary) !important;
 }
 
-/* ── Mobile action buttons ── */
+/* Mobile action buttons in footer — same size as desktop overlay */
 .card-mobile-actions {
-    border-top: 1px solid rgba(140, 115, 85, 0.2);
+    border-top: 1px solid var(--paper-line);
     padding-top: 8px;
 }
 
@@ -210,7 +165,7 @@
     background: linear-gradient(
         90deg,
         var(--paper-bg) 25%,
-        var(--light-paper) 37%,
+        var(--neutral)  37%,
         var(--paper-bg) 63%
     );
     background-size: 400% 100%;
@@ -220,9 +175,9 @@
 
 .book-skeleton-card { pointer-events: none; }
 
-.skeleton-cover        { height: 290px; border-radius: 6px; }
-.skeleton-badge        { width: 48px; height: 24px; border-radius: 6px; }
-.skeleton-title-1      { width: 90%; height: 20px; }
-.skeleton-title-2      { width: 60%; height: 20px; }
-.skeleton-author       { width: 45%; height: 14px; }
-.skeleton-footer-item  { width: 35%; height: 12px; }
+.skeleton-cover  { height: 100%; border-radius: 2px; }
+.skeleton-badge  { width: 48px; height: 24px; border-radius: 6px; }
+.skeleton-title-1 { width: 90%; height: 20px; }
+.skeleton-title-2 { width: 60%; height: 20px; }
+.skeleton-author  { width: 45%; height: 14px; }
+.skeleton-footer-item { width: 35%; height: 12px; }

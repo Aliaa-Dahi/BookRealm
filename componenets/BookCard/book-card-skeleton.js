@@ -6,22 +6,23 @@ import "./book-card.css";
 export function BookCardSkeleton() {
   return `
     <div class="col-12 col-md-6 col-lg-3">
-      <div class="card book-card book-skeleton-card shadow-sm h-100">
+      <div class="card book-card book-skeleton-card h-100 border-0">
         <div class="position-relative">
-          <div class="skeleton-box skeleton-cover w-100"></div>
-          <div class="skeleton-box skeleton-badge position-absolute top-0 end-0 mt-2 me-2"></div>
+          <div class="img-holder">
+            <div class="skeleton-box skeleton-cover w-100 h-100"></div>
+          </div>
         </div>
-        <div class="card-body d-flex flex-column justify-content-between p-1 pt-3">
+        <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
           <div>
             <div class="skeleton-box skeleton-title-1 mb-2"></div>
             <div class="skeleton-box skeleton-title-2 mb-3"></div>
           </div>
           <div class="skeleton-box skeleton-author mt-2"></div>
         </div>
-        <div class="card-footer">
-          <div class="edition-info d-flex justify-content-between pt-2">
-            <div class="skeleton-box skeleton-footer-item"></div>
-            <div class="skeleton-box skeleton-footer-item"></div>
+        <div class="card-footer bg-transparent border-0 p-0 pb-1 pt-2">
+          <div class="book-card-rating d-flex align-items-center">
+            <div class="skeleton-box skeleton-rating-stars"></div>
+            <div class="skeleton-box skeleton-rating-number ms-2"></div>
           </div>
         </div>
       </div>
