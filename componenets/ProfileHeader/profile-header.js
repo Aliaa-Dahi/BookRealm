@@ -30,7 +30,7 @@ export function renderProfileHeader({ initials, displayName, username, joinDateF
                                 <span class="profile-join-date ms-2">• Joined ${joinDateFormatted}</span>
                             </p>
                             <div class="mt-2">
-                                ${SubBtn("Edit Profile", "fa-regular fa-pen-to-square", "btn-sm")}
+                                ${SubBtn("Edit Profile", "fa-regular fa-pen-to-square", "btn-sm btn-edit-profile")}
                             </div>
                         </div>
                     </div>

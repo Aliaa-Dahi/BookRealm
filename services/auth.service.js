@@ -159,3 +159,45 @@ export async function loginUser({ email, password }) {
 
   return user;
 }
+
+/**
+ * Updates the current user's profile (firstName, lastName, password).
+ * Password is only updated if newPassword is provided and confirmed.
+ * Throws a Yup ValidationError on invalid input.
+ */
+export async function updateUserProfile({ firstName, lastName, currentPassword, newPassword }) {
+  const schema = Yup.object({
+    firstName: Yup.string().required('First name is required'),
+    lastName:  Yup.string().required('Last name is required'),
+  });
+
+  await schema.validate({ firstName, lastName }, { abortEarly: false });
+
+  const users = getUsers();
+  const sessionUser = getCurrentUser();
+  const userIndex = users.findIndex(u => u.id === sessionUser.id);
+  if (userIndex === -1) throw new Error('User not found');
+
+  const user = users[userIndex];
+
+  // If changing password, verify current password first
+  if (newPassword) {
+    if (!currentPassword) {
+      throw new Yup.ValidationError('Current password is required to set a new one', null, 'currentPassword');
+    }
+    if (user.password !== currentPassword) {
+      throw new Yup.ValidationError('Current password is incorrect', null, 'currentPassword');
+    }
+    if (newPassword.length < 8) {
+      throw new Yup.ValidationError('New password must be at least 8 characters', null, 'newPassword');
+    }
+    user.password = newPassword;
+  }
+
+  user.firstName = firstName.trim();
+  user.lastName  = lastName.trim();
+  users[userIndex] = user;
+  saveUsers(users);
+  setCurrentUser(user); // refresh session with updated data
+  return user;
+}
