@@ -1,0 +1,7 @@
+/* Profile page wrapper — component-specific styles live in each component folder */
+
+.profile-page {
+  background-color: var(--neutral);
+  color: var(--dark-text);
+  min-height: 100vh;
+}

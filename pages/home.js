@@ -1,13 +1,15 @@
 import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
 import createBooksGrid from "../componenets/BooksContainer/books-container.js";
+import { createSkeletonGrid } from "../componenets/BookCard/book-card-skeleton.js";
+import ViewAll from "../componenets/ViewAll/view-all.js";
 import { generes } from "./geners.js";
 
 export function renderHome(container) {
   container.innerHTML = `
     <!-- Hero -->
     <section class="hero">
-      <div class="overlay">
-        <div class="hero-content">
+      <div class="overlay d-flex flex-column justify-content-center align-items-center top-0 start-0 end-0 bottom-0">
+        <div class="hero-content d-flex flex-column text-center">
           <h1 class="playfair playfair-900">BookRealm</h1>
           <p class="lead inter inter-300">
             A sanctuary for curious minds. Discover over 4 million records
@@ -15,11 +17,11 @@ export function renderHome(container) {
             modern reader.
           </p>
           <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
-            <button class="main-btn relative">
-              Start Discovery
+            <button class="btn main-btn d-inline-flex align-items-center gap-2">
               <i class="fa-solid fa-search"></i>
+              Start Discovery
             </button>
-            <button class="sub-btn">Browse Genres</button>
+            <button class="btn sub-btn d-inline-flex align-items-center gap-2">Browse Genres</button>
           </div>
         </div>
       </div>
@@ -29,10 +31,8 @@ export function renderHome(container) {
       <div class="container">
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="section-title playfair playfair-700">Common Geners</h2>
-            <a href="/geners" class="inter inter-600 text-dark">
-              View All <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+            <h2 class="section-title d-inline-block playfair playfair-700">Common Geners</h2>
+            ${ViewAll("/geners", "View All")}
           </div>
           <div class="home-generes-container"></div>
         </div>
@@ -43,17 +43,13 @@ export function renderHome(container) {
       <div class="container">
         <div class="pt-3">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="section-title playfair playfair-700">Popular Books</h2>
-            <a href="/books" class="inter inter-600 text-dark">
-              View All <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+            <h2 class="section-title d-inline-block playfair playfair-700">Popular Books</h2>
+            ${ViewAll("/books", "View All")}
           </div>
           <div class="home-books-container"></div>
         </div>
       </div>
     </section>
-
-    
   `;
 
   const homeGenresWrapper = container.querySelector(".home-generes-container");
@@ -64,14 +60,8 @@ export function renderHome(container) {
 
   const homeBooksWrapper = container.querySelector(".home-books-container");
   if (homeBooksWrapper) {
-    // Show a loading spinner while fetching
-    homeBooksWrapper.innerHTML = `
-      <div class="text-center py-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    `;
+    // Show shimmer skeleton cards while fetching
+    homeBooksWrapper.innerHTML = createSkeletonGrid(8);
     
     fetchTopRated()
       .then(booksArray => {
@@ -88,19 +78,40 @@ export function renderHome(container) {
   }
 }
 
-async function fetchTopRated(){
-  const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8&fields=*,ratings_average');
-  const data = await response.json();
-  
-  const works = (data.docs || []).map(doc => ({
-    key: doc.key,
-    title: doc.title,
-    cover_id: doc.cover_i || null,
-    author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
-    first_publish_year: doc.first_publish_year || 'N/A',
-    edition_count: doc.edition_count || 0,
-    rating: doc.ratings_average ? doc.ratings_average.toFixed(1) : null
-  }));
+async function fetchTopRated() {
+  try {
+    const response = await fetch('https://openlibrary.org/search.json?q=dragon&sort=rating&limit=8');
+    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    const data = await response.json();
+    
+    const works = (data.docs || []).map(doc => ({
+      key: doc.key,
+      title: doc.title,
+      cover_id: doc.cover_i || null,
+      author_name: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+      first_publish_year: doc.first_publish_year || 'N/A',
+      edition_count: doc.edition_count || 0,
+      rating: doc.ratings_average ? Number(doc.ratings_average).toFixed(1) : '4.5'
+    }));
 
-  return works;
+    return works;
+  } catch (err) {
+    console.warn("Primary book search failed or reset, using subject fallback endpoint:", err);
+    try {
+      const fallbackResponse = await fetch('https://openlibrary.org/subjects/fantasy.json?limit=8');
+      const fallbackData = await fallbackResponse.json();
+      return (fallbackData.works || []).map(work => ({
+        key: work.key,
+        title: work.title,
+        cover_id: work.cover_id || null,
+        author_name: work.authors ? work.authors.map(a => a.name).join(', ') : 'Unknown Author',
+        first_publish_year: work.first_publish_year || 'N/A',
+        edition_count: work.edition_count || 0,
+        rating: '4.5'
+      }));
+    } catch (fallbackErr) {
+      console.error("Fallback fetch also failed:", fallbackErr);
+      throw fallbackErr;
+    }
+  }
 }

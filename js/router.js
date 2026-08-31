@@ -6,6 +6,9 @@ export function navigate(path, onRouteMatch) {
 export function initRouter(onRouteMatch) {
   // 1. Intercept standard link clicks
   document.addEventListener("click", (e) => {
+    // Skip navigation if click target is a button inside an anchor
+    if (e.target.closest("button")) return;
+
     const anchor = e.target.closest("a");
     if (anchor) {
       const href = anchor.getAttribute("href");

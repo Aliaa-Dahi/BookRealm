@@ -1,0 +1,134 @@
+/* ── Library Card — parchment modal shell ── */
+.modal-content.library-card {
+    background-color: var(--paper-bg);
+    border-radius: 4px;
+    padding: 20px 50px;
+    box-shadow: 0 15px 40px var(--primary-shadow);
+    color: var(--dark-text);
+    overflow: hidden;
+}
+
+/* Noise texture overlay */
+.modal-content.library-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Puts content above the noise layer */
+.library-card-inner {
+    position: relative;
+    z-index: 1;
+}
+
+/* Close button position */
+.library-card .btn-close {
+    top: 0;
+    right: -22px;
+}
+
+/* Script subtitle */
+.library-subtitle {
+    color: var(--secondary);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Underline input ── */
+.library-label {
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--dark-text);
+    opacity: 0.8;
+}
+
+.library-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--paper-line);
+    border-radius: 0;
+    padding: 8px 0;
+    color: var(--dark-text);
+    font-size: 1.1rem;
+    transition: border-color 0.3s;
+}
+
+.library-input::placeholder {
+    color: rgba(61, 46, 34, 0.35);
+}
+
+.library-input:focus {
+    border-bottom-color: var(--dark-text);
+    box-shadow: none;
+    background: transparent;
+    outline: none;
+}
+
+/* Icon inside input wrapper */
+.input-icon-wrapper {
+    position: relative;
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    color: var(--paper-line);
+    font-size: 1.1rem;
+}
+
+/* ── Validation errors ── */
+.auth-error-msg {
+    font-size: 0.72rem;
+    color: var(--color-error);
+    font-weight: 500;
+}
+
+.auth-general-error {
+    font-size: 0.82rem;
+    color: var(--color-error);
+    background-color: var(--color-error-bg);
+    border: 1px dashed var(--color-error-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.library-input.input-error {
+    border-bottom-color: var(--color-error);
+}
+
+/* ── Mode switch link ── */
+.auth-switch-link {
+    color: var(--secondary);
+    text-decoration: underline;
+    transition: opacity 0.2s;
+}
+
+.auth-switch-link:hover {
+    opacity: 0.75;
+}
+
+/* ── Password toggle icon ── */
+.toggle-password-icon {
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.toggle-password-icon:hover {
+    opacity: 0.9;
+    color: var(--dark-text);
+}
+
+/* ── Autofill override ── */
+.library-input:-webkit-autofill,
+.library-input:-webkit-autofill:hover,
+.library-input:-webkit-autofill:focus,
+.library-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--paper-bg) inset !important;
+    -webkit-text-fill-color: var(--dark-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

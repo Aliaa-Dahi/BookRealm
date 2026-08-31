@@ -1,10 +1,6 @@
 import "./book-card.css";
-
-// List service stubs — replace with real imports when list.service.js is available
-function isBookFavorite()    { return false; }
-function toggleFavoriteBook(){ return { isFavorite: false }; }
-function isBookInReadList()  { return false; }
-function toggleReadListBook(){ return { inReadList: false }; }
+import { isBookFavorite, toggleFavoriteBook, isBookInReadList, toggleReadListBook } from "../../services/list.service.js";
+import { renderBookCardDropdown } from "../BookCardDropdown/book-card-dropdown.js";
 
 
 /**

@@ -16,24 +16,24 @@ export default function Pagination(totalPageNumber, currentPage = 1) {
     const pageItems = [];
     for (let i = windowStart; i <= windowEnd; i++) {
         const isActive = i === currentPage ? ' active' : '';
-        pageItems.push(`<li class="page-item${isActive}"><a class="page-link" href="#">${i}</a></li>`);
+        pageItems.push(`<li class="page-item${isActive}"><a class="page-link d-flex align-items-center justify-content-center bg-transparent" href="#">${i}</a></li>`);
     }
 
     const isPrevDisabled = currentPage <= 1 ? ' disabled' : '';
     const isNextDisabled = currentPage >= totalPageNumber ? ' disabled' : '';
 
     return `
-    <div class="pag-wrapper">
+    <div class="pag-wrapper d-flex justify-content-center">
         <nav aria-label="Page navigation" id="pag-nav">
-            <ul class="pagination">
+            <ul class="pagination flex-wrap justify-content-center">
                 <li class="page-item${isPrevDisabled}">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link d-flex align-items-center justify-content-center bg-transparent" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 ${pageItems.join('')}
                 <li class="page-item${isNextDisabled}">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link d-flex align-items-center justify-content-center bg-transparent" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

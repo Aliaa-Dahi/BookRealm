@@ -1,4 +1,4 @@
-.hero{
+.hero {
     background: url('/images/hero.png');
     z-index: 90;
     background-position: center center;
@@ -12,28 +12,16 @@
     background-color: var(--neutral-transparent);
     backdrop-filter: blur(4px);
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    inset: 0;
 }
 
 .hero-content {
     width: 90%;
     padding: 20px;
-    text-align: center;
-    display: flex;
     gap: 20px;
-    flex-direction: column;
 }
 
 .hero-content h1 {
-    /* Scales smoothly between 2.5rem (mobile) and 4.5rem (desktop) */
     font-size: clamp(2.5rem, 6vw, 4.5rem);
 }
 
@@ -47,36 +35,24 @@
     }
 }
 
-/* Tablet */
 @media (min-width: 768px) {
     .hero-content {
         width: 75%;
     }
 }
 
-/* Desktop */
 @media (min-width: 992px) {
     .hero-content {
         width: 50%;
     }
 }
 
-
-
-
-/* 1. Define the steps of the animation */
 @keyframes move-arrow {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(4px); /* Moves right */
-    }
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(4px); }
 }
 
-/* 2. Apply the animation to the arrow when you hover the link */
 .view-all a:hover i,
 a:hover .fa-arrow-right {
     animation: move-arrow 0.4s infinite alternate ease-in-out;
 }
-

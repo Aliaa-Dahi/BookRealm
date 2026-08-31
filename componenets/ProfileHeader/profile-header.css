@@ -1,0 +1,46 @@
+.profile-header-banner {
+  background-color: var(--primary);
+  color: var(--neutral);
+  border-bottom: 2px solid var(--secondary);
+}
+
+.profile-avatar-large {
+  width: 86px;
+  height: 86px;
+  background-color: var(--dark-brown);
+  color: var(--secondary);
+  border: 3px solid var(--secondary);
+  font-size: 2.2rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.profile-username {
+  color: var(--neutral);
+  font-family: var(--font-display);
+}
+
+.profile-display-name {
+  color: var(--secondary);
+  font-family: var(--font-body);
+}
+
+.profile-join-date {
+  color: var(--gray);
+  font-family: var(--font-body);
+}
+
+.profile-stat-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--secondary);
+  font-size: 1.5rem;
+}
+
+.profile-stat-label {
+  font-family: var(--font-body);
+  color: var(--gray);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

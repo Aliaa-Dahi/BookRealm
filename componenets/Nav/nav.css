@@ -4,6 +4,7 @@
  left: 0;
  right: 0;  
  z-index: 120;
+ background-color: var(--neutral) !important;
 }
 
 .navbar-brand, .offcanvas-title  {
@@ -17,7 +18,6 @@
 .navbar .nav-link:hover {
     color: var(--secondary) !important; 
 }
-
 
 .navbar .active {
     color: var(--primary) !important; 
@@ -43,9 +43,7 @@
 .offcanvas .nav-link {
     font-weight: 500;
     padding: 10px 15px;
-    border-radius: 6px;
     transition: var(--general-transition);
-    display: block;
 }
 
 .offcanvas .nav-link.active:hover {
@@ -59,15 +57,39 @@
 .offcanvas .active {
     background-color: var(--secondary) !important;
     color: var(--primary) !important;
-    box-shadow: 0 4px 10px var(--secondary-transparent); /* Premium gold shadow */
+    box-shadow: 0 4px 10px var(--secondary-transparent);
 }
 
 /* OffCanvas */
 .bars-icon {
-    border:none;
+    border: none;
     color: var(--primary);
     background-color: transparent !important;
     font-size: 25px;
 }
+
+/* ── User Avatar Circle ── */
+.user-avatar-circle {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    background-color: var(--primary) !important;
+    color: var(--secondary) !important;
+    font-family: var(--font-body) !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px !important;
+    border: 2px solid var(--secondary) !important;
+    box-shadow: 0 4px 10px var(--primary-shadow) !important;
+    transition: var(--general-transition) !important;
+}
+
+.user-avatar-circle:hover {
+    transform: var(--uphover) !important;
+    background-color: var(--dark-brown) !important;
+    box-shadow: 0 6px 16px var(--secondary-shadow) !important;
+}
+
 
 

@@ -31,6 +31,14 @@
   --ribbon-red: #762222;
   --ribbon-green: #4b6b4b;
   --ribbon-gold: #8c6a22;
+  
+  /* ── Book Card Specific ── */
+  --card-parchment: #F4EBD9;
+  --card-border:    #D5C3A5;
+  --ribbon-blue:  #1D3557;
+  --ribbon-red:   #8C2B20;
+  --ribbon-green: #3B5A3A;
+  --ribbon-brown: #825E36;
 
   /* ── Semantic: Feedback Colors ── */
   --color-error:        #A0392B;
@@ -107,41 +115,7 @@ a {
   text-decoration: none !important;
 }
 
-/* ── Buttons ── */
-.main-btn, .sub-btn {
-  padding: 6px 16px;
-  border: 2px solid transparent;
-}
-
-.main-btn:hover, .sub-btn:hover {
-  transform: var(--uphover);
-  box-shadow: 0 4px 12px rgba(26, 31, 44, 0.08);
-}
-
-.main-btn:active, .sub-btn:active {
-  transform: translateY(0);
-}
-
-.main-btn {
-  color: var(--neutral);
-  background-color: var(--primary);
-}
-
-.main-btn:hover {
-  background-color: var(--secondary);
-  border-color: var(--secondary);
-}
-
-.sub-btn {
-  color: var(--secondary);
-  border-color: var(--secondary);
-}
-
-.sub-btn:hover {
-  background-color: var(--secondary);
-  color: var(--primary);
-}
-
+/* Button styles live in components/Button/button.css */
 
 .section-title {
   color: var(--primary);

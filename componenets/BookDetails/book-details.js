@@ -9,25 +9,21 @@ import "./book-details.css";
  */
 export default function BookDetails(book) {
     if (!book) return '';
+    console.log(book);
+    
 
-    const coverUrl = book.cover_id || book.cover_i
-        ? `https://covers.openlibrary.org/b/id/${book.cover_id || book.cover_i}-L.jpg`
-        : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=300&h=450';
+    // Using a static high-res image for the design instead of Open Library's low-res covers
+    const coverUrl = 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=800&h=1200';
 
     // Safe fallbacks for data
-    const subject = (book.subjects && book.subjects.length > 0) ? book.subjects[0] : 'FICTION';
+    const subjectHtml = (book.subjects && book.subjects.length > 0) 
+        ? book.subjects.slice(0, 3).map(subj => {
+            // Normalize for the URL: lowercase, spaces to underscores, remove special chars
+            const slug = subj.toLowerCase().trim().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+            return `<a href="/books/${slug}" class="text-decoration-none subject-link">${subj}</a>`;
+        }).join('<span class="mx-2 text-muted fw-normal">&</span>')
+        : '<span class="subject-link">General</span>';
     const rating = book.rating || 'No Rating';
-    const reviews = book.ratings_count ? `(${book.ratings_count} Reviews)` : '';
-    
-    // Create description-like text from subjects & publishers
-    const detailsText = `
-        A fascinating work by ${book.author_name}, this book delves into themes of ${book.subjects.slice(0, 3).join(', ')}. 
-        Originally published in ${book.first_publish_year} ${book.publishers.length > 0 ? `by ${book.publishers[0]}` : ''}, 
-        it remains a prominent piece in the ${subject} genre. Available in ${book.languages.length || 1} language(s) 
-        and spanning across ${book.edition_count} known editions. 
-        ${book.pages ? `This edition contains approximately ${book.pages} pages.` : ''}
-    `;
-
     // Calculate stars
     const fullStars = Math.floor(book.rating || 0);
     const emptyStars = 5 - fullStars;
@@ -35,37 +31,37 @@ export default function BookDetails(book) {
     for(let i=0; i<fullStars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
     for(let i=0; i<emptyStars; i++) starsHtml += '<i class="fa-regular fa-star"></i>';
 
+    // Languages logic
+    const hasLanguages = book.languages && book.languages.length > 0;
+    const visibleLanguages = hasLanguages 
+        ? book.languages.slice(0, 3).map(l => `<a href="/books/${l.toLowerCase()}" class="text-decoration-none text-dark">${l.toUpperCase()}</a>`).join(', ') 
+        : '';
+    const remainingCount = hasLanguages ? book.languages.length - 3 : 0;
+    const hasMoreLanguages = remainingCount > 0;
+
     return `
         <div class="book-details-page container mt-4 pt-5">
-            <!-- Breadcrumbs -->
-            <div class="bd-breadcrumbs inter">
-                <a href="/" class="text-decoration-none text-muted">HOME</a> 
-                <span>›</span> 
-                <a href="/books" class="text-decoration-none text-muted">${subject}</a> 
-                <span>›</span> 
-                <span class="current">${book.title}</span>
-            </div>
+           
 
             <div class="row gx-5 mt-4">
-                <!-- Left: Cover Image -->
-                <div class="col-md-5 col-lg-4 mb-4 mb-md-0">
-                    <div class="bd-cover-wrapper">
-                        <img src="${coverUrl}" alt="${book.title} Cover" class="bd-cover-image">
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <div class="bd-cover-wrapper rounded-4 text-center d-flex align-items-center justify-content-center overflow-hidden">
+                        <img src="${coverUrl}" alt="${book.title} Cover" class="bd-cover-image w-100 h-100">
                     </div>
                 </div>
 
                 <!-- Right: Book Info -->
-                <div class="col-md-7 col-lg-8">
-                    <span class="bd-overline inter">${subject} / FICTION</span>
-                    <h1 class="bd-title playfair playfair-800">${book.title}</h1>
+                <div class="col-md-6">
+                    <span class="bd-overline inter d-block text-uppercase">${subjectHtml}</span>
+                    <h2 class="bd-title playfair playfair-800">${book.title}</h2>
                     <div class="bd-author playfair">
                         by <strong>${book.author_name}</strong>
                     </div>
 
-                    <div class="bd-meta-row inter">
+                    <div class="bd-meta-row inter d-flex align-items-center">
                         <div class="d-flex align-items-center gap-2">
                             <div class="bd-stars">${starsHtml}</div>
-                            <span class="bd-rating-count fw-bold">${rating} <span class="fw-normal text-muted">${reviews}</span></span>
+                            <span class="bd-rating-count fw-bold">${rating}</span>
                         </div>
                         <div class="bd-meta-divider"></div>
                         <div class="bd-publish-date">
@@ -73,19 +69,45 @@ export default function BookDetails(book) {
                         </div>
                     </div>
 
-                    <div class="bd-details-block inter">
-                        <p>${detailsText}</p>
+                    <div class="bd-stats-grid inter mb-4 d-flex">
+                        ${book.pages ? `
+                        <div class="bd-stat-item d-flex flex-column">
+                            <span class="bd-stat-label">Pages</span>
+                            <span class="bd-stat-value">${book.pages}</span>
+                        </div>
+                        ` : ''}
+                        ${hasLanguages ? `
+                        <div class="bd-stat-item d-flex flex-column">
+                            <span class="bd-stat-label">Languages</span>
+                            <div class="bd-languages d-flex align-items-center">
+                                <span class="bd-stat-value">${visibleLanguages}</span>
+                                ${hasMoreLanguages ? `
+                                <button type="button" class="bd-more-languages" aria-expanded="false" aria-label="Show all languages">
+                                    +${remainingCount} more
+                                </button>
+                                <div class="bd-languages-popover">
+                                    <div class="bd-languages-list d-flex flex-wrap">
+                                        ${book.languages.map(l => `<a href="/books/${l.toLowerCase()}" class="text-decoration-none bd-language-item">${l.toUpperCase()}</a>`).join('')}
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${book.ratings_count ? `
+                        <div class="bd-stat-item d-flex flex-column">
+                            <span class="bd-stat-label">Ratings</span>
+                            <span class="bd-stat-value">${book.ratings_count.toLocaleString()}</span>
+                        </div>
+                        ` : ''}
                     </div>
 
-                    <div class="bd-actions inter">
-                        <button class="bd-btn bd-btn-dark">
+                    <div class="bd-actions inter mt-4 d-flex align-items-center">
+                        <button class="btn main-btn d-inline-flex align-items-center gap-2">
                             <i class="fa-solid fa-book-open-reader"></i> Read Now
                         </button>
-                        <button class="bd-btn bd-btn-outline">
+                        <button class="btn sub-btn d-inline-flex align-items-center gap-2">
                             <i class="fa-regular fa-bookmark"></i> Add to Library
-                        </button>
-                        <button class="bd-btn-icon">
-                            <i class="fa-regular fa-heart"></i>
                         </button>
                     </div>
                 </div>
