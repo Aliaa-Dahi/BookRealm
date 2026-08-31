@@ -22,7 +22,22 @@
 }
 
 .hero-content h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-logo-img {
+    max-width: 420px;
+    width: 85%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px var(--primary-shadow));
+    transition: var(--general-transition);
+}
+
+.hero-logo-img:hover {
+    transform: scale(1.02);
 }
 
 .hero-content button {
