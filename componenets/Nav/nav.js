@@ -36,7 +36,9 @@ export default function getNav(){
     return `<!-- Nav -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm d-none d-md-block">
       <div class="container-fluid">
-        <a class="navbar-brand playfair playfair-900" href="/">BookRealm</a>
+        <a class="navbar-brand playfair playfair-900" href="/">
+          <img src="/images/logo.png" class="img-fluid" alt="logo" width="150">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

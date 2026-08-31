@@ -1,26 +1,31 @@
 .genre-card {
-    background-color: var(--neutral);
-    border: 1px solid var(--secondary-transparent);
-    border-radius: 8px;
-    padding: 20px;
+    background-color: var(--vintage-card-bg);
+    border: 1px solid var(--vintage-card-border);
+    border-radius: 4px;
+    padding: 16px;
     cursor: pointer;
     transition: var(--general-transition);
     display: flex;
     flex-direction: column;
     gap: 10px;
     height: 100%;
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(140, 115, 85, 0.1), 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+
+
 .genre-card:hover {
-    transform: var(--uphover);
-    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.2);
-    border-color: var(--secondary);
+    transform: translateY(-4px);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03), 0 8px 20px var(--vintage-card-shadow);
+    border-color: var(--primary);
 }
 
 .genre-card-top {
     display: flex;
     align-items: center;
     gap: 14px;
+    margin-top: 10px; /* Space for the ribbon */
 }
 
 .genre-icon-wrapper {
@@ -28,7 +33,8 @@
     height: 52px;
     min-width: 52px;
     border-radius: 50%;
-    background-color: var(--secondary-transparent);
+    background-color: rgba(140, 115, 85, 0.15);
+    border: 1px solid rgba(140, 115, 85, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,17 +42,17 @@
 
 .genre-icon-wrapper i {
     font-size: 1.2rem;
-    color: var(--secondary);
+    color: var(--primary);
 }
 
 .genre-title {
-    font-size: 1.05rem;
-    color: var(--secondary);
+    font-size: 1.25rem;
+    color: var(--primary);
     margin: 0;
 }
 
 .genre-desc {
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     color: var(--gray);
     line-height: 1.5;
     margin: 0;
@@ -54,7 +60,7 @@
 }
 
 .genre-explore {
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     color: var(--secondary);
     display: flex;
     align-items: center;
