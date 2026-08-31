@@ -82,7 +82,9 @@ export default function getNav() {
     <!-- Desktop Nav -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top d-none d-md-flex p-2">
       <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand playfair playfair-900 fs-3" href="/">BookRealm</a>
+        <a class="navbar-brand d-inline-flex align-items-center" href="/">
+          <img src="/images/logo.png" alt="BookRealm" class="nav-logo-img" />
+        </a>
 
         <div class="d-flex align-items-center gap-5" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
@@ -124,7 +126,9 @@ export default function getNav() {
     <!-- Mobile Nav -->
     <div class="mobile-nav d-md-none">
       <div class="container-fluid bg-body-tertiary d-flex justify-content-between shadow-sm p-3">
-        <a class="navbar-brand playfair playfair-900 " href="/">BookRealm</a>
+        <a class="navbar-brand d-inline-flex align-items-center" href="/">
+          <img src="/images/logo.png" alt="BookRealm" class="nav-logo-img" />
+        </a>
 
         <button class="bars-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
           aria-controls="offcanvasRight"><i class="fa-solid fa-bars"></i></button>
@@ -135,7 +139,9 @@ export default function getNav() {
     <!-- OffCanvas (Mobile) -->
     <div class="offcanvas offcanvas-start pt-2" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title playfair playfair-900" id="offcanvasRightLabel">BookRealm</h5>
+        <h5 class="offcanvas-title d-inline-flex align-items-center" id="offcanvasRightLabel">
+          <img src="/images/logo.png" alt="BookRealm" class="nav-logo-img offcanvas-logo-img" />
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column justify-content-between">

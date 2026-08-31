@@ -10,7 +10,9 @@ export function renderHome(container) {
     <section class="hero">
       <div class="overlay d-flex flex-column justify-content-center align-items-center top-0 start-0 end-0 bottom-0">
         <div class="hero-content d-flex flex-column text-center">
-          <h1 class="playfair playfair-900">BookRealm</h1>
+          <h1 class="hero-title m-0">
+            <img src="/images/logo.png" alt="BookRealm" class="hero-logo-img" />
+          </h1>
           <p class="lead inter inter-300">
             A sanctuary for curious minds. Discover over 4 million records
             from the world's greatest archives, meticulously curated for the

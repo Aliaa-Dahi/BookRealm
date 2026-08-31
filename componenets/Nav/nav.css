@@ -11,6 +11,23 @@
     font-size: 28px;
 }
 
+.nav-logo-img {
+    height: 44px;
+    width: auto;
+    max-height: 100%;
+    object-fit: contain;
+    transition: var(--general-transition);
+}
+
+.nav-logo-img:hover {
+    opacity: 0.92;
+    transform: scale(1.02);
+}
+
+.offcanvas-logo-img {
+    height: 36px;
+}
+
 .navbar .nav-link {
     font-weight: 500;
 }
