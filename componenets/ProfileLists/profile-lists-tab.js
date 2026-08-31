@@ -1,10 +1,11 @@
 import './profile-lists-tab.css';
+import './profile-lists.css';
 import { getLists } from "../../services/list.service.js";
 import { MainBtn } from "../Button/button.js";
 
 const LIST_META = {
-    favourites: { icon: 'fa-solid fa-heart',       label: 'Favourites'       },
-    readList:   { icon: 'fa-solid fa-eye',                      label: 'Watchlist'        },
+    favourites: { icon: 'fa-solid fa-heart',  label: 'Favourites' },
+    readList:   { icon: 'fa-solid fa-eye',    label: 'Read List'  },
 };
 
 function defaultMeta(key) {
@@ -76,15 +77,16 @@ function renderListCard(key, listObj, listUrl) {
  */
 export function renderListsTab(username) {
     const listsMap = getLists();
-    const listOrder = Object.keys(listsMap);
 
-    const cardsHtml = listOrder.map(key => {
+    // Only show custom lists — favourites and readList have their own dedicated tabs
+    const customKeys = Object.keys(listsMap).filter(
+        k => k !== 'favourites' && k !== 'readList'
+    );
+
+    const cardsHtml = customKeys.map(key => {
         const listObj = listsMap[key];
         if (!listObj) return '';
-        let listUrl = `/users/${username}/lists/${key}`;
-        if (key === 'favourites') listUrl = `/users/${username}/lists/favourites`;
-        if (key === 'readList')   listUrl = `/users/${username}/lists/watchlist`;
-
+        const listUrl = `/users/${username}/lists/${key}`;
         return renderListCard(key, listObj, listUrl);
     }).join('');
 
@@ -96,9 +98,12 @@ export function renderListsTab(username) {
             </div>
             <div class="row g-4">
                 ${cardsHtml || `
-                    <div class="col-12 text-center py-5">
-                        <i class="fa-regular fa-folder-open fs-1 text-muted mb-3 d-block"></i>
-                        <h5 class="playfair playfair-700">No Lists Available</h5>
+                    <div class="col-12">
+                        <div class="empty-list-state text-center py-5 px-3 my-3">
+                            <i class="fa-regular fa-rectangle-list fs-1 d-block empty-list-state-icon"></i>
+                            <h5 class="playfair playfair-700 fs-5 mb-2 empty-list-state-title">No Lists Yet</h5>
+                            <p class="inter empty-list-state-desc mx-auto mb-3">You haven't created any custom lists. Create one to start organising your books.</p>
+                        </div>
                     </div>
                 `}
             </div>

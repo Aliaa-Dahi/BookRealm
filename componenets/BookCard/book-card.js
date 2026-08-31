@@ -125,17 +125,16 @@ export default function BookCard(book) {
 
     return `
         <div class="col-12 col-md-6 col-lg-3 book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
+            <a href="/books/${slug}" class="text-decoration-none d-block h-100">
             <div class="card book-card h-100 border-0">
                 <div class="position-relative">
-                    <a href="/books/${slug}" class="text-decoration-none">
-                        <div class="img-holder">
-                            <img
-                                src="${coverUrl}"
-                                class="card-img-top"
-                                alt="${book.title}"
-                            >
-                        </div>
-                    </a>
+                    <div class="img-holder">
+                        <img
+                            src="${coverUrl}"
+                            class="card-img-top"
+                            alt="${book.title}"
+                        >
+                    </div>
                     <!-- Desktop hover overlay (hidden on mobile/tablet) -->
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 w-100 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
                         <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
@@ -174,6 +173,7 @@ export default function BookCard(book) {
                     </div>
                 </div>
             </div>
+            </a>
         </div>
     `;
 }

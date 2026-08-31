@@ -33,12 +33,12 @@
 
 .genre-icon-wrapper i {
     font-size: 1.2rem;
-    color: var(--primary);
+    color: var(--secondary);
 }
 
 .genre-title {
     font-size: 1.25rem;
-    color: var(--primary);
+    color: var(--secondary);
     margin: 0;
 }
 

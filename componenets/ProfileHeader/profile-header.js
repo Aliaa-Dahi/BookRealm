@@ -14,7 +14,7 @@ import { SubBtn } from "../Button/button.js";
  * @param {number} params.followingCount
  * @returns {string} HTML string
  */
-export function renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount, followingCount }) {
+export function renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount }) {
     return `
         <div class="profile-header-banner pt-5 pb-4 shadow-sm">
             <div class="container pt-4">
@@ -44,14 +44,6 @@ export function renderProfileHeader({ initials, displayName, username, joinDateF
                         <div class="text-center">
                             <div class="profile-stat-number" id="stat-total-lists">${totalListsCount}</div>
                             <div class="profile-stat-label">Lists</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="profile-stat-number">${followingCount}</div>
-                            <div class="profile-stat-label">Following</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="profile-stat-number">3</div>
-                            <div class="profile-stat-label">Followers</div>
                         </div>
                     </div>
 
