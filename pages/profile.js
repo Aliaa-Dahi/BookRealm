@@ -1,10 +1,11 @@
 import * as bootstrap from "bootstrap";
-import { getCurrentUser, getUsers, getUserInitials } from "../services/auth.service.js";
+import { getCurrentUser, getUsers, getUserInitials, updateUserProfile } from "../services/auth.service.js";
 import { renderProfileHeader }      from "../componenets/ProfileHeader/profile-header.js";
 import { renderProfileSubnav }      from "../componenets/ProfileSubnav/profile-subnav.js";
 import { renderProfileContent }     from "../componenets/ProfileContent/profile-content.js";
 import { renderCreateListModal, setupListModal } from "../componenets/CreateListModal/create-list-modal.js";
 import { renderConfirmModal, showConfirm }   from "../componenets/Confirm/confirm.js";
+import { renderEditProfileModal }   from "../componenets/EditProfileModal/edit-profile-modal.js";
 import { renderListsTab }           from "../componenets/ProfileLists/profile-lists-tab.js";
 import { loadListSection, loadFavoritesSection, loadWatchlistSection } from "../componenets/ProfileLists/profile-lists.js";
 import { getLists, getList, createList, updateList, deleteList } from "../services/list.service.js";
@@ -84,6 +85,7 @@ export function renderProfile(container) {
       ${renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following: STATIC_FOLLOWING })}
       ${renderCreateListModal()}
       ${renderConfirmModal()}
+      ${renderEditProfileModal()}
     </div>
   `;
 
@@ -228,7 +230,109 @@ export function renderProfile(container) {
     });
   };
 
-  // ── Form submit ───────────────────────────────────────────────────────────────
+  // ── Edit Profile ─────────────────────────────────────────────────────────────
+  const editProfileBtn = container.querySelector('.btn-edit-profile');
+  const editProfileModalEl = document.getElementById('editProfileModal');
+
+  if (editProfileBtn && editProfileModalEl) {
+    // Populate fields with current user data when modal opens
+    editProfileModalEl.addEventListener('show.bs.modal', () => {
+      const u = getCurrentUser();
+      const firstInput   = editProfileModalEl.querySelector('#edit-firstName');
+      const lastInput    = editProfileModalEl.querySelector('#edit-lastName');
+      const currentPass  = editProfileModalEl.querySelector('#edit-currentPassword');
+      const newPass      = editProfileModalEl.querySelector('#edit-newPassword');
+      const passSection  = editProfileModalEl.querySelector('#password-change-section');
+      const chevron      = editProfileModalEl.querySelector('#toggle-chevron');
+
+      if (firstInput) firstInput.value = u?.firstName || '';
+      if (lastInput)  lastInput.value  = u?.lastName  || '';
+      if (currentPass) currentPass.value = '';
+      if (newPass)     newPass.value     = '';
+
+      // Reset password section to collapsed
+      if (passSection) passSection.classList.replace('d-flex', 'd-none');
+      if (chevron) chevron.className = 'fa-solid fa-chevron-down ms-1';
+
+      // Clear all errors
+      editProfileModalEl.querySelectorAll('.auth-error-msg').forEach(el => {
+        el.textContent = '';
+        el.classList.add('d-none');
+      });
+
+      // Wire the toggle for the password section
+      const toggleBtn = editProfileModalEl.querySelector('#toggle-password-section');
+      toggleBtn.onclick = () => {
+        const isHidden = passSection.classList.contains('d-none');
+        passSection.classList.toggle('d-none', !isHidden);
+        passSection.classList.toggle('d-flex', isHidden);
+        chevron.className = isHidden
+          ? 'fa-solid fa-chevron-up ms-1'
+          : 'fa-solid fa-chevron-down ms-1';
+      };
+    });
+
+    editProfileBtn.addEventListener('click', () => {
+      bootstrap.Modal.getOrCreateInstance(editProfileModalEl).show();
+    });
+  }
+
+  // ── Edit Profile Form Submit ──────────────────────────────────────────────────
+  document.getElementById('edit-profile-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const firstName       = document.getElementById('edit-firstName')?.value.trim();
+    const lastName        = document.getElementById('edit-lastName')?.value.trim();
+    const currentPassword = document.getElementById('edit-currentPassword')?.value || '';
+    const newPassword     = document.getElementById('edit-newPassword')?.value || '';
+
+    // Clear previous errors
+    document.querySelectorAll('#editProfileModal .auth-error-msg').forEach(el => {
+      el.textContent = '';
+      el.classList.add('d-none');
+    });
+
+    const showError = (field, msg) => {
+      const el = document.getElementById(`edit-error-${field}`);
+      if (el) { el.textContent = msg; el.classList.remove('d-none'); }
+    };
+
+    try {
+      const updatedUser = await updateUserProfile({
+        firstName,
+        lastName,
+        currentPassword: currentPassword || undefined,
+        newPassword:     newPassword     || undefined,
+      });
+
+      bootstrap.Modal.getInstance(editProfileModalEl)?.hide();
+
+      // Refresh the header with the new name/initials without a full page reload
+      const newDisplayName = `${updatedUser.firstName} ${updatedUser.lastName}`;
+      const newInitials    = getUserInitials(updatedUser);
+      const headerEl = container.querySelector('.profile-header-banner');
+      if (headerEl) {
+        const nameEl     = headerEl.querySelector('.profile-username');
+        const avatarEl   = headerEl.querySelector('.profile-avatar-large span');
+        if (nameEl)   nameEl.textContent   = newDisplayName;
+        if (avatarEl) avatarEl.textContent = newInitials;
+      }
+
+      // Also refresh the nav avatar if visible
+      document.querySelectorAll('.user-initials-text').forEach(el => el.textContent = newInitials);
+      document.querySelectorAll('.user-fullname-text').forEach(el => el.textContent = newDisplayName);
+
+    } catch (err) {
+      if (err.inner?.length > 0) {
+        err.inner.forEach(e => showError(e.path, e.message));
+      } else if (err.path) {
+        showError(err.path, err.message);
+      } else {
+        const genEl = document.getElementById('edit-error-general');
+        if (genEl) { genEl.textContent = err.message; genEl.classList.remove('d-none'); }
+      }
+    }
+  });
   container.querySelector('#create-list-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const form = e.target;
