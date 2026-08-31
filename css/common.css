@@ -22,6 +22,15 @@
   --light-paper: #F2EDE0;   /* lightest parchment — card surfaces       */
   --dark-text:   #3D2E22;   /* warm dark brown — text on paper bg       */
   --dark-brown:  #1E1208;   /* deep espresso — toast bg, dark surfaces  */
+
+  /* ── Vintage Card Variables ── */
+  --vintage-card-bg: #EAE2D0; 
+  --vintage-card-border: #8c7355; 
+  --vintage-card-shadow: rgba(140, 115, 85, 0.4);
+  --ribbon-blue: #233e60;
+  --ribbon-red: #762222;
+  --ribbon-green: #4b6b4b;
+  --ribbon-gold: #8c6a22;
   
   /* ── Book Card Specific ── */
   --card-parchment: #F4EBD9;

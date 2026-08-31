@@ -15,4 +15,4 @@ export default function createBooksGrid(booksArray = []) {
 
     booksContainerHTML += `</div>`;
     return booksContainerHTML;
-}
+}
