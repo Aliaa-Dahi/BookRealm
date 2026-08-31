@@ -1,8 +1,10 @@
 // Libraries
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
+import * as bootstrap from "bootstrap";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+// Expose bootstrap globally so requireAuth() can open the modal from any module
+window.bootstrap = bootstrap;
 
 // Custom Styles
 import "./css/common.css";
@@ -26,6 +28,9 @@ if (navContainer) {
   const authModalContainer = document.querySelector(".auth-modal-container");
   authModalContainer.innerHTML = getAuthModal();
 
+  // Expose updateAuthModal so requireAuth() can set the modal to login mode
+  window.__authModalCallbacks = { updateAuthModal };
+
   // Detect which button triggered the modal (login or register)
   const authModalEl = document.getElementById("authModal");
   authModalEl.addEventListener("show.bs.modal", (event) => {
@@ -34,6 +39,16 @@ if (navContainer) {
     updateAuthModal(authType);
   });
 }
+
+// Fallback: open auth modal when requireAuth() fires the event
+// (covers cases where bootstrap isn't yet on window at call time)
+window.addEventListener('requireLogin', () => {
+  const modalEl = document.getElementById('authModal');
+  if (modalEl) {
+    updateAuthModal('login');
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+  }
+});
 
 export function showContent() {
   const currentPath = window.location.pathname;
@@ -54,6 +69,9 @@ export function showContent() {
   // Update active state in nav links
   updateActiveLink();
 }
+
+// Expose showContent for use in profile.js auth guard redirect
+window.__appCallbacks = { showContent };
 
 // Start router
 initRouter(showContent);

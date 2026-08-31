@@ -1,5 +1,6 @@
 import "./book-card-dropdown.css";
 import { getLists, isBookInList, toggleBookInList } from "../../services/list.service.js";
+import { requireAuth } from "../../services/auth.service.js";
 
 /**
  * Renders the custom user-created lists inside the sub-dropdown.
@@ -107,6 +108,10 @@ if (typeof document !== 'undefined') {
         if (dotsBtn) {
             e.preventDefault();
             e.stopPropagation();
+
+            // Guard: require login before opening the dropdown
+            if (!requireAuth()) return;
+
             const bookId  = dotsBtn.getAttribute('data-book-id');
             const card    = dotsBtn.closest('.book-card');
             const wrapper = dotsBtn.closest('.dots-btn-wrapper');
@@ -165,6 +170,7 @@ if (typeof document !== 'undefined') {
         if (listItem) {
             e.preventDefault();
             e.stopPropagation();
+            if (!requireAuth()) return;
             const bookId  = listItem.getAttribute('data-dropdown-book-id');
             const listKey = listItem.getAttribute('data-dropdown-list-key');
             if (bookId && listKey) {
@@ -179,6 +185,7 @@ if (typeof document !== 'undefined') {
         if (ddStar) {
             e.preventDefault();
             e.stopPropagation();
+            if (!requireAuth()) return;
             const starsRow = ddStar.closest('.card-dropdown-stars');
             const val      = parseInt(ddStar.getAttribute('data-value'), 10);
             starsRow.setAttribute('data-rating', val);

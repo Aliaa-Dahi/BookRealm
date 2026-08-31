@@ -1,5 +1,6 @@
 import "./book-card.css";
 import { isBookFavorite, toggleFavoriteBook, isBookInReadList, toggleReadListBook } from "../../services/list.service.js";
+import { requireAuth } from "../../services/auth.service.js";
 import { renderBookCardDropdown } from "../BookCardDropdown/book-card-dropdown.js";
 
 
@@ -69,6 +70,9 @@ if (typeof document !== 'undefined') {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
+
+        // ── Guard: require login for all card action buttons ──
+        if (!requireAuth()) return;
 
         const heartBtn = e.target.closest('.heart-btn');
         if (heartBtn) {

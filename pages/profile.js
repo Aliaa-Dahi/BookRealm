@@ -19,6 +19,17 @@ const STATIC_FOLLOWING = [
 export function renderProfile(container) {
   if (!container) return;
 
+  // ── Auth guard: profile requires login ────────────────────────────────────────
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    // Redirect to home and show the login modal
+    window.dispatchEvent(new CustomEvent('requireLogin'));
+    window.history.replaceState({}, '', '/');
+    const { showContent } = window.__appCallbacks || {};
+    if (typeof showContent === 'function') showContent();
+    return;
+  }
+
   // ── Resolve user & URL ────────────────────────────────────────────────────────
   const pathParts   = window.location.pathname.split('/');
   const urlUsername = (pathParts[1] === 'users' && pathParts[2]) ? pathParts[2] : null;
@@ -28,15 +39,8 @@ export function renderProfile(container) {
     initialTab = pathParts[4] ? pathParts[4] : 'lists';
   }
 
-  const currentUser = getCurrentUser();
-  const allUsers    = getUsers();
-
-  const user = allUsers.find(u => u.user_name === urlUsername) || currentUser || {
-    firstName: "Aliaa",
-    lastName:  "Mohamad",
-    user_name: "aliaa_mohamad_1723589000000",
-    join_date:  new Date().toISOString()
-  };
+  const allUsers = getUsers();
+  const user = allUsers.find(u => u.user_name === urlUsername) || currentUser;
 
   const displayName = user.firstName && user.lastName
     ? `${user.firstName} ${user.lastName}`
