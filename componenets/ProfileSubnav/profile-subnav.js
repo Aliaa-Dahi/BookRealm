@@ -17,16 +17,13 @@ export function renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, 
             <div class="container">
                 <ul class="nav profile-nav-tabs flex-nowrap overflow-x-auto">
                     <li class="nav-item">
-                        <a class="nav-link border-0 bg-transparent inter" data-tab="profile" href="${profileBaseUrl}">Profile</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link border-0 bg-transparent inter text-nowrap" data-tab="favourites" href="${favListUrl}">
                             Favourites (<span id="tab-fav-count">${favCount}</span>)
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link border-0 bg-transparent inter text-nowrap" data-tab="watchlist" href="${watchlistUrl}">
-                            Watchlist (<span id="tab-watch-count">${readListCount}</span>)
+                            Read List (<span id="tab-watch-count">${readListCount}</span>)
                         </a>
                     </li>
                     <li class="nav-item">

@@ -7,15 +7,9 @@ import { renderCreateListModal, setupListModal } from "../componenets/CreateList
 import { renderConfirmModal, showConfirm }   from "../componenets/Confirm/confirm.js";
 import { renderEditProfileModal }   from "../componenets/EditProfileModal/edit-profile-modal.js";
 import { renderListsTab }           from "../componenets/ProfileLists/profile-lists-tab.js";
-import { loadListSection, loadFavoritesSection, loadWatchlistSection } from "../componenets/ProfileLists/profile-lists.js";
+import { loadListSection } from "../componenets/ProfileLists/profile-lists.js";
 import { getLists, getList, createList, updateList, deleteList } from "../services/list.service.js";
 import "../css/profile.css";
-
-const STATIC_FOLLOWING = [
-  { initials: "ES", name: "Emma Smith"    },
-  { initials: "MR", name: "Michael Read"  },
-  { initials: "AC", name: "Arthur Conan"  }
-];
 
 export function renderProfile(container) {
   if (!container) return;
@@ -35,7 +29,7 @@ export function renderProfile(container) {
   const pathParts   = window.location.pathname.split('/');
   const urlUsername = (pathParts[1] === 'users' && pathParts[2]) ? pathParts[2] : null;
 
-  let initialTab = 'profile';
+  let initialTab = 'favourites';
   if (pathParts[3] === 'lists') {
     initialTab = pathParts[4] ? pathParts[4] : 'lists';
   }
@@ -80,9 +74,9 @@ export function renderProfile(container) {
   // ── Assemble page from components ─────────────────────────────────────────────
   container.innerHTML = `
     <div class="profile-page pb-5">
-      ${renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount, followingCount: STATIC_FOLLOWING.length })}
+      ${renderProfileHeader({ initials, displayName, username, joinDateFormatted, totalBooksCount, totalListsCount })}
       ${renderProfileSubnav({ profileBaseUrl, listsBaseUrl, favListUrl, watchlistUrl, favCount, readListCount, customListsCount })}
-      ${renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following: STATIC_FOLLOWING })}
+      ${renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl })}
       ${renderCreateListModal()}
       ${renderConfirmModal()}
       ${renderEditProfileModal()}
@@ -121,16 +115,7 @@ export function renderProfile(container) {
     const customTitle     = document.getElementById('custom-list-title');
     const customDesc      = document.getElementById('custom-list-desc');
 
-    if (tabName === 'profile') {
-      sections.forEach(s => {
-        s.style.display = (s.id === 'section-favourites' || s.id === 'section-watchlist' || s.id === 'section-following') ? 'block' : 'none';
-      });
-      viewAllHolders.forEach(h => h.style.display = 'block');
-      loadFavoritesSection(favContainer, 4);
-      loadWatchlistSection(watchContainer, 4);
-      if (updateUrl) history.pushState({}, '', profileBaseUrl);
-
-    } else if (tabName === 'lists') {
+    if (tabName === 'lists') {
       sections.forEach(s => s.style.display = s.id === 'section-lists' ? 'block' : 'none');
       listsTabContainer.innerHTML = renderListsTab(username);
       bindCreateListTriggers();
@@ -140,17 +125,17 @@ export function renderProfile(container) {
     } else if (tabName === 'favourites' || tabName === 'favorites') {
       sections.forEach(s => s.style.display = s.id === 'section-favourites' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
-      loadListSection(favContainer,  'favourites', { limit: 1000, iconClass: 'fa-solid fa-heart' });
+      loadListSection(favContainer, 'favourites', { limit: 1000, iconClass: 'fa-solid fa-heart' });
       if (updateUrl) history.pushState({}, '', favListUrl);
 
     } else if (tabName === 'watchlist' || tabName === 'readlist' || tabName === 'readList') {
       sections.forEach(s => s.style.display = s.id === 'section-watchlist' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
-      loadListSection(watchContainer, 'readList',  { limit: 1000, iconClass: 'fa-solid fa-eye'   });
+      loadListSection(watchContainer, 'readList', { limit: 1000, iconClass: 'fa-solid fa-eye' });
       if (updateUrl) history.pushState({}, '', watchlistUrl);
 
     } else {
-      // Custom user list!
+      // Custom user list
       sections.forEach(s => s.style.display = s.id === 'section-custom-list' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
 
@@ -411,7 +396,7 @@ export function renderProfile(container) {
         setTimeout(() => {
           cardCol.remove();
           if (targetContainer.querySelectorAll('.col-12').length === 0) {
-            loadListSection(targetContainer, listKey, { limit: activeTabName === 'profile' ? 4 : 1000 });
+            loadListSection(targetContainer, listKey, { limit: 1000 });
           }
         }, 300);
       }

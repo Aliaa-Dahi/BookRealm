@@ -2,7 +2,7 @@ import './profile-content.css';
 import ViewAll from "../ViewAll/view-all.js";
 
 
-export function renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following }) {
+export function renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl }) {
     return `
         <div class="container">
 
@@ -19,11 +19,11 @@ export function renderProfileContent({ favCount, readListCount, favListUrl, watc
                 <div id="profile-favorites-container"></div>
             </section>
 
-            <!-- WATCHLIST SECTION -->
+            <!-- READ LIST SECTION -->
             <section id="section-watchlist" class="mb-5 profile-tab-section">
                 <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
                     <h6 class="profile-section-title mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-eye profile-section-icon-fav"></i> Watchlist
+                        <i class="fa-solid fa-eye profile-section-icon-fav"></i> Read List
                     </h6>
                     <div class="view-all-holder" id="holder-watch-view-all">
                         ${readListCount > 4 ? ViewAll(watchlistUrl, "View All") : ''}
@@ -46,18 +46,6 @@ export function renderProfileContent({ favCount, readListCount, favListUrl, watc
                     <p class="inter text-muted mb-0" id="custom-list-desc"></p>
                 </div>
                 <div id="profile-custom-list-container"></div>
-            </section>
-
-            <!-- FOLLOWING SECTION -->
-            <section id="section-following" class="mb-4 profile-tab-section">
-                <div class="d-flex justify-content-between align-items-center mb-3 profile-section-header pb-2">
-                    <h6 class="profile-section-title mb-0">Following (${following.length})</h6>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    ${following.map(f => `
-                        <div class="following-circle rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" title="${f.name}">${f.initials}</div>
-                    `).join('')}
-                </div>
             </section>
 
         </div>
