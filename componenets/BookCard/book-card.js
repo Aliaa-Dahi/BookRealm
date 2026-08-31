@@ -2,6 +2,7 @@ import "./book-card.css";
 import { isBookFavorite, toggleFavoriteBook, isBookInReadList, toggleReadListBook } from "../../services/list.service.js";
 import { renderBookCardDropdown } from "../BookCardDropdown/book-card-dropdown.js";
 
+
 /**
  * Generates a deterministic fallback rating for books without an explicit rating.
  * Returns values rounded to 0.25 steps (e.g. 3.75, 4.0, 4.25, 4.5, 4.75, 5.0).
@@ -61,12 +62,16 @@ function renderStarRating(ratingVal) {
 // ── Heart & Eye Action Button Delegations ────────────────────────────────────
 if (typeof document !== 'undefined') {
     document.addEventListener('click', (e) => {
+        const actionBtn = e.target.closest('.card-action-btn');
+        if (!actionBtn) return;
 
-        // ── Heart button ──
+        // Stop navigation and event propagation completely
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
         const heartBtn = e.target.closest('.heart-btn');
         if (heartBtn) {
-            e.preventDefault();
-            e.stopPropagation();
             const bookId = heartBtn.getAttribute('data-book-id');
             if (bookId) {
                 const res = toggleFavoriteBook(bookId);
@@ -75,11 +80,8 @@ if (typeof document !== 'undefined') {
             return;
         }
 
-        // ── Eye button ──
         const eyeBtn = e.target.closest('.eye-btn');
         if (eyeBtn) {
-            e.preventDefault();
-            e.stopPropagation();
             const bookId = eyeBtn.getAttribute('data-book-id');
             if (bookId) {
                 const res = toggleReadListBook(bookId);
@@ -87,7 +89,7 @@ if (typeof document !== 'undefined') {
             }
             return;
         }
-    });
+    }, true); // Capture phase prevents event from reaching parent links
 }
 
 
@@ -115,53 +117,41 @@ export default function BookCard(book) {
     const isFav = isBookFavorite(bookId);
     const inReadList = isBookInReadList(bookId);
     const ratingVal = book.rating || getFallbackRating(bookId);
-    
-    // Select a deterministic ribbon color
-    const ribbonColors = ['var(--ribbon-blue)', 'var(--ribbon-red)', 'var(--ribbon-green)', 'var(--ribbon-brown)'];
-    let hash = 0;
-    const keyStr = String(bookId);
-    for (let i = 0; i < keyStr.length; i++) {
-        hash = keyStr.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const ribbonColor = ribbonColors[Math.abs(hash) % ribbonColors.length];
 
     return `
-        <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
-            <div class="card book-card h-100 border-0">
-                <div class="card-ribbon" style="--ribbon-color: ${ribbonColor};">
-                    <i class="fa-solid fa-book-open"></i>
-                </div>
-                <div class="position-relative">
-                    <img
-                        src="${coverUrl}"
-                        class="card-img-top"
-                        alt="${book.title}"
-                    >
+        <div class="col-12 col-md-6 col-lg-3 book-card-col" data-book-id="${bookId}" data-book-title="${book.title}">
+            <div class="card book-card">
+                <div class="position-relative overflow-hidden">
+                    <a href="/books/${slug}" class="d-block w-100 h-100 text-decoration-none" title="${book.title}">
+                        <img
+                            src="${coverUrl}"
+                            class="card-img-top"
+                            alt="${book.title}"
+                        >
+                    </a>
                     <!-- Desktop hover overlay (hidden on mobile/tablet) -->
-                    <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
+                    <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 w-100 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
                         <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                         <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <div class="dots-btn-wrapper position-relative">
-                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </button>
-                        </div>
+                        <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
+                <div class="card-body d-flex flex-column px-0 pb-0 pt-2">
                     <h3 class="book-title playfair playfair-800">
-                        ${book.title}
+                        <a href="/books/${slug}" class="text-decoration-none color-inherit">${book.title}</a>
                     </h3>
                     <span class="book-author inter inter-600">
                         ${authorDisplay}
                         ${isMultiAuthor ? `<i class="fa-solid fa-users ms-1 text-muted" title="Multiple authors participated in this book"></i>` : ''}
                     </span>
                 </div>
-                <div class="card-footer bg-transparent border-0 p-0 pb-1 pt-2">
+                <div class="card-footer bg-transparent border-0 px-0 pb-0 pt-0">
                     ${renderStarRating(ratingVal)}
                     <!-- Mobile/tablet action buttons (hidden on desktop where hover overlay is used) -->
                     <div class="card-mobile-actions d-flex d-md-none align-items-center justify-content-center gap-3 mt-2">
@@ -171,14 +161,12 @@ export default function BookCard(book) {
                         <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <div class="dots-btn-wrapper position-relative">
-                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </button>
-                        </div>
+                        <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
     `;
 }
