@@ -32,6 +32,31 @@ export function logoutUser() {
   window.dispatchEvent(new CustomEvent('authChange'));
 }
 
+/**
+ * Checks if a user is currently logged in.
+ * If not, opens the login modal and returns false.
+ * Use this to guard any action that requires authentication.
+ *
+ * @returns {boolean} true if logged in, false if not (and modal is shown)
+ */
+export function requireAuth() {
+  if (getCurrentUser()) return true;
+
+  // Programmatically trigger the auth modal
+  const modalEl = document.getElementById('authModal');
+  if (modalEl && window.bootstrap) {
+    // Set modal to login mode before showing
+    const { updateAuthModal } = window.__authModalCallbacks || {};
+    if (typeof updateAuthModal === 'function') updateAuthModal('login');
+    window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
+  } else {
+    // Fallback: dispatch a custom event that index.js can listen to
+    window.dispatchEvent(new CustomEvent('requireLogin'));
+  }
+
+  return false;
+}
+
 export function getUserInitials(user) {
   if (!user) return '';
   const first = user.firstName ? user.firstName.trim().charAt(0).toUpperCase() : '';

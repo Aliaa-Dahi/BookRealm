@@ -1,18 +1,7 @@
 import './profile-content.css';
 import ViewAll from "../ViewAll/view-all.js";
 
-/**
- * Renders the main profile content sections:
- * Favourites preview, Watchlist preview, Lists tab slot, and Following.
- *
- * @param {Object} params
- * @param {number}   params.favCount
- * @param {number}   params.readListCount
- * @param {string}   params.favListUrl
- * @param {string}   params.watchlistUrl
- * @param {Array}    params.following  - Array of { initials, name }
- * @returns {string} HTML string
- */
+
 export function renderProfileContent({ favCount, readListCount, favListUrl, watchlistUrl, following }) {
     return `
         <div class="container">

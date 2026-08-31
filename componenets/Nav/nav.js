@@ -71,6 +71,10 @@ document.addEventListener('click', e => {
   if (e.target && e.target.classList.contains('logout-btn')) {
     logoutUser();
     showToast('You have logged out.', 'info');
+    // Navigate to home
+    window.history.pushState({}, '', '/');
+    const { showContent } = window.__appCallbacks || {};
+    if (typeof showContent === 'function') showContent();
   }
 });
 
