@@ -9,7 +9,7 @@ export function createGenresGrid(genresArray = [], count = genresArray.length) {
       
         genereContainerHTML += `
           <div class="col-12 col-md-6 col-lg-3">
-            <div class="genre-card d-flex flex-column" data-genere="${genere.slug}">
+            <div class="genre-card d-flex flex-column h-100 position-relative rounded-1" data-genere="${genere.slug}">
               <div class="genre-card-top d-flex align-items-center">
                 <div class="genre-icon-wrapper rounded-circle d-flex align-items-center justify-content-center">
                   <i class="${genere.icon}"></i>
@@ -17,7 +17,7 @@ export function createGenresGrid(genresArray = [], count = genresArray.length) {
                 <h3 class="genre-title playfair playfair-700">${genere.label}</h3>
               </div>
               <p class="genre-desc inter inter-400 flex-fill">${genere.desc}</p>
-              <span class="genre-explore inter inter-600 d-flex align-items-center">
+              <span class="genre-explore inter inter-600 d-flex align-items-center mt-auto">
                 Explore <i class="fa-solid fa-arrow-right"></i>
               </span>
             </div>
