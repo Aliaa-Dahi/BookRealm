@@ -1,64 +1,44 @@
 /* ── Book Card ── */
 .book-card {
-    border: 1px solid var(--card-border);
-    background-color: var(--card-parchment);
+    background: url(/images/book-card-bg.png);
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
     transition: var(--general-transition);
-    border-radius: 6px;
-    padding: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 23px;
+    margin: 0;
+    padding: 20px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
     position: relative;
     /* To allow the pseudo-element fold to look like a cut corner, we hide overflow on the border-radius? No, fold covers it. */
 }
 
 /* Folded Corner */
-.book-card::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    right: -1px;
-    border-width: 14px 14px 0 0;
-    border-style: solid;
-    border-color: #E2D3B8 var(--neutral) transparent transparent;
-    filter: drop-shadow(-2px 2px 2px rgba(0,0,0,0.08));
-    z-index: 10;
-}
+
 
 .book-card:hover,
 .book-card.dropdown-active {
     transform: var(--uphover);
-    border-color: var(--secondary);
-    box-shadow: 0 8px 20px var(--secondary-shadow-light);
-}
-
-/* Ribbon */
-.card-ribbon {
-    position: absolute;
-    top: -2px;
-    left: 16px;
-    width: 28px;
-    height: 42px;
-    background-color: var(--ribbon-color, var(--ribbon-blue));
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 10px), 0 100%);
-    z-index: 10;
-    /* Note: filter: drop-shadow doesn't always work perfectly with clip-path on the same element, but it's acceptable here */
-}
-.card-ribbon i {
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #F8F5F0;
-    font-size: 0.8rem;
+    /* border-color: var(--secondary); */
+    /* box-shadow: 0 8px 20px var(--secondary-shadow-light); */
 }
 
 /* Reset Bootstrap's card-img-top border-radius; fix height */
-.book-card .card-img-top {
+.book-card .img-holder {
     height: 280px;
+    margin-top: 10px;
     object-fit: cover;
     object-position: top;
     border-radius: 2px;
     border: 1px solid var(--card-border);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.book-card .img-holder img{
+    height: 100%;
+    width: 100%;
 }
 
 /* z-index management so dropdown overlaps sibling cards */
@@ -73,6 +53,10 @@
 .book-card:hover,
 .book-card.dropdown-active {
     z-index: 999 !important;
+}
+
+.card-body, .book-card-rating {
+    padding-inline: 20px !important;
 }
 
 /* Title — two-line clamp; no Bootstrap equivalent */
@@ -95,9 +79,7 @@
 
 /* ── Star Rating ── */
 .book-card-rating {
-    border-top: 1px solid var(--paper-line);
-    padding-top: 10px;
-    margin-top: 8px;
+margin-bottom: 30px;
     gap: 6px;
 }
 
@@ -191,9 +173,9 @@
 
 .book-skeleton-card { pointer-events: none; }
 
-.skeleton-cover  { height: 300px; border-radius: 0; }
-.skeleton-badge  { width: 48px; height: 24px; border-radius: 6px; }
+.skeleton-cover  { height: 100%; border-radius: 2px; }
 .skeleton-title-1 { width: 90%; height: 20px; }
 .skeleton-title-2 { width: 60%; height: 20px; }
 .skeleton-author  { width: 45%; height: 14px; }
-.skeleton-footer-item { width: 35%; height: 12px; }
+.skeleton-rating-stars { width: 85px; height: 16px; }
+.skeleton-rating-number { width: 24px; height: 16px; }

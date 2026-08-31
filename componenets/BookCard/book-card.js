@@ -116,27 +116,18 @@ export default function BookCard(book) {
     const inReadList = isBookInReadList(bookId);
     const ratingVal = book.rating || getFallbackRating(bookId);
     
-    // Select a deterministic ribbon color
-    const ribbonColors = ['var(--ribbon-blue)', 'var(--ribbon-red)', 'var(--ribbon-green)', 'var(--ribbon-brown)'];
-    let hash = 0;
-    const keyStr = String(bookId);
-    for (let i = 0; i < keyStr.length; i++) {
-        hash = keyStr.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const ribbonColor = ribbonColors[Math.abs(hash) % ribbonColors.length];
 
     return `
         <a href="/books/${slug}" class="col-12 col-md-6 col-lg-3 text-decoration-none book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
             <div class="card book-card h-100 border-0">
-                <div class="card-ribbon" style="--ribbon-color: ${ribbonColor};">
-                    <i class="fa-solid fa-book-open"></i>
-                </div>
                 <div class="position-relative">
-                    <img
+                   <div class="img-holder">
+                     <img
                         src="${coverUrl}"
                         class="card-img-top"
                         alt="${book.title}"
                     >
+                   </div>
                     <!-- Desktop hover overlay (hidden on mobile/tablet) -->
                     <div class="book-card-hover-overlay position-absolute bottom-0 start-0 end-0 d-none d-md-flex align-items-center justify-content-center gap-3 p-2">
                         <button type="button" class="btn card-action-btn eye-btn ${inReadList ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Want to Read">
@@ -152,7 +143,7 @@ export default function BookCard(book) {
                         </div>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
+                <div class="card-body  d-flex flex-column justify-content-between p-0 pt-3">
                     <h3 class="book-title playfair playfair-800">
                         ${book.title}
                     </h3>
