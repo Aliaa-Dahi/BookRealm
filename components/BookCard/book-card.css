@@ -30,7 +30,7 @@
     background-color: transparent;
 }
 
-.book-card .img-holder img{
+.book-card .img-holder img {
     height: 100%;
     width: 100%;
 }
@@ -73,26 +73,21 @@
 
 /* ── Rating Block — two rows stacked ── */
 .card-rating-block {
-    display: flex;
-    flex-direction: column;
+    /* display:flex + flex-column + gap-1 handled by Bootstrap utilities */
     padding-inline: 20px;
     padding-top: 6px;
     margin-bottom: 30px;
-    gap: 4px;
 }
 
 /* ── API / global rating (top row, read-only) ── */
 .book-card-rating {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    /* d-flex align-items-center gap-1 handled by Bootstrap utilities */
     margin: 0;
 }
 
 .book-card-stars {
     font-size: 0.82rem;
-    display: inline-flex;
-    align-items: center;
+    /* d-inline-flex align-items-center handled by Bootstrap utilities */
     gap: 1px;
 }
 
@@ -101,9 +96,7 @@
 
 .star-partial-wrapper {
     font-size: 0.82rem;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
+    /* position-relative d-inline-flex align-items-center handled by Bootstrap utilities */
 }
 
 .rating-number {
@@ -123,28 +116,25 @@
 
 /* ── User interactive rating (bottom row) ── */
 .user-rating-inline {
-    display: flex;
-    align-items: center;
+    /* d-flex align-items-center handled by Bootstrap utilities */
     gap: 3px;
 }
 
 .user-rating-sep {
-    display: none; /* not needed in stacked layout */
+    display: none;
 }
 
 .user-rating-prefix {
     font-size: 0.62rem;
     font-weight: 700;
-    text-transform: uppercase;
+    /* text-uppercase handled by Bootstrap utility */
     letter-spacing: 0.5px;
     color: var(--gray);
-    white-space: nowrap;
-    flex-shrink: 0;
+    /* text-nowrap flex-shrink-0 handled by Bootstrap utilities */
 }
 
 .user-stars {
-    display: inline-flex;
-    align-items: center;
+    /* d-inline-flex align-items-center handled by Bootstrap utilities */
     gap: 1px;
 }
 
@@ -153,7 +143,7 @@
     line-height: 1;
     cursor: pointer;
     transition: transform 0.1s ease;
-    flex-shrink: 0;
+    /* flex-shrink-0 handled by Bootstrap utility */
 }
 
 .user-stars .user-star-btn:hover,
@@ -175,8 +165,7 @@
     font-size: 0.68rem;
     font-weight: 700;
     color: var(--secondary);
-    white-space: nowrap;
-    flex-shrink: 0;
+    /* text-nowrap flex-shrink-0 handled by Bootstrap utilities */
     font-family: var(--font-body);
 }
 
@@ -192,8 +181,7 @@
     font-style: italic;
     color: var(--gray);
     opacity: 0.65;
-    white-space: nowrap;
-    flex-shrink: 0;
+    /* text-nowrap flex-shrink-0 handled by Bootstrap utilities */
 }
 
 /* ── Hover Overlay ── */
@@ -242,7 +230,7 @@
     border-color: var(--secondary) !important;
 }
 
-/* Mobile action buttons in footer — same size as desktop overlay */
+/* Mobile action buttons in footer */
 .card-mobile-actions {
     border-top: 1px solid var(--paper-line);
     padding-top: 8px;
@@ -268,22 +256,14 @@
 
 .book-skeleton-card { pointer-events: none; }
 
-/* Cover */
-.skeleton-cover     { height: 100%; border-radius: 2px; }
+.skeleton-cover       { height: 100%; border-radius: 2px; }
+.skeleton-title-1     { width: 90%; height: 20px; }
+.skeleton-title-2     { width: 60%; height: 20px; }
+.skeleton-author      { width: 45%; height: 13px; }
+.skeleton-stars       { width: 72px; height: 12px; border-radius: 3px; }
+.skeleton-rating-num  { width: 22px; height: 12px; border-radius: 3px; }
+.skeleton-you-label   { width: 18px; height: 11px; border-radius: 3px; }
 
-/* Title lines */
-.skeleton-title-1   { width: 90%; height: 20px; }
-.skeleton-title-2   { width: 60%; height: 20px; }
-
-/* Author */
-.skeleton-author    { width: 45%; height: 13px; }
-
-/* Rating rows — mirrors .card-rating-block layout */
-.skeleton-stars     { width: 72px; height: 12px; border-radius: 3px; }
-.skeleton-rating-num { width: 22px; height: 12px; border-radius: 3px; }
-.skeleton-you-label { width: 18px; height: 11px; border-radius: 3px; }
-
-/* ── Book Details Skeleton ── */
 .skeleton-bd-cover      { width: 100%; border-radius: 12px; }
 .skeleton-bd-overline   { width: 30%; height: 11px; }
 .skeleton-bd-title-1    { width: 95%; height: 42px; border-radius: 6px; }

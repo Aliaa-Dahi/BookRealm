@@ -27,7 +27,7 @@ function getFallbackRating(keyStr) {
 function renderStarRating(ratingVal) {
     const num = Math.min(5, Math.max(0, parseFloat(ratingVal) || 4.5));
     return `
-        <div class="book-card-rating d-flex align-items-center">
+        <div class="book-card-rating d-flex align-items-center gap-1">
             <div class="book-card-stars d-inline-flex align-items-center gap-1" title="${num.toFixed(2)} out of 5 stars">
                 ${buildStarHtml(num)}
             </div>
@@ -81,7 +81,7 @@ export function renderInteractiveRating(bookId, apiRatingVal) {
     for (let i = 1; i <= 5; i++) {
         const filled = hasUserRating && i <= userRating;
         starsHtml += `<button type="button"
-            class="btn p-0 border-0 bg-transparent user-star-btn ${filled ? 'star-filled' : 'star-empty'}"
+            class="btn p-0 border-0 bg-transparent user-star-btn flex-shrink-0 ${filled ? 'star-filled' : 'star-empty'}"
             data-star="${i}" data-book-id="${bookId}"
             title="Rate ${i} star${i > 1 ? 's' : ''}"
             aria-label="Rate ${i} star${i > 1 ? 's' : ''}">
@@ -90,13 +90,13 @@ export function renderInteractiveRating(bookId, apiRatingVal) {
     }
 
     const label = hasUserRating
-        ? `<span class="user-rating-value">${userRating}<span class="user-rating-max">/5</span></span>`
+        ? `<span class="user-rating-value text-nowrap flex-shrink-0">${userRating}<span class="user-rating-max">/5</span></span>`
         : '';
 
     return `
         <div class="user-rating-inline d-flex align-items-center gap-1" data-book-id="${bookId}">
             <span class="user-rating-sep"></span>
-            <span class="user-rating-prefix">You</span>
+            <span class="user-rating-prefix text-uppercase flex-shrink-0 text-nowrap">You</span>
             <div class="user-stars d-inline-flex align-items-center gap-1"
                  data-book-id="${bookId}"
                  data-api-rating="${apiNum}">
@@ -277,7 +277,7 @@ export default function BookCard(book) {
                     </span>
                 </div>
                 <div class="card-footer bg-transparent border-0 px-0 pb-0 pt-0">
-                    <div class="card-rating-block">
+                    <div class="card-rating-block d-flex flex-column gap-1">
                         ${renderStarRating(ratingVal)}
                         <div class="card-rating-divider"></div>
                         ${renderInteractiveRating(bookId, ratingVal)}

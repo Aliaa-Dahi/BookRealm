@@ -81,15 +81,15 @@ export default function BookDetails(book) {
 
                     <div class="bd-stats-grid inter mb-4 d-flex">
                         ${book.pages ? `
-                        <div class="bd-stat-item d-flex flex-column">
+                        <div class="bd-stat-item d-flex flex-column gap-1">
                             <span class="bd-stat-label">Pages</span>
                             <span class="bd-stat-value">${book.pages}</span>
                         </div>
                         ` : ''}
                         ${hasLanguages ? `
-                        <div class="bd-stat-item d-flex flex-column">
+                        <div class="bd-stat-item d-flex flex-column gap-1">
                             <span class="bd-stat-label">Languages</span>
-                            <div class="bd-languages d-flex align-items-center">
+                            <div class="bd-languages d-flex align-items-center gap-2">
                                 <span class="bd-stat-value">${visibleLanguages}</span>
                                 ${hasMoreLanguages ? `
                                 <button type="button" class="bd-more-languages" aria-expanded="false" aria-label="Show all languages">
@@ -105,7 +105,7 @@ export default function BookDetails(book) {
                         </div>
                         ` : ''}
                         ${book.ratings_count ? `
-                        <div class="bd-stat-item d-flex flex-column">
+                        <div class="bd-stat-item d-flex flex-column gap-1">
                             <span class="bd-stat-label">Ratings</span>
                             <span class="bd-stat-value">${book.ratings_count.toLocaleString()}</span>
                         </div>
