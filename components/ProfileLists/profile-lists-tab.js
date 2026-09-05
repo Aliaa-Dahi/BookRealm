@@ -1,11 +1,12 @@
 import './profile-lists-tab.css';
 import './profile-lists.css';
-import { getLists } from "../../services/list.service.js";
+import { getLists, LIST_KEYS } from "../../services/list.service.js";
 import { MainBtn } from "../Button/button.js";
+import ProfileSectionHeader from "../ProfileSectionHeader/profile-section-header.js";
 
 const LIST_META = {
-    favourites: { icon: 'fa-solid fa-heart',  label: 'Favourites' },
-    readList:   { icon: 'fa-solid fa-eye',    label: 'Read List'  },
+    [LIST_KEYS.FAVOURITES]: { icon: 'fa-solid fa-heart', label: 'Favourites' },
+    [LIST_KEYS.READ_LIST]:  { icon: 'fa-solid fa-eye',   label: 'Read List'  },
 };
 
 function defaultMeta(key) {
@@ -19,7 +20,7 @@ function renderListCard(key, listObj, listUrl) {
     const meta  = LIST_META[key] || defaultMeta(key);
     const count = (listObj.books || []).length;
     const desc  = listObj.description || 'No description yet.';
-    const isSystemList = (key === 'favourites' || key === 'readList');
+    const isSystemList = (key === LIST_KEYS.FAVOURITES || key === LIST_KEYS.READ_LIST);
 
     const actionsHtml = !isSystemList ? `
         <div class="d-flex align-items-center gap-1 ms-2">
@@ -80,7 +81,7 @@ export function renderListsTab(username) {
 
     // Only show custom lists — favourites and readList have their own dedicated tabs
     const customKeys = Object.keys(listsMap).filter(
-        k => k !== 'favourites' && k !== 'readList'
+        k => k !== LIST_KEYS.FAVOURITES && k !== LIST_KEYS.READ_LIST
     );
 
     const cardsHtml = customKeys.map(key => {
@@ -92,10 +93,11 @@ export function renderListsTab(username) {
 
     return `
         <section id="section-lists" class="profile-tab-section">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="playfair playfair-700 lists-tab-title mb-0">My Lists</h5>
-                ${MainBtn("Create List", "fa-solid fa-plus", "btn-sm btn-create-list-trigger")}
-            </div>
+            ${ProfileSectionHeader(
+                'fa-solid fa-layer-group',
+                'My Lists',
+                MainBtn("Create List", "fa-solid fa-plus", "btn-sm btn-create-list-trigger")
+            )}
             <div class="row g-4">
                 ${cardsHtml || `
                     <div class="col-12">

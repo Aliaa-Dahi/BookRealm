@@ -1,13 +1,23 @@
 const LISTS_KEY = "lists";
 
+/**
+ * Keys for the two system-managed default lists.
+ * Import these wherever 'favourites' or 'readList' are referenced
+ * to avoid magic strings scattered across the codebase.
+ */
+export const LIST_KEYS = {
+    FAVOURITES: 'favourites',
+    READ_LIST:  'readList',
+};
+
 const DEFAULT_LISTS = {
-    favourites: {
+    [LIST_KEYS.FAVOURITES]: {
         name: "Favorites",
         description: "Your favorite books collection",
         create_date: new Date().toISOString(),
         books: []
     },
-    readList: {
+    [LIST_KEYS.READ_LIST]: {
         name: "Want to Read",
         description: "Books you plan to read in the future",
         create_date: new Date().toISOString(),
@@ -171,15 +181,15 @@ export function createList(name, description = "") {
 // ── Specific Shortcut Functions ──
 
 export function getFavorites() {
-    return getList("favourites");
+    return getList(LIST_KEYS.FAVOURITES);
 }
 
 export function isBookFavorite(book) {
-    return isBookInList("favourites", book);
+    return isBookInList(LIST_KEYS.FAVOURITES, book);
 }
 
 export function toggleFavoriteBook(book) {
-    const res = toggleBookInList("favourites", book);
+    const res = toggleBookInList(LIST_KEYS.FAVOURITES, book);
     return {
         isFavorite: res.inList,
         bookId: res.bookId,
@@ -188,15 +198,15 @@ export function toggleFavoriteBook(book) {
 }
 
 export function getReadList() {
-    return getList("readList");
+    return getList(LIST_KEYS.READ_LIST);
 }
 
 export function isBookInReadList(book) {
-    return isBookInList("readList", book);
+    return isBookInList(LIST_KEYS.READ_LIST, book);
 }
 
 export function toggleReadListBook(book) {
-    const res = toggleBookInList("readList", book);
+    const res = toggleBookInList(LIST_KEYS.READ_LIST, book);
     return {
         inReadList: res.inList,
         bookId: res.bookId,
@@ -205,7 +215,7 @@ export function toggleReadListBook(book) {
 }
 
 export function deleteList(key) {
-    if (!key || key === 'favourites' || key === 'readList') return false;
+    if (!key || key === LIST_KEYS.FAVOURITES || key === LIST_KEYS.READ_LIST) return false;
     const lists = getLists();
     if (!lists[key]) return false;
     delete lists[key];

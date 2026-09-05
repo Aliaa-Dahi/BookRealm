@@ -1,6 +1,5 @@
 import "./generes-container.css";
 import { navigate } from "../../js/router.js";
-import { showContent } from "../../index.js";
 
 export function createGenresGrid(genresArray = [], count = genresArray.length) {
     let genereContainerHTML = `<div class="generes-cards row g-4">`;
@@ -35,7 +34,7 @@ export function attachGenreClickListener(wrapper) {
     grid.addEventListener('click', (e) => {
         const card = e.target.closest('.genre-card');
         if (card) {
-            navigate(`/books/${card.dataset.genere}`, showContent);
+            navigate(`/books/${card.dataset.genere}`, () => window.__appCallbacks?.showContent());
         }
     });
 }

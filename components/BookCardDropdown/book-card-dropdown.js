@@ -1,5 +1,5 @@
 import "./book-card-dropdown.css";
-import { getLists, isBookInList, toggleBookInList } from "../../services/list.service.js";
+import { getLists, isBookInList, toggleBookInList, LIST_KEYS } from "../../services/list.service.js";
 import { requireAuth } from "../../services/auth.service.js";
 
 /**
@@ -11,7 +11,7 @@ function renderCustomLists(bookId) {
 
     // Filter out system default lists: favourites & readList
     const customKeys = Object.keys(allLists).filter(
-        key => key !== 'favourites' && key !== 'readList'
+        key => key !== LIST_KEYS.FAVOURITES && key !== LIST_KEYS.READ_LIST
     );
 
     if (customKeys.length === 0) {
@@ -88,13 +88,7 @@ export function renderBookCardDropdown(bookId) {
 
             <hr class="card-dropdown-divider my-2">
 
-            <!-- Write a review -->
-            <button type="button"
-                    class="card-dropdown-review-btn bg-transparent d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
-                    data-dropdown-book-id="${bookId}">
-                <i class="fa-solid fa-pen-nib card-dd-list-icon text-center"></i>
-                <span>Write a review</span>
-            </button>
+            
         </div>
     `;
 }
@@ -113,7 +107,8 @@ if (typeof document !== 'undefined') {
             if (!requireAuth()) return;
 
             const bookId  = dotsBtn.getAttribute('data-book-id');
-            const card    = dotsBtn.closest('.book-card');
+            // Works for both book-card and book-details contexts
+            const card    = dotsBtn.closest('.book-card') || dotsBtn.closest('.book-details-page');
             const wrapper = dotsBtn.closest('.dots-btn-wrapper');
             if (!card || !wrapper || !bookId) return;
 
@@ -139,13 +134,14 @@ if (typeof document !== 'undefined') {
                 const sub = dropdown.querySelector('.card-sub-dropdown');
                 if (sub) sub.classList.remove('open');
             } else {
-                // Detect if there's enough room to open the sub-dropdown to the right.
-                // Sub-dropdown is 200px wide + 8px gap = 208px needed.
                 const dropdownRect = dropdown.getBoundingClientRect();
                 const spaceRight = window.innerWidth - dropdownRect.right;
                 dropdown.classList.toggle('sub-flipped', spaceRight < 216);
             }
-            card.classList.toggle('dropdown-active', isOpen);
+            // Only toggle dropdown-active on book-card, not book-details
+            if (card.classList.contains('book-card')) {
+                card.classList.toggle('dropdown-active', isOpen);
+            }
             return;
         }
 
@@ -215,24 +211,31 @@ if (typeof document !== 'undefined') {
         const openDropdown = document.querySelector('.card-dots-dropdown.open');
         if (!openDropdown) return;
 
-        const activeCard = openDropdown.closest('.book-card');
+        // Works for both book-card and book-details contexts
+        const activeCard = openDropdown.closest('.book-card') || openDropdown.closest('.book-details-page');
         const related = e.relatedTarget;
 
-        // Don't close if moving inside the card or dropdown or sub-dropdown
+        // Don't close if the cursor is still inside the card/page or the dropdown itself
         if (related) {
             if (activeCard && activeCard.contains(related)) return;
             if (openDropdown.contains(related)) return;
+            // Also keep open when moving into the sub-dropdown
+            const openSub = openDropdown.querySelector('.card-sub-dropdown.open');
+            if (openSub && openSub.contains(related)) return;
         }
 
         clearTimeout(closeTimer);
         closeTimer = setTimeout(() => {
-            if (openDropdown) {
+            // Double-check the cursor isn't back inside before closing
+            if (openDropdown && !openDropdown.matches(':hover')) {
                 openDropdown.classList.remove('open');
                 const sub = openDropdown.querySelector('.card-sub-dropdown');
                 if (sub) sub.classList.remove('open');
             }
-            if (activeCard) activeCard.classList.remove('dropdown-active');
-        }, 180);
+            if (activeCard && activeCard.classList.contains('book-card')) {
+                activeCard.classList.remove('dropdown-active');
+            }
+        }, 300);
 
         // Restore star hover state
         const ddStar = e.target.closest('.card-dd-star');
@@ -251,8 +254,15 @@ if (typeof document !== 'undefined') {
         const openDropdown = document.querySelector('.card-dots-dropdown.open');
         if (!openDropdown) return;
 
-        const activeCard = openDropdown.closest('.book-card');
-        if ((activeCard && activeCard.contains(e.target)) || openDropdown.contains(e.target)) {
+        const activeCard = openDropdown.closest('.book-card') || openDropdown.closest('.book-details-page');
+        const openSub = openDropdown.querySelector('.card-sub-dropdown.open');
+
+        // Cancel close timer if cursor re-enters any relevant area
+        if (
+            (activeCard && activeCard.contains(e.target)) ||
+            openDropdown.contains(e.target) ||
+            (openSub && openSub.contains(e.target))
+        ) {
             clearTimeout(closeTimer);
         }
 

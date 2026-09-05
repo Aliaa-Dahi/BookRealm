@@ -9,16 +9,17 @@ window.bootstrap = bootstrap;
 // Custom Styles
 import "./css/common.css";
 import "./css/home.css";
-import "./componenets/Button/button.css";
+import "./components/Button/button.css";
 
 // Components
-import Nav, { updateActiveLink, renderAuthNav } from "./componenets/Nav/nav.js";
-import getAuthModal, { updateAuthModal } from "./componenets/AuthModal/auth-modal.js";
+import Nav, { updateActiveLink, renderAuthNav } from "./components/Nav/nav.js";
+import getAuthModal, { updateAuthModal } from "./components/AuthModal/auth-modal.js";
 import { initRouter } from "./js/router.js";
 import { renderHome } from "./pages/home.js";
-import { renderGeners } from "./pages/geners.js";
+import { renderGeners } from "./pages/genres.js";
 import { renderBooks } from "./pages/books.js";
 import { renderProfile } from "./pages/profile.js";
+import { renderNotFound } from "./pages/not-found.js";
 
 const navContainer = document.querySelector(".nav-container");
 if (navContainer) {
@@ -62,8 +63,10 @@ export function showContent() {
     renderBooks(app);
   } else if (currentPath.startsWith("/users") || currentPath.startsWith("/profile")) {
     renderProfile(app);
-  } else {
+  } else if (currentPath === "/" || currentPath === "") {
     renderHome(app);
+  } else {
+    renderNotFound(app);
   }
 
   // Update active state in nav links
