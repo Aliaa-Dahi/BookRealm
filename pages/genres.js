@@ -1,5 +1,5 @@
-import { createGenresGrid, attachGenreClickListener } from "../componenets/GeneresContainer/generes-container.js";
-import SearchInput from "../componenets/SearchInput/search-input.js";
+import { createGenresGrid, attachGenreClickListener } from "../components/GenresContainer/generes-container.js";
+import SearchInput from "../components/SearchInput/search-input.js";
 
 export const generes = [
   // Fiction

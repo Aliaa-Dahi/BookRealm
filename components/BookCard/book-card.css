@@ -8,24 +8,18 @@
     border-radius: 23px;
     margin: 0;
     padding: 20px;
-    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
+    padding-bottom: 28px;
     position: relative;
-    /* To allow the pseudo-element fold to look like a cut corner, we hide overflow on the border-radius? No, fold covers it. */
 }
-
-/* Folded Corner */
-
 
 .book-card:hover,
 .book-card.dropdown-active {
     transform: var(--uphover);
-    /* border-color: var(--secondary); */
-    /* box-shadow: 0 8px 20px var(--secondary-shadow-light); */
 }
 
 /* Reset Bootstrap's card-img-top border-radius; fix height */
 .book-card .img-holder {
-    height: 280px;
+    height: 245px;
     margin-top: 10px;
     object-fit: cover;
     object-position: top;
@@ -55,11 +49,11 @@
     z-index: 999 !important;
 }
 
-.card-body, .book-card-rating {
+.card-body {
     padding-inline: 20px !important;
 }
 
-/* Title — two-line clamp; no Bootstrap equivalent */
+/* Title — two-line clamp */
 .book-card .book-title {
     font-size: 1.3rem;
     margin-bottom: 2px;
@@ -72,35 +66,134 @@
     overflow: hidden;
 }
 
-
-
 .book-card .book-author {
     font-size: 0.75rem;
     color: var(--gray);
 }
 
-/* ── Star Rating ── */
+/* ── Rating Block — two rows stacked ── */
+.card-rating-block {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 20px;
+    padding-top: 6px;
+    margin-bottom: 30px;
+    gap: 4px;
+}
+
+/* ── API / global rating (top row, read-only) ── */
 .book-card-rating {
-margin-bottom: 30px;
-    gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
 }
 
 .book-card-stars {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
 }
 
 .star-filled { color: var(--secondary); }
 .star-empty  { color: var(--paper-line); }
 
 .star-partial-wrapper {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
 }
 
 .rating-number {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     font-family: var(--font-body);
     color: var(--primary);
+}
+
+/* Thin rule between the two rating rows */
+.card-rating-divider {
+    height: 1px;
+    background-color: var(--paper-line);
+    opacity: 0.7;
+    margin: 0;
+}
+
+/* ── User interactive rating (bottom row) ── */
+.user-rating-inline {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.user-rating-sep {
+    display: none; /* not needed in stacked layout */
+}
+
+.user-rating-prefix {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.user-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.user-stars .user-star-btn {
+    font-size: 0.75rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    flex-shrink: 0;
+}
+
+.user-stars .user-star-btn:hover,
+.user-stars .user-star-btn:focus-visible {
+    transform: scale(1.3);
+    outline: none;
+}
+
+.user-stars .user-star-btn.star-filled i {
+    color: var(--secondary);
+}
+
+.user-stars .user-star-btn.star-empty i {
+    color: var(--paper-line);
+    opacity: 0.5;
+}
+
+.user-rating-value {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: var(--font-body);
+}
+
+.user-rating-max {
+    font-size: 0.58rem;
+    font-weight: 400;
+    color: var(--gray);
+    margin-left: 1px;
+}
+
+.user-rating-prompt {
+    font-size: 0.62rem;
+    font-style: italic;
+    color: var(--gray);
+    opacity: 0.65;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* ── Hover Overlay ── */
@@ -175,9 +268,28 @@ margin-bottom: 30px;
 
 .book-skeleton-card { pointer-events: none; }
 
-.skeleton-cover  { height: 100%; border-radius: 2px; }
-.skeleton-badge  { width: 48px; height: 24px; border-radius: 6px; }
-.skeleton-title-1 { width: 90%; height: 20px; }
-.skeleton-title-2 { width: 60%; height: 20px; }
-.skeleton-author  { width: 45%; height: 14px; }
-.skeleton-footer-item { width: 35%; height: 12px; }
+/* Cover */
+.skeleton-cover     { height: 100%; border-radius: 2px; }
+
+/* Title lines */
+.skeleton-title-1   { width: 90%; height: 20px; }
+.skeleton-title-2   { width: 60%; height: 20px; }
+
+/* Author */
+.skeleton-author    { width: 45%; height: 13px; }
+
+/* Rating rows — mirrors .card-rating-block layout */
+.skeleton-stars     { width: 72px; height: 12px; border-radius: 3px; }
+.skeleton-rating-num { width: 22px; height: 12px; border-radius: 3px; }
+.skeleton-you-label { width: 18px; height: 11px; border-radius: 3px; }
+
+/* ── Book Details Skeleton ── */
+.skeleton-bd-cover      { width: 100%; border-radius: 12px; }
+.skeleton-bd-overline   { width: 30%; height: 11px; }
+.skeleton-bd-title-1    { width: 95%; height: 42px; border-radius: 6px; }
+.skeleton-bd-title-2    { width: 70%; height: 42px; border-radius: 6px; }
+.skeleton-bd-author     { width: 50%; height: 16px; }
+.skeleton-bd-meta       { width: 55%; height: 14px; }
+.skeleton-bd-rating-row { width: 100%; height: 52px; border-radius: 8px; }
+.skeleton-bd-stat       { width: 80px; height: 36px; border-radius: 6px; }
+.skeleton-bd-btn        { width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0; }

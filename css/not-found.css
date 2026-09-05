@@ -1,0 +1,139 @@
+/* ── 404 Not Found Page ── */
+.nf-page {
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Large decorative ink-drop circle behind everything */
+.nf-ink-drop {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--secondary-transparent) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.nf-content {
+    z-index: 1;
+}
+
+/* "Page not found" eyebrow */
+.nf-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    color: var(--secondary);
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+/* ── 404 numerals + book spine ── */
+.nf-code-wrap {
+    line-height: 1;
+}
+
+.nf-four {
+    font-size: clamp(7rem, 14vw, 11rem);
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -4px;
+    user-select: none;
+}
+
+/* The "0" replaced by a book spine */
+.nf-book-spine {
+    width: clamp(56px, 8vw, 80px);
+    height: clamp(7rem, 14vw, 11rem);
+    background: linear-gradient(160deg, var(--secondary) 0%, #8c6030 60%, #5a3a14 100%);
+    border-radius: 4px 8px 8px 4px;
+    box-shadow:
+        inset -4px 0 8px rgba(0,0,0,0.35),
+        inset 2px 0 6px rgba(255,255,255,0.12),
+        4px 6px 18px rgba(44,31,20,0.35);
+    position: relative;
+    margin-bottom: 4px;
+}
+
+/* Spine decorative line */
+.nf-book-spine::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 5px;
+    width: 2px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+}
+
+/* Rotated spine title */
+.nf-spine-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: var(--font-display);
+    font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* ── Message ── */
+.nf-message {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-top: 0.5rem;
+}
+
+.nf-sub {
+    font-size: 0.88rem;
+    color: var(--gray);
+    opacity: 0.8;
+}
+
+/* ── Buttons ── */
+.nf-btn-primary {
+    background-color: var(--primary);
+    color: var(--neutral);
+    border: 1.5px solid var(--primary);
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: var(--general-transition);
+}
+
+.nf-btn-primary:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--neutral);
+    transform: var(--uphover);
+    box-shadow: 0 4px 14px var(--secondary-shadow-light);
+}
+
+.nf-btn-secondary {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--paper-line);
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: var(--general-transition);
+}
+
+.nf-btn-secondary:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    transform: var(--uphover);
+}

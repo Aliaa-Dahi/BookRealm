@@ -1,14 +1,14 @@
 import * as bootstrap from "bootstrap";
 import { getCurrentUser, getUsers, getUserInitials, updateUserProfile } from "../services/auth.service.js";
-import { renderProfileHeader }      from "../componenets/ProfileHeader/profile-header.js";
-import { renderProfileSubnav }      from "../componenets/ProfileSubnav/profile-subnav.js";
-import { renderProfileContent }     from "../componenets/ProfileContent/profile-content.js";
-import { renderCreateListModal, setupListModal } from "../componenets/CreateListModal/create-list-modal.js";
-import { renderConfirmModal, showConfirm }   from "../componenets/Confirm/confirm.js";
-import { renderEditProfileModal }   from "../componenets/EditProfileModal/edit-profile-modal.js";
-import { renderListsTab }           from "../componenets/ProfileLists/profile-lists-tab.js";
-import { loadListSection } from "../componenets/ProfileLists/profile-lists.js";
-import { getLists, getList, createList, updateList, deleteList } from "../services/list.service.js";
+import { renderProfileHeader }      from "../components/ProfileHeader/profile-header.js";
+import { renderProfileSubnav }      from "../components/ProfileSubnav/profile-subnav.js";
+import { renderProfileContent }     from "../components/ProfileContent/profile-content.js";
+import { renderCreateListModal, setupListModal } from "../components/CreateListModal/create-list-modal.js";
+import { renderConfirmModal, showConfirm }   from "../components/Confirm/confirm.js";
+import { renderEditProfileModal }   from "../components/EditProfileModal/edit-profile-modal.js";
+import { renderListsTab }           from "../components/ProfileLists/profile-lists-tab.js";
+import { loadListSection } from "../components/ProfileLists/profile-lists.js";
+import { getLists, getList, createList, updateList, deleteList, LIST_KEYS } from "../services/list.service.js";
 import "../css/profile.css";
 
 export function renderProfile(container) {
@@ -58,10 +58,10 @@ export function renderProfile(container) {
     const all = getLists();
     let booksSum = 0;
     Object.values(all).forEach(l => { booksSum += (l.books || []).length; });
-    const customListsCount = Object.keys(all).filter(k => k !== 'favourites' && k !== 'readList').length;
+    const customListsCount = Object.keys(all).filter(k => k !== LIST_KEYS.FAVOURITES && k !== LIST_KEYS.READ_LIST).length;
     return {
-      favCount:         (all.favourites?.books || []).length,
-      readListCount:    (all.readList?.books   || []).length,
+      favCount:         (all[LIST_KEYS.FAVOURITES]?.books || []).length,
+      readListCount:    (all[LIST_KEYS.READ_LIST]?.books  || []).length,
       customListsCount,
       totalBooksCount:  booksSum,
       totalListsCount:  customListsCount
@@ -122,16 +122,16 @@ export function renderProfile(container) {
       bindListCardNavigation();
       if (updateUrl) history.pushState({}, '', listsBaseUrl);
 
-    } else if (tabName === 'favourites' || tabName === 'favorites') {
+    } else if (tabName === LIST_KEYS.FAVOURITES || tabName === 'favorites') {
       sections.forEach(s => s.style.display = s.id === 'section-favourites' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
-      loadListSection(favContainer, 'favourites', { limit: 1000, iconClass: 'fa-solid fa-heart' });
+      loadListSection(favContainer, LIST_KEYS.FAVOURITES, { limit: 1000, iconClass: 'fa-solid fa-heart' });
       if (updateUrl) history.pushState({}, '', favListUrl);
 
-    } else if (tabName === 'watchlist' || tabName === 'readlist' || tabName === 'readList') {
+    } else if (tabName === 'watchlist' || tabName === 'readlist' || tabName === LIST_KEYS.READ_LIST) {
       sections.forEach(s => s.style.display = s.id === 'section-watchlist' ? 'block' : 'none');
       viewAllHolders.forEach(h => h.style.display = 'none');
-      loadListSection(watchContainer, 'readList', { limit: 1000, iconClass: 'fa-solid fa-eye' });
+      loadListSection(watchContainer, LIST_KEYS.READ_LIST, { limit: 1000, iconClass: 'fa-solid fa-eye' });
       if (updateUrl) history.pushState({}, '', watchlistUrl);
 
     } else {
@@ -374,14 +374,19 @@ export function renderProfile(container) {
   bindCreateListTriggers();
 
   // ── Real-time book list updates ───────────────────────────────────────────────
-  window.addEventListener('bookListUpdated', (e) => {
+  // Keep a named reference so we can remove the previous listener before re-adding.
+  if (window.__bookListHandler) {
+    window.removeEventListener('bookListUpdated', window.__bookListHandler);
+  }
+
+  window.__bookListHandler = (e) => {
     const { listKey, bookId, inList } = e.detail || {};
     syncCounters();
 
     if (!inList && bookId) {
       let containerId;
-      if (listKey === 'readList') containerId = 'profile-watchlist-container';
-      else if (listKey === 'favourites') containerId = 'profile-favorites-container';
+      if (listKey === LIST_KEYS.READ_LIST) containerId = 'profile-watchlist-container';
+      else if (listKey === LIST_KEYS.FAVOURITES) containerId = 'profile-favorites-container';
       else containerId = 'profile-custom-list-container';
 
       const targetContainer = document.getElementById(containerId);
@@ -401,5 +406,7 @@ export function renderProfile(container) {
         }, 300);
       }
     }
-  });
+  };
+
+  window.addEventListener('bookListUpdated', window.__bookListHandler);
 }

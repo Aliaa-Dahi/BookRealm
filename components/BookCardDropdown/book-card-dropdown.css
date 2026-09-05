@@ -43,6 +43,17 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Transparent bridge fills the 8px gap so mouseover stays alive */
+.card-sub-dropdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 12px;
+    height: 100%;
+    background: transparent;
+}
+
 /* Flipped: not enough room on the right — open to the left instead */
 .card-dots-dropdown.sub-flipped .card-sub-dropdown {
     left: auto;
@@ -50,7 +61,12 @@
     transform: translateX(6px) scale(0.97);
 }
 
-.add-to-list-wrapper:hover .card-sub-dropdown,
+/* Flipped bridge goes on the other side */
+.card-dots-dropdown.sub-flipped .card-sub-dropdown::before {
+    right: auto;
+    left: 100%;
+}
+
 .card-sub-dropdown.open {
     opacity: 1;
     pointer-events: auto;

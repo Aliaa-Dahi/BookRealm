@@ -1,10 +1,12 @@
-import createBooksGrid from "../componenets/BooksContainer/books-container.js";
-import { createSkeletonGrid } from "../componenets/BookCard/book-card-skeleton.js";
-import Pagination, { attachPaginationEvents } from "../componenets/Pagination/pagination.js";
-import BookCountBadge from "../componenets/BookCountBadge/book-count-badge.js";
-import SearchInput from "../componenets/SearchInput/search-input.js";
-import BookDetails from "../componenets/BookDetails/book-details.js";
+import createBooksGrid from "../components/BooksContainer/books-container.js";
+import { createSkeletonGrid } from "../components/BookCard/book-card-skeleton.js";
+import Pagination, { attachPaginationEvents } from "../components/Pagination/pagination.js";
+import BookCountBadge from "../components/BookCountBadge/book-count-badge.js";
+import SearchInput from "../components/SearchInput/search-input.js";
+import BookDetails from "../components/BookDetails/book-details.js";
+import { BookDetailsSkeleton } from "../components/BookDetails/book-details-skeleton.js";
 import { fetchStrategies, getFetchStrategy } from "../services/book.service.js";
+import { renderNotFound } from "./not-found.js";
 
 export function renderBooks(container) {
   // Determine which strategy and parameter to use based on URL/Path
@@ -12,24 +14,25 @@ export function renderBooks(container) {
 
   // ── Book Details page ────────────────────────────────────────────────────
   if (strategy === 'bookDetails') {
-    // Show a spinner while the API call is pending
-    container.innerHTML = `
-      <div class="text-center w-100 my-5 pt-5">
-        <div class="spinner-border text-secondary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    `;
+    // Show skeleton while the API call is pending
+    container.innerHTML = BookDetailsSkeleton();
 
     fetchStrategies.bookDetails(param).then(data => {
       const book = (data.works || [])[0] || null;
       if (book) {
         container.innerHTML = BookDetails(book);
       } else {
-        container.innerHTML = `<div class="container mt-5 pt-5"><p class="text-muted inter">Book not found.</p></div>`;
+        renderNotFound(container);
       }
     }).catch(() => {
-      container.innerHTML = `<div class="container mt-5 pt-5"><p class="text-danger inter">Failed to load book details.</p></div>`;
+      container.innerHTML = `
+        <div class="container mt-5 pt-5 text-center">
+          <i class="fa-solid fa-triangle-exclamation fa-2x text-secondary mb-3 d-block"></i>
+          <p class="inter text-muted">Failed to load book details. Check your connection and try again.</p>
+          <button class="btn nf-btn-primary inter mt-2" onclick="window.location.reload()">
+            <i class="fa-solid fa-rotate-right me-2"></i>Retry
+          </button>
+        </div>`;
     });
     return;
   }

@@ -158,3 +158,54 @@
 .bd-actions {
     gap: 1rem;
 }
+
+/* ── Detail page action buttons — same style as card, but larger ── */
+.bd-action-btn {
+    width: 52px;
+    height: 52px;
+    background-color: var(--primary);
+    color: var(--neutral);
+    border: 1.5px solid var(--paper-line);
+    font-size: 1.2rem;
+    transition: var(--general-transition);
+}
+
+.bd-action-btn:hover {
+    border-color: var(--secondary) !important;
+    transform: var(--uphover);
+    box-shadow: 0 4px 12px var(--secondary-transparent);
+}
+
+.bd-action-btn.eye-btn:hover,
+.bd-action-btn.eye-btn.active,
+.bd-action-btn.heart-btn:hover,
+.bd-action-btn.heart-btn.active,
+.bd-action-btn.dots-btn:hover {
+    color: var(--secondary) !important;
+    background-color: var(--dark-brown) !important;
+    border-color: var(--secondary) !important;
+}
+
+/* ── User Rating Row ── */
+.bd-user-rating-row {
+    background-color: var(--primary-transparent);
+    border: 1px solid var(--paper-line);
+}
+
+.bd-user-rating-row .user-rating-inline {
+    margin: 0;
+    padding: 0;
+}
+
+.bd-user-rating-row .user-star-btn {
+    font-size: 1.3rem !important;
+}
+
+.bd-user-rating-row .user-star-btn:hover,
+.bd-user-rating-row .user-star-btn:focus-visible {
+    transform: scale(1.3);
+}
+
+.bd-user-rating-row .user-rating-value {
+    font-size: 0.95rem;
+}

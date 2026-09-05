@@ -1,7 +1,7 @@
 import './profile-lists.css';
 import createBooksGrid from "../BooksContainer/books-container.js";
 import { createSkeletonGrid } from "../BookCard/book-card-skeleton.js";
-import { getList } from "../../services/list.service.js";
+import { getList, LIST_KEYS } from "../../services/list.service.js";
 import { fetchBooksByIds } from "../../services/book.service.js";
 
 /**
@@ -76,12 +76,9 @@ export async function loadListSection(containerEl, listKey, options = {}) {
  * Helper shortcut to load Favorites section.
  */
 export function loadFavoritesSection(containerEl, limit = 4) {
-    return loadListSection(containerEl, 'favourites', { limit, iconClass: 'fa-regular fa-heart' });
+    return loadListSection(containerEl, LIST_KEYS.FAVOURITES, { limit, iconClass: 'fa-regular fa-heart' });
 }
 
-/**
- * Helper shortcut to load Watchlist section.
- */
 export function loadWatchlistSection(containerEl, limit = 4) {
-    return loadListSection(containerEl, 'readList', { limit, iconClass: 'fa-regular fa-eye' });
+    return loadListSection(containerEl, LIST_KEYS.READ_LIST, { limit, iconClass: 'fa-regular fa-eye' });
 }
