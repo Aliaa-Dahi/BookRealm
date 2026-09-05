@@ -2,6 +2,7 @@ import './profile-lists-tab.css';
 import './profile-lists.css';
 import { getLists } from "../../services/list.service.js";
 import { MainBtn } from "../Button/button.js";
+import ProfileSectionHeader from "../ProfileSectionHeader/profile-section-header.js";
 
 const LIST_META = {
     favourites: { icon: 'fa-solid fa-heart',  label: 'Favourites' },
@@ -92,10 +93,11 @@ export function renderListsTab(username) {
 
     return `
         <section id="section-lists" class="profile-tab-section">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="playfair playfair-700 lists-tab-title mb-0">My Lists</h5>
-                ${MainBtn("Create List", "fa-solid fa-plus", "btn-sm btn-create-list-trigger")}
-            </div>
+            ${ProfileSectionHeader(
+                'fa-solid fa-layer-group',
+                'My Lists',
+                MainBtn("Create List", "fa-solid fa-plus", "btn-sm btn-create-list-trigger")
+            )}
             <div class="row g-4">
                 ${cardsHtml || `
                     <div class="col-12">

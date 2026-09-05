@@ -24,7 +24,3 @@
 .profile-section-header {
   border-bottom: 1px solid var(--paper-line);
 }
-
-.profile-section-icon-fav {
-  color: var(--secondary);
-}

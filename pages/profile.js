@@ -141,7 +141,7 @@ export function renderProfile(container) {
 
       const listObj = getList(tabName);
       if (listObj) {
-        if (customTitle) customTitle.innerHTML = `<i class="fa-solid fa-bookmark"></i> ${listObj.name}`;
+        if (customTitle) customTitle.innerHTML = `<i class="fa-solid fa-bookmark" style="color: var(--secondary);"></i> ${listObj.name}`;
         if (customDesc)  customDesc.textContent = listObj.description || '';
         loadListSection(customContainer, tabName, { limit: 1000, iconClass: 'fa-solid fa-bookmark' });
       } else if (customContainer) {

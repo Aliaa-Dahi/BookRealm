@@ -88,13 +88,7 @@ export function renderBookCardDropdown(bookId) {
 
             <hr class="card-dropdown-divider my-2">
 
-            <!-- Write a review -->
-            <button type="button"
-                    class="card-dropdown-review-btn bg-transparent d-flex align-items-center gap-2 w-100 border-0 px-2 py-1 rounded-1 text-start"
-                    data-dropdown-book-id="${bookId}">
-                <i class="fa-solid fa-pen-nib card-dd-list-icon text-center"></i>
-                <span>Write a review</span>
-            </button>
+            
         </div>
     `;
 }

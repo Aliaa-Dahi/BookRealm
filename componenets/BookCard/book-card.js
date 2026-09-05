@@ -60,21 +60,23 @@ function renderStarRating(ratingVal) {
     `;
 }
 
-// ── Heart & Eye Action Button Delegations ────────────────────────────────────
+    // ── Heart & Eye Action Button Delegations ────────────────────────────────────
 if (typeof document !== 'undefined') {
     document.addEventListener('click', (e) => {
-        const actionBtn = e.target.closest('.card-action-btn');
-        if (!actionBtn) return;
+        // Only intercept heart and eye buttons — dots button is handled by book-card-dropdown.js
+        const heartBtn = e.target.closest('.heart-btn');
+        const eyeBtn   = e.target.closest('.eye-btn');
 
-        // Stop navigation and event propagation completely
+        if (!heartBtn && !eyeBtn) return;
+
+        // Stop navigation and event propagation
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        // ── Guard: require login for all card action buttons ──
+        // ── Guard: require login ──
         if (!requireAuth()) return;
 
-        const heartBtn = e.target.closest('.heart-btn');
         if (heartBtn) {
             const bookId = heartBtn.getAttribute('data-book-id');
             if (bookId) {
@@ -84,7 +86,6 @@ if (typeof document !== 'undefined') {
             return;
         }
 
-        const eyeBtn = e.target.closest('.eye-btn');
         if (eyeBtn) {
             const bookId = eyeBtn.getAttribute('data-book-id');
             if (bookId) {
@@ -93,7 +94,7 @@ if (typeof document !== 'undefined') {
             }
             return;
         }
-    }, true); // Capture phase prevents event from reaching parent links
+    }, true); // Capture phase prevents heart/eye clicks from navigating
 }
 
 
@@ -143,9 +144,11 @@ export default function BookCard(book) {
                         <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
+                        <div class="dots-btn-wrapper position-relative">
+                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-between p-0 pt-3">
@@ -167,9 +170,11 @@ export default function BookCard(book) {
                         <button type="button" class="btn card-action-btn heart-btn ${isFav ? 'active' : ''} rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="Like / Save">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
+                        <div class="dots-btn-wrapper position-relative">
+                            <button type="button" class="btn card-action-btn dots-btn rounded-circle p-0 d-flex align-items-center justify-content-center" data-book-id="${bookId}" title="More Options">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
