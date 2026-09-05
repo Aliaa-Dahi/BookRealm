@@ -5,7 +5,6 @@
     cursor: pointer;
     transition: var(--general-transition);
     gap: 10px;
-    position: relative;
     box-shadow: inset 0 0 40px rgba(140, 115, 85, 0.1), 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
@@ -25,6 +24,8 @@
     height: 52px;
     min-width: 52px;
     background-color: var(--secondary-transparent);
+    /* border-radius: 50% handled by Bootstrap rounded-circle utility in template */
+    /* d-flex align-items-center justify-content-center handled in template */
 }
 
 .genre-icon-wrapper i {

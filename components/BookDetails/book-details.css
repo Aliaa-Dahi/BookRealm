@@ -85,7 +85,7 @@
     border-bottom: 1px solid var(--paper-line);
 }
 .bd-stat-item {
-    gap: 4px;
+    /* gap: 4px → Bootstrap gap-1 in template */
 }
 .bd-stat-label {
     font-size: 0.75rem;
@@ -103,7 +103,7 @@
 /* Languages Popover */
 .bd-languages {
     position: relative;
-    gap: 8px;
+    /* gap: 8px → Bootstrap gap-2 in template */
 }
 .bd-more-languages {
     border: none;
@@ -154,9 +154,8 @@
     content: ",";
 }
 
-/* Actions */
+/* Actions — gap: 1rem handled by Bootstrap gap-3 in template */
 .bd-actions {
-    gap: 1rem;
 }
 
 /* ── Detail page action buttons — same style as card, but larger ── */

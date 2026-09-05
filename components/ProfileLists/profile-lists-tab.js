@@ -51,7 +51,7 @@ function renderListCard(key, listObj, listUrl) {
                         <i class="${meta.icon}"></i>
                     </span>
                     <div class="d-flex align-items-center">
-                        <span class="list-card-badge rounded-pill fw-semibold">
+                        <span class="list-card-badge rounded-pill fw-semibold py-1 px-3">
                             ${count} ${count === 1 ? 'book' : 'books'}
                         </span>
                         ${actionsHtml}
