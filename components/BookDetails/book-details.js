@@ -15,8 +15,13 @@ import { buildStarHtml } from "../../utils/stars.js";
 export default function BookDetails(book) {
     if (!book) return '';
 
-    // Using a static high-res image for the design instead of Open Library's low-res covers
-    const coverUrl = 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=800&h=1200';
+    // Prefer the cover_id passed via URL query param (exact cover from the card that was clicked).
+    // Fall back to whatever the API returned for this title, then to a generic placeholder.
+    const urlCoverId = new URLSearchParams(window.location.search).get('cover');
+    const resolvedCoverId = urlCoverId || book.cover_id || null;
+    const coverUrl = resolvedCoverId
+        ? `https://covers.openlibrary.org/b/id/${resolvedCoverId}-L.jpg`
+        : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=800&h=1200';
 
     // Safe fallbacks for data
     const subjectHtml = (book.subjects && book.subjects.length > 0) 

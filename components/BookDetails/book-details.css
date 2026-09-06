@@ -42,7 +42,7 @@
 .bd-author {
     font-size: 1.1rem;
     color: var(--gray);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .bd-author strong {
     color: var(--primary);
@@ -52,7 +52,7 @@
 /* Meta Data */
 .bd-meta-row {
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     font-size: 0.9rem;
     color: var(--primary);
 }

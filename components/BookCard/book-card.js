@@ -250,9 +250,14 @@ export default function BookCard(book) {
     const ratingVal = book.rating || getFallbackRating(bookId);
     
 
+    // Append cover_id as a query param so the details page uses the exact cover
+    const coverParam = (book.cover_id || book.cover_i)
+        ? `?cover=${book.cover_id || book.cover_i}`
+        : '';
+
     return `
         <div class="col-12 col-md-6 col-lg-3 book-card-link" data-book-id="${bookId}" data-book-title="${book.title}">
-            <a href="/books/${slug}" class="text-decoration-none d-block h-100">
+            <a href="/books/${slug}${coverParam}" class="text-decoration-none d-block h-100">
             <div class="card book-card h-100 border-0">
                 <div class="position-relative">
                     <div class="img-holder">
