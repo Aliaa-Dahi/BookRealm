@@ -84,46 +84,48 @@ export default function getNav() {
 
   return `
     <!-- Desktop Nav -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top d-none d-md-flex p-2">
-      <div class="container d-flex justify-content-between align-items-center">
+    <nav class="navbar bg-body-tertiary border-bottom sticky-top d-none d-md-flex p-2">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Left: Logo -->
         <a class="navbar-brand d-inline-flex align-items-center" href="/">
           <img src="/images/logo.png" alt="BookRealm" class="nav-logo-img" />
         </a>
 
-        <div class="d-flex align-items-center gap-5" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/geners">Genres</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/books">Books</a>
-            </li>
-          </ul>
+        <!-- Center: Nav links — absolutely centered in the full navbar width -->
+        <ul class="navbar-nav d-flex flex-row gap-3 position-absolute start-50 translate-middle-x mb-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/geners">Genres</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/books">Books</a>
+          </li>
+        </ul>
 
-          
+        <!-- Right: Auth buttons -->
+        <div class="auth-buttons">
+          <!-- Logged Out View -->
+          <div class="logged-out-view d-flex gap-3">
+            <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
+              data-bs-target="#authModal" data-tab="login">Login</button>
+            <button type="button" class="btn main-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
+              data-bs-target="#authModal" data-tab="register">Register</button>
           </div>
-          <div class="auth-buttons">
-            <!-- Logged Out View -->
-            <div class="logged-out-view d-flex gap-3">
-              <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
-                data-bs-target="#authModal" data-tab="login">Login</button>
-              <button type="button" class="btn main-btn d-inline-flex align-items-center gap-2" data-bs-toggle="modal"
-                data-bs-target="#authModal" data-tab="register">Register</button>
-            </div>
 
-            <!-- Logged In View (Desktop: Circle on left of Logout button) -->
-            <div class="logged-in-view d-none align-items-center gap-3">
-              <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
-                <div class="user-avatar-circle rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 user-select-none">
-                  <span class="user-initials-text"></span>
-                </div>
-              </a>
-              <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2 logout-btn">Logout</button>
-            </div>
+          <!-- Logged In View -->
+          <div class="logged-in-view d-none align-items-center gap-3">
+            <a href="${profileUrl}" class="text-decoration-none user-profile-link" title="User Profile">
+              <div class="user-avatar-circle rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 user-select-none">
+                <span class="user-initials-text"></span>
+              </div>
+            </a>
+            <button type="button" class="btn sub-btn d-inline-flex align-items-center gap-2 logout-btn">Logout</button>
           </div>
+        </div>
+
       </div>
     </nav>
 
